@@ -22,7 +22,7 @@ build_script:
 after_build:
 
 test_script:
-- dotnet test "test\jmespath.net.tests" -c %CONFIGURATION%
+- dotnet test "tests\jmespath.net.tests" -c %CONFIGURATION%
 
 cache:
 - '%USERPROFILE%\.nuget\packages'
