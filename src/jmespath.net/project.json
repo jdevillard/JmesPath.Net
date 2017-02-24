@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0-*",
+  "dependencies": {
+    "NETStandard.Library": "1.6.0",
+    "Newtonsoft.Json": "9.0.1",
+    "StarodubOleg.GPPG.Runtime": "0.1.0-alpha1-2",
+  },
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50"
+    }
+  },
+  "runtimes":{
+     "win10-x64": {},
+     "osx.10.10-x64": {},
+     "ubuntu.14.04-x64": {}
+  },
+  "scripts": {
+    "precompile": [
+      "dotnet %project:Directory%../../../bin/dotnet-gplex.dll /out:%project:Directory%/JmesPathScanner.cs %project:Directory%/JmesPathScanner.lex",
+      "dotnet %project:Directory%../../../bin/dotnet-gppg.dll /gplex /out:%project:Directory%/JmesPathParser.cs %project:Directory%/JmesPathParser.y"
+    ],
+    "postcompile": []
+  },
+  "buildOptions": {
+    "define": [ "EXPORT_GPPG" ]
+  }
+}

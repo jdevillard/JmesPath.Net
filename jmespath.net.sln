@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6D7773F3-76FA-4E25-A85C-7AA1AD5668D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{65D019ED-1B19-47DD-8C89-4FBABAA860D8}"
+	ProjectSection(SolutionItems) = preProject
+		appveyor.ml = appveyor.ml
+		global.json = global.json
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "jmespath.net.tests", "tests\jmespath.net.tests\jmespath.net.tests.xproj", "{43EC8A0D-27A8-476C-8806-ED18FCC8B2F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{17EC0D83-06FD-45A9-87CE-5A6901204774}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "jmespath.netstandard", "src\jmespath.net\jmespath.netstandard.xproj", "{C1B8BA55-2115-406F-944D-39EFA384879D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{43EC8A0D-27A8-476C-8806-ED18FCC8B2F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43EC8A0D-27A8-476C-8806-ED18FCC8B2F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43EC8A0D-27A8-476C-8806-ED18FCC8B2F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43EC8A0D-27A8-476C-8806-ED18FCC8B2F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1B8BA55-2115-406F-944D-39EFA384879D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1B8BA55-2115-406F-944D-39EFA384879D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1B8BA55-2115-406F-944D-39EFA384879D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1B8BA55-2115-406F-944D-39EFA384879D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{43EC8A0D-27A8-476C-8806-ED18FCC8B2F2} = {17EC0D83-06FD-45A9-87CE-5A6901204774}
+		{C1B8BA55-2115-406F-944D-39EFA384879D} = {6D7773F3-76FA-4E25-A85C-7AA1AD5668D8}
+	EndGlobalSection
+EndGlobal
