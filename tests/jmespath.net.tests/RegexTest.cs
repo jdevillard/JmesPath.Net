@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using Xunit;
 
-namespace JMESPATH.Net.Tests
+namespace jmespath.net.tests
 {
     public sealed class RegexTest
     {
