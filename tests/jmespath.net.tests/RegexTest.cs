@@ -149,6 +149,28 @@ namespace jmespath.net.tests
             Assert.Equal(true, Match("1.05e+03", pattern));
         }
 
+        [Fact]
+        public void Regex_RawString()
+        {
+            /*
+             * 
+             * raw-string        = "'" *raw-string-char "'"
+             * raw-string-char   = (%x20-26 / %x28-5B / %x5D-10FFFF) / preserved-escape /
+             *                       raw-string-escape
+             * preserved-escape  = escape (%x20-26 / %28-5B / %x5D-10FFFF)
+             * raw-string-escape = escape ("'" / escape)           * 
+             * escape            = %x5C   ; Back slash: \
+             */
+
+            // '(\\?[^'\\])*((\\['\\])+(\\?[^'\\])*)*'
+
+            const string pattern = @"'(\\?[^'\\])*((\\['\\])+(\\?[^'\\])*)*'";
+
+            Assert.Equal(true,Match("'abcd'", pattern));
+            Assert.Equal(true, Match("'\\a\\b\\c'", pattern));
+            Assert.Equal(true, Match("'\\'Hello\\''", pattern));
+        }
+
         private static bool Match(string input, string pattern)
         {
             var regex = new Regex("^" + pattern + "$", RegexOptions.Singleline);

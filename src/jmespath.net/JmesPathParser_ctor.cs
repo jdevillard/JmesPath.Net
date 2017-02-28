@@ -71,6 +71,12 @@ namespace DevLab.JmesPath
             var expression = new JmesPathIdentifier(@string);
             expressions_.Push(expression);
         }
+        private void OnRawString(Token token)
+        {
+            var @string = (string)token.Value;
+            var expression = new JmesPathRawString(@string);
+            expressions_.Push(expression);
+        }
 
         private void PushMultiSelectHash()
         {

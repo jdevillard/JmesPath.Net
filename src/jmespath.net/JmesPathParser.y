@@ -18,7 +18,9 @@
 	T_LBRACKET,
 	T_RBRACKET,
 	T_QSTRING,
+	T_RSTRING,
 	T_USTRING
+
 
 %start expression
 
@@ -41,6 +43,11 @@ expression			: identifier
 					| multi_select_list
 					{
 						System.Diagnostics.Debug.WriteLine("expression (multi_select_list): {0}", $1.Token);
+						OnExpression();
+					}
+					| raw_string
+					{
+						System.Diagnostics.Debug.WriteLine("expression (sub_expression): {0}.", $1.Token);
 						OnExpression();
 					}
 					| sub_expression
@@ -130,7 +137,12 @@ identifier			: unquoted_string
 						OnIdentifier($1.Token);
 					}
 					;
-
+raw_string			: T_RSTRING
+					{
+						System.Diagnostics.Debug.WriteLine("raw string : {0}", $1.Token);
+						OnRawString($1.Token);
+					}
+					;
 unquoted_string		: T_USTRING
 					{
 						System.Diagnostics.Debug.WriteLine("unquoted string : {0}", $1.Token);

@@ -20,5 +20,12 @@ namespace jmespath.net.tests.Utils
             // http://www.fileformat.info/info/unicode/char/1d11e/index.htm
             Assert.Equal("\"\\ud834\\udd1e\"", StringUtil.Wrap("\U0001d11e"));
         }
+
+        [Fact]
+        public void StringUtil_Unwrap_Raw()
+        {
+            Assert.Equal("'a", StringUtil.UnescapeRaw("'\\'a'"));
+            Assert.Equal("\\a", StringUtil.UnescapeRaw("'\\a'"));
+        }
     }
 }

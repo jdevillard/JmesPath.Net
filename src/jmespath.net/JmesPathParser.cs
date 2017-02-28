@@ -3,9 +3,9 @@
 // (see accompanying GPPGcopyright.rtf)
 
 // GPPG version 0.1.0.0
-// Machine:  DESKTOP-UQ0H65F
-// DateTime: 24/02/2017 15:06:19
-// Input file <C:\Projects\jjme\src\jmespath.net/JmesPathParser.y - 24/02/2017 14:32:25>
+// Machine:  MOSKITOSJEREMIE
+// DateTime: 28/02/2017 09:59:26
+// Input file <C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y - 28/02/2017 09:01:04>
 
 // options: lines gplex
 
@@ -20,10 +20,10 @@ namespace DevLab.JmesPath
 {
 public enum TokenType {error=2,EOF=3,T_COLON=4,T_COMMA=5,T_DOT=6,
     T_NUMBER=7,T_LBRACE=8,T_RBRACE=9,T_LBRACKET=10,T_RBRACKET=11,T_QSTRING=12,
-    T_USTRING=13};
+    T_RSTRING=13,T_USTRING=14};
 
 public partial struct ValueType
-#line 7 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+#line 7 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
         { 
        		public Token Token; 
        	}
@@ -53,53 +53,55 @@ public partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
 #pragma warning disable 649
   private static Dictionary<int, string> aliases;
 #pragma warning restore 649
-  private static Rule[] rules = new Rule[25];
-  private static State[] states = new State[38];
+  private static Rule[] rules = new Rule[27];
+  private static State[] states = new State[40];
   private static string[] nonTerms = new string[] {
       "expression", "$accept", "identifier", "index_expression", "multi_select_hash", 
-      "multi_select_list", "sub_expression", "bracket_specifier", "keyval_expressions", 
-      "keyval_expression", "expressions", "unquoted_string", "quoted_string", 
-      };
+      "multi_select_list", "raw_string", "sub_expression", "bracket_specifier", 
+      "keyval_expressions", "keyval_expression", "expressions", "unquoted_string", 
+      "quoted_string", };
 
   static JmesPathParser() {
-    states[0] = new State(new int[]{13,9,12,11,8,12,10,28},new int[]{-1,1,-3,24,-12,8,-13,10,-4,25,-5,26,-6,27,-7,33,-8,34});
-    states[1] = new State(new int[]{3,2,6,4,10,20},new int[]{-8,3});
+    states[0] = new State(new int[]{14,9,12,11,8,12,10,28,13,34},new int[]{-1,1,-3,24,-13,8,-14,10,-4,25,-5,26,-6,27,-7,33,-8,35,-9,36});
+    states[1] = new State(new int[]{3,2,6,4,10,20},new int[]{-9,3});
     states[2] = new State(-1);
-    states[3] = new State(-7);
-    states[4] = new State(new int[]{13,9,12,11,8,12,10,37},new int[]{-3,5,-5,6,-6,7,-12,8,-13,10});
-    states[5] = new State(-18);
-    states[6] = new State(-19);
-    states[7] = new State(-20);
-    states[8] = new State(-21);
-    states[9] = new State(-23);
-    states[10] = new State(-22);
-    states[11] = new State(-24);
-    states[12] = new State(new int[]{13,9,12,11},new int[]{-9,13,-10,36,-3,17,-12,8,-13,10});
+    states[3] = new State(-8);
+    states[4] = new State(new int[]{14,9,12,11,8,12,10,39},new int[]{-3,5,-5,6,-6,7,-13,8,-14,10});
+    states[5] = new State(-19);
+    states[6] = new State(-20);
+    states[7] = new State(-21);
+    states[8] = new State(-22);
+    states[9] = new State(-25);
+    states[10] = new State(-23);
+    states[11] = new State(-26);
+    states[12] = new State(new int[]{14,9,12,11},new int[]{-10,13,-11,38,-3,17,-13,8,-14,10});
     states[13] = new State(new int[]{9,14,5,15});
-    states[14] = new State(-11);
-    states[15] = new State(new int[]{13,9,12,11},new int[]{-10,16,-3,17,-12,8,-13,10});
-    states[16] = new State(-13);
+    states[14] = new State(-12);
+    states[15] = new State(new int[]{14,9,12,11},new int[]{-11,16,-3,17,-13,8,-14,10});
+    states[16] = new State(-14);
     states[17] = new State(new int[]{4,18});
-    states[18] = new State(new int[]{13,9,12,11,8,12,10,28},new int[]{-1,19,-3,24,-12,8,-13,10,-4,25,-5,26,-6,27,-7,33,-8,34});
-    states[19] = new State(new int[]{6,4,10,20,9,-14,5,-14},new int[]{-8,3});
+    states[18] = new State(new int[]{14,9,12,11,8,12,10,28,13,34},new int[]{-1,19,-3,24,-13,8,-14,10,-4,25,-5,26,-6,27,-7,33,-8,35,-9,36});
+    states[19] = new State(new int[]{6,4,10,20,9,-15,5,-15},new int[]{-9,3});
     states[20] = new State(new int[]{7,21,11,23});
     states[21] = new State(new int[]{11,22});
-    states[22] = new State(-9);
-    states[23] = new State(-10);
+    states[22] = new State(-10);
+    states[23] = new State(-11);
     states[24] = new State(-2);
     states[25] = new State(-3);
     states[26] = new State(-4);
     states[27] = new State(-5);
-    states[28] = new State(new int[]{7,21,11,23,13,9,12,11,8,12,10,28},new int[]{-11,29,-1,35,-3,24,-12,8,-13,10,-4,25,-5,26,-6,27,-7,33,-8,34});
+    states[28] = new State(new int[]{7,21,11,23,14,9,12,11,8,12,10,28,13,34},new int[]{-12,29,-1,37,-3,24,-13,8,-14,10,-4,25,-5,26,-6,27,-7,33,-8,35,-9,36});
     states[29] = new State(new int[]{11,30,5,31});
-    states[30] = new State(-15);
-    states[31] = new State(new int[]{13,9,12,11,8,12,10,28},new int[]{-1,32,-3,24,-12,8,-13,10,-4,25,-5,26,-6,27,-7,33,-8,34});
-    states[32] = new State(new int[]{6,4,10,20,11,-17,5,-17},new int[]{-8,3});
+    states[30] = new State(-16);
+    states[31] = new State(new int[]{14,9,12,11,8,12,10,28,13,34},new int[]{-1,32,-3,24,-13,8,-14,10,-4,25,-5,26,-6,27,-7,33,-8,35,-9,36});
+    states[32] = new State(new int[]{6,4,10,20,11,-18,5,-18},new int[]{-9,3});
     states[33] = new State(-6);
-    states[34] = new State(-8);
-    states[35] = new State(new int[]{6,4,10,20,11,-16,5,-16},new int[]{-8,3});
-    states[36] = new State(-12);
-    states[37] = new State(new int[]{13,9,12,11,8,12,10,28},new int[]{-11,29,-1,35,-3,24,-12,8,-13,10,-4,25,-5,26,-6,27,-7,33,-8,34});
+    states[34] = new State(-24);
+    states[35] = new State(-7);
+    states[36] = new State(-9);
+    states[37] = new State(new int[]{6,4,10,20,11,-17,5,-17},new int[]{-9,3});
+    states[38] = new State(-13);
+    states[39] = new State(new int[]{14,9,12,11,8,12,10,28,13,34},new int[]{-12,29,-1,37,-3,24,-13,8,-14,10,-4,25,-5,26,-6,27,-7,33,-8,35,-9,36});
 
     for (int sNo = 0; sNo < states.Length; sNo++) states[sNo].number = sNo;
 
@@ -109,24 +111,26 @@ public partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
     rules[4] = new Rule(-1, new int[]{-5});
     rules[5] = new Rule(-1, new int[]{-6});
     rules[6] = new Rule(-1, new int[]{-7});
-    rules[7] = new Rule(-4, new int[]{-1,-8});
-    rules[8] = new Rule(-4, new int[]{-8});
-    rules[9] = new Rule(-8, new int[]{10,7,11});
-    rules[10] = new Rule(-8, new int[]{10,11});
-    rules[11] = new Rule(-5, new int[]{8,-9,9});
-    rules[12] = new Rule(-9, new int[]{-10});
-    rules[13] = new Rule(-9, new int[]{-9,5,-10});
-    rules[14] = new Rule(-10, new int[]{-3,4,-1});
-    rules[15] = new Rule(-6, new int[]{10,-11,11});
-    rules[16] = new Rule(-11, new int[]{-1});
-    rules[17] = new Rule(-11, new int[]{-11,5,-1});
-    rules[18] = new Rule(-7, new int[]{-1,6,-3});
-    rules[19] = new Rule(-7, new int[]{-1,6,-5});
-    rules[20] = new Rule(-7, new int[]{-1,6,-6});
-    rules[21] = new Rule(-3, new int[]{-12});
+    rules[7] = new Rule(-1, new int[]{-8});
+    rules[8] = new Rule(-4, new int[]{-1,-9});
+    rules[9] = new Rule(-4, new int[]{-9});
+    rules[10] = new Rule(-9, new int[]{10,7,11});
+    rules[11] = new Rule(-9, new int[]{10,11});
+    rules[12] = new Rule(-5, new int[]{8,-10,9});
+    rules[13] = new Rule(-10, new int[]{-11});
+    rules[14] = new Rule(-10, new int[]{-10,5,-11});
+    rules[15] = new Rule(-11, new int[]{-3,4,-1});
+    rules[16] = new Rule(-6, new int[]{10,-12,11});
+    rules[17] = new Rule(-12, new int[]{-1});
+    rules[18] = new Rule(-12, new int[]{-12,5,-1});
+    rules[19] = new Rule(-8, new int[]{-1,6,-3});
+    rules[20] = new Rule(-8, new int[]{-1,6,-5});
+    rules[21] = new Rule(-8, new int[]{-1,6,-6});
     rules[22] = new Rule(-3, new int[]{-13});
-    rules[23] = new Rule(-12, new int[]{13});
-    rules[24] = new Rule(-13, new int[]{12});
+    rules[23] = new Rule(-3, new int[]{-14});
+    rules[24] = new Rule(-7, new int[]{13});
+    rules[25] = new Rule(-13, new int[]{14});
+    rules[26] = new Rule(-14, new int[]{12});
   }
 
   protected override void Initialize() {
@@ -142,7 +146,7 @@ public partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
     switch (action)
     {
       case 2: // expression -> identifier
-#line 27 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+#line 29 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("expression (identifier): {0}.", ValueStack[ValueStack.Depth-1].Token);
 						OnExpression();
@@ -150,7 +154,7 @@ public partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
 #line default
         break;
       case 3: // expression -> index_expression
-#line 32 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+#line 34 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("expression (index_expression): {0}.", ValueStack[ValueStack.Depth-1].Token);
 						OnExpression();
@@ -158,7 +162,7 @@ public partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
 #line default
         break;
       case 4: // expression -> multi_select_hash
-#line 37 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+#line 39 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("expression (multi_select_hash): {0}", ValueStack[ValueStack.Depth-1].Token);
 						OnExpression();
@@ -166,133 +170,149 @@ public partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
 #line default
         break;
       case 5: // expression -> multi_select_list
-#line 42 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+#line 44 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("expression (multi_select_list): {0}", ValueStack[ValueStack.Depth-1].Token);
 						OnExpression();
 					}
 #line default
         break;
-      case 6: // expression -> sub_expression
-#line 47 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+      case 6: // expression -> raw_string
+#line 49 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("expression (sub_expression): {0}.", ValueStack[ValueStack.Depth-1].Token);
 						OnExpression();
 					}
 #line default
         break;
-      case 7: // index_expression -> expression, bracket_specifier
-#line 54 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+      case 7: // expression -> sub_expression
+#line 54 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+     {
+						System.Diagnostics.Debug.WriteLine("expression (sub_expression): {0}.", ValueStack[ValueStack.Depth-1].Token);
+						OnExpression();
+					}
+#line default
+        break;
+      case 8: // index_expression -> expression, bracket_specifier
+#line 61 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("index expression (bracket_specifier): {0}.", ValueStack[ValueStack.Depth-2].Token);
 						OnIndexExpression();
 					}
 #line default
         break;
-      case 8: // index_expression -> bracket_specifier
-#line 59 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+      case 9: // index_expression -> bracket_specifier
+#line 66 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 					}
 #line default
         break;
-      case 9: // bracket_specifier -> T_LBRACKET, T_NUMBER, T_RBRACKET
-#line 64 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+      case 10: // bracket_specifier -> T_LBRACKET, T_NUMBER, T_RBRACKET
+#line 71 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("bracket_specifier : {0}.", ValueStack[ValueStack.Depth-2].Token);
 						OnBracketSpecifier(ValueStack[ValueStack.Depth-2].Token);
 					}
 #line default
         break;
-      case 11: // multi_select_hash -> T_LBRACE, keyval_expressions, T_RBRACE
-#line 72 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+      case 12: // multi_select_hash -> T_LBRACE, keyval_expressions, T_RBRACE
+#line 79 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						PopMultiSelectHash();
 					}
 #line default
         break;
-      case 12: // keyval_expressions -> keyval_expression
-#line 77 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+      case 13: // keyval_expressions -> keyval_expression
+#line 84 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						PushMultiSelectHash();
 						AddMultiSelectHashExpression();
 					}
 #line default
         break;
-      case 13: // keyval_expressions -> keyval_expressions, T_COMMA, keyval_expression
-#line 82 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+      case 14: // keyval_expressions -> keyval_expressions, T_COMMA, keyval_expression
+#line 89 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						AddMultiSelectHashExpression();
 					}
 #line default
         break;
-      case 15: // multi_select_list -> T_LBRACKET, expressions, T_RBRACKET
-#line 92 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+      case 16: // multi_select_list -> T_LBRACKET, expressions, T_RBRACKET
+#line 99 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						PopMultiSelectList();
 					}
 #line default
         break;
-      case 16: // expressions -> expression
-#line 98 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+      case 17: // expressions -> expression
+#line 105 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						PushMultiSelectList();
 						AddMultiSelectListExpression();
 					}
 #line default
         break;
-      case 17: // expressions -> expressions, T_COMMA, expression
-#line 103 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+      case 18: // expressions -> expressions, T_COMMA, expression
+#line 110 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						AddMultiSelectListExpression();
 					}
 #line default
         break;
-      case 18: // sub_expression -> expression, T_DOT, identifier
-#line 109 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+      case 19: // sub_expression -> expression, T_DOT, identifier
+#line 116 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						OnSubExpression();
 					}
 #line default
         break;
-      case 19: // sub_expression -> expression, T_DOT, multi_select_hash
-#line 113 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+      case 20: // sub_expression -> expression, T_DOT, multi_select_hash
+#line 120 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						OnSubExpression();
 					}
 #line default
         break;
-      case 20: // sub_expression -> expression, T_DOT, multi_select_list
-#line 117 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+      case 21: // sub_expression -> expression, T_DOT, multi_select_list
+#line 124 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						OnSubExpression();
 					}
 #line default
         break;
-      case 21: // identifier -> unquoted_string
-#line 123 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+      case 22: // identifier -> unquoted_string
+#line 130 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("identifier (quoted string): {0}.", ValueStack[ValueStack.Depth-1].Token);
 						OnIdentifier(ValueStack[ValueStack.Depth-1].Token);
 					}
 #line default
         break;
-      case 22: // identifier -> quoted_string
-#line 128 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+      case 23: // identifier -> quoted_string
+#line 135 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("identifier (unquoted string): {0}", ValueStack[ValueStack.Depth-1].Token);
 						OnIdentifier(ValueStack[ValueStack.Depth-1].Token);
 					}
 #line default
         break;
-      case 23: // unquoted_string -> T_USTRING
-#line 135 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+      case 24: // raw_string -> T_RSTRING
+#line 141 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+     {
+						System.Diagnostics.Debug.WriteLine("raw string : {0}", ValueStack[ValueStack.Depth-1].Token);
+						OnRawString(ValueStack[ValueStack.Depth-1].Token);
+					}
+#line default
+        break;
+      case 25: // unquoted_string -> T_USTRING
+#line 147 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("unquoted string : {0}", ValueStack[ValueStack.Depth-1].Token);
 					}
 #line default
         break;
-      case 24: // quoted_string -> T_QSTRING
-#line 141 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+      case 26: // quoted_string -> T_QSTRING
+#line 153 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("quoted string : {0}", ValueStack[ValueStack.Depth-1].Token);
 					}
@@ -312,7 +332,7 @@ public partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
         return CharToString((char)terminal);
   }
 
-#line 146 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+#line 158 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
  #line default
 }
 }

@@ -28,6 +28,9 @@ namespace DevLab.JmesPath
 
                 case TokenType.T_QSTRING:
                     return new QuotedStringToken(yytext);
+                
+                case TokenType.T_RSTRING:
+                    return new RawStringToken(yytext);
 
                 case TokenType.T_LBRACKET:
                 case TokenType.T_RBRACKET:

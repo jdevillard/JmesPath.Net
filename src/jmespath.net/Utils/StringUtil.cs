@@ -47,7 +47,19 @@ namespace DevLab.JmesPath.Utils
                 .Replace("\\t", "\t")
                 ;
         }
+        public static string UnescapeRaw(string rawText)
+        {
+            // first, remove the surrounding double-quotes
 
+            var text = rawText.Substring(1, rawText.Length - 2);
+
+            // finally, process the common escape sequences
+
+            return text
+                .Replace("\\'", "'")
+                
+                ;
+        }
         /// <summary>
         /// Converts the specified string to its valid JSON representation
         /// with surrounding quotes and proper escape sequences.

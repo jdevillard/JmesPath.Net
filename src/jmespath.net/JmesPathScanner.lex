@@ -13,11 +13,13 @@ T_COMMA         ,
 T_DOT           \.
 T_NUMBER		\-?[0-9]+
 T_QSTRING		\"[^\"\\\b\f\n\r\t]*((\\[\"\\/bfnrt]|\\u[0-9a-fA-F]{4})+[^\"\\\b\f\n\r\t]*)*\"
+T_RSTRING		'(\\?[^'\\])*((\\['\\])+(\\?[^'\\])*)*'
 T_USTRING		[A-Za-z_][0-9A-Za-z_]*
 T_LBRACE		\{
 T_RBRACE		\}
 T_LBRACKET		\[
 T_RBRACKET		\]
+
 
 %{
 %}
@@ -29,6 +31,7 @@ T_RBRACKET		\]
 {T_DOT}			{ yylval.Token = Token.Create(TokenType.T_DOT, yytext); return (int)TokenType.T_DOT; }
 {T_NUMBER}		{ yylval.Token = Token.Create(TokenType.T_NUMBER, yytext); return (int)TokenType.T_NUMBER; }
 {T_QSTRING}		{ yylval.Token = Token.Create(TokenType.T_QSTRING, yytext); return (int)TokenType.T_QSTRING; }
+{T_RSTRING}		{ yylval.Token = Token.Create(TokenType.T_RSTRING, yytext); return (int)TokenType.T_RSTRING; }
 {T_USTRING}		{ yylval.Token = Token.Create(TokenType.T_USTRING, yytext); return (int)TokenType.T_USTRING; }
 {T_LBRACE}		{ yylval.Token = Token.Create(TokenType.T_LBRACE, yytext); return (int)TokenType.T_LBRACE; }
 {T_RBRACE}		{ yylval.Token = Token.Create(TokenType.T_RBRACE, yytext); return (int)TokenType.T_RBRACE; }
