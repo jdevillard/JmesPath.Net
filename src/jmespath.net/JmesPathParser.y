@@ -12,6 +12,7 @@
 	T_COLON,
 	T_COMMA,
 	T_DOT,
+	T_STAR,
 	T_NUMBER,
 	T_LBRACE,
 	T_RBRACE,
@@ -59,20 +60,30 @@ expression			: identifier
 
 index_expression	: expression bracket_specifier
 					{
-						System.Diagnostics.Debug.WriteLine("index expression (bracket_specifier): {0}.", $1.Token);
+						System.Diagnostics.Debug.WriteLine("index expression (expression, bracket_specifier): {0}.", $1.Token);
 						OnIndexExpression();
 					}
 					| bracket_specifier
 					{
+						System.Diagnostics.Debug.WriteLine("index expression (bracket_specifier): {0}.", $1.Token);
+						OnIndexExpression();
 					}
 					;
 
 bracket_specifier	: T_LBRACKET T_NUMBER T_RBRACKET
 					{
-						System.Diagnostics.Debug.WriteLine("bracket_specifier : {0}.", $2.Token);
+						System.Diagnostics.Debug.WriteLine("bracket_specifier (index): {0}.", $2.Token);
 						OnBracketSpecifier($2.Token);
 					}
+					| T_LBRACKET T_STAR T_RBRACKET
+					{
+					}
+					| T_LBRACKET slice_expression T_RBRACKET
 					| T_LBRACKET T_RBRACKET
+					{
+						System.Diagnostics.Debug.WriteLine("bracket_specifier (empty).");
+						OnSliceExpression(null, null, null);
+					}
 					;
 
 multi_select_hash	: T_LBRACE keyval_expressions T_RBRACE
@@ -112,6 +123,18 @@ expressions			: expression
 					}
 					;
 
+slice_expression	: T_NUMBER T_COLON T_NUMBER
+					{
+						System.Diagnostics.Debug.WriteLine("bracket_specifier : [{0}:{1}].", $1.Token, $3.Token);
+						OnSliceExpression($1.Token, $3.Token, null);
+					}
+					| T_NUMBER T_COLON T_NUMBER T_COLON T_NUMBER
+					{
+						System.Diagnostics.Debug.WriteLine("bracket_specifier : [{0}:{1}:{2}].", $1.Token, $3.Token, $5.Token);
+						OnSliceExpression($1.Token, $3.Token, $5.Token);
+					}
+					;
+
 sub_expression		: expression T_DOT identifier
 					{
 						OnSubExpression();
@@ -137,6 +160,12 @@ identifier			: unquoted_string
 						OnIdentifier($1.Token);
 					}
 					;
+
+quoted_string		: T_QSTRING
+					{
+						System.Diagnostics.Debug.WriteLine("quoted string : {0}", $1.Token);
+					}
+					;
 raw_string			: T_RSTRING
 					{
 						System.Diagnostics.Debug.WriteLine("raw string : {0}", $1.Token);
@@ -146,12 +175,6 @@ raw_string			: T_RSTRING
 unquoted_string		: T_USTRING
 					{
 						System.Diagnostics.Debug.WriteLine("unquoted string : {0}", $1.Token);
-					}
-					;
-
-quoted_string		: T_QSTRING
-					{
-						System.Diagnostics.Debug.WriteLine("quoted string : {0}", $1.Token);
 					}
 					;
 

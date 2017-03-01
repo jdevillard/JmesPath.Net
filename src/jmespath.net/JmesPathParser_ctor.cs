@@ -12,7 +12,7 @@ namespace DevLab.JmesPath
 
         private readonly Stack<IList<JmesPathExpression>> selectLists_
             = new Stack<IList<JmesPathExpression>>()
-            ; 
+            ;
 
         private readonly Stack<JmesPathExpression> expressions_
             = new Stack<JmesPathExpression>()
@@ -32,18 +32,6 @@ namespace DevLab.JmesPath
             expression_ = expressions_.Pop();
         }
 
-        private void OnIndexExpression()
-        {
-            var specifier = expressions_.Pop();
-            var expression = expression_;
-
-            System.Diagnostics.Debug.Assert(specifier is JmesPathSliceExpression);
-
-            var indexExpression = new JmesPathIndexExpression(expression, specifier);
-
-            expressions_.Push(indexExpression);
-        }
-
         private void OnSubExpression()
         {
             var mainExpression = expression_;
@@ -55,28 +43,73 @@ namespace DevLab.JmesPath
             expression_ = null;
         }
 
-        private void OnBracketSpecifier(Token token)
+        private void OnNumber(Token token)
         {
-            System.Diagnostics.Debug.Assert(token.Type == TokenType.T_NUMBER);
-            var number = (int) token.Value;
-
-            var index = new JmesPathNumber(number);
-            var expression = new JmesPathBracketSpecifier(index);
+            var number = token as NumberToken;
+            System.Diagnostics.Debug.Assert(number != null);
+            int value = (int)number.Value;
+            var expression = new JmesPathNumber(value);
             expressions_.Push(expression);
         }
 
         private void OnIdentifier(Token token)
         {
-            var @string = (string) token.Value;
+            var @string = (string)token.Value;
             var expression = new JmesPathIdentifier(@string);
             expressions_.Push(expression);
         }
+
         private void OnRawString(Token token)
         {
             var @string = (string)token.Value;
             var expression = new JmesPathRawString(@string);
             expressions_.Push(expression);
         }
+
+        #region index_expression
+
+        private void OnBracketSpecifier(Token token)
+        {
+            var number = token as NumberToken;
+
+            System.Diagnostics.Debug.Assert(token.Type == TokenType.T_NUMBER);
+            System.Diagnostics.Debug.Assert(number != null);
+
+            var index = new JmesPathNumber((int)number.Value);
+
+            var expression = new JmesPathBracketSpecifier(index);
+
+            expressions_.Push(expression);
+        }
+
+        private void OnIndexExpression()
+        {
+            var expression = expression_;
+            var specifier = expressions_.Pop();
+
+            var indexExpression = new JmesPathIndexExpression(expression, specifier);
+
+            expressions_.Push(indexExpression);
+        }
+
+        private void OnSliceExpression(Token start, Token stop, Token step)
+        {
+            System.Diagnostics.Debug.Assert(start == null || start is NumberToken);
+            System.Diagnostics.Debug.Assert(stop == null || stop is NumberToken);
+            System.Diagnostics.Debug.Assert(step == null || step is NumberToken);
+
+            var startIndex = start == null ? null : new JmesPathNumber((int)start.Value);
+            var stopIndex = stop == null ? null : new JmesPathNumber((int)stop.Value);
+            var stepIndex = step == null ? null : new JmesPathNumber((int)step.Value);
+
+            var sliceExpression = new JmesPathSliceExpression(startIndex, stopIndex, stepIndex);
+
+            expressions_.Push(sliceExpression);
+        }
+
+        #endregion
+
+        #region multi_select_hash
 
         private void PushMultiSelectHash()
         {
@@ -102,10 +135,14 @@ namespace DevLab.JmesPath
         private void PopMultiSelectHash()
         {
             System.Diagnostics.Debug.Assert(selectHashes_.Count > 0);
-            var items = selectHashes_.Pop();        
+            var items = selectHashes_.Pop();
             var expression = new JmesPathMultiSelectHash(items);
             expressions_.Push(expression);
         }
+
+        #endregion
+
+        #region multi_select_list
 
         private void PushMultiSelectList()
         {
@@ -129,5 +166,7 @@ namespace DevLab.JmesPath
 
             expressions_.Push(expression);
         }
+
+        #endregion
     }
 }

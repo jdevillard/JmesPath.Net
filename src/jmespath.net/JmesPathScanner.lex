@@ -11,6 +11,7 @@ EOL             (\r\n?|\n)
 T_COLON         :
 T_COMMA         ,
 T_DOT           \.
+T_STAR			\*
 T_NUMBER		\-?[0-9]+
 T_QSTRING		\"[^\"\\\b\f\n\r\t]*((\\[\"\\/bfnrt]|\\u[0-9a-fA-F]{4})+[^\"\\\b\f\n\r\t]*)*\"
 T_RSTRING		'(\\?[^'\\])*((\\['\\])+(\\?[^'\\])*)*'
@@ -29,6 +30,7 @@ T_RBRACKET		\]
 {T_COLON}		{ yylval.Token = Token.Create(TokenType.T_COLON, yytext); return (int)TokenType.T_COLON; }
 {T_COMMA}		{ yylval.Token = Token.Create(TokenType.T_COMMA, yytext); return (int)TokenType.T_COMMA; }
 {T_DOT}			{ yylval.Token = Token.Create(TokenType.T_DOT, yytext); return (int)TokenType.T_DOT; }
+{T_STAR}		{ yylval.Token = Token.Create(TokenType.T_STAR, yytext); return (int)TokenType.T_STAR; }
 {T_NUMBER}		{ yylval.Token = Token.Create(TokenType.T_NUMBER, yytext); return (int)TokenType.T_NUMBER; }
 {T_QSTRING}		{ yylval.Token = Token.Create(TokenType.T_QSTRING, yytext); return (int)TokenType.T_QSTRING; }
 {T_RSTRING}		{ yylval.Token = Token.Create(TokenType.T_RSTRING, yytext); return (int)TokenType.T_RSTRING; }

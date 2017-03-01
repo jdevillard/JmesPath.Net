@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
 {
@@ -14,13 +15,15 @@ namespace DevLab.JmesPath.Expressions
 
         public JmesPathIndexExpression(JmesPathExpression expression, JmesPathExpression specifier)
         {
+            if (specifier == null) throw new ArgumentNullException(nameof(specifier));
+
             expression_ = expression;
             specifier_ = specifier;
         }
 
         public override JToken Transform(JToken json)
         {
-            var token = expression_.Transform(json);
+            var token = expression_?.Transform(json) ?? json;
             return token == null ? null : specifier_.Transform(token);
         }
     }
