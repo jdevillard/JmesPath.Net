@@ -30,10 +30,8 @@ namespace DevLab.JmesPath.Expressions
 
         public override JToken Transform(JToken json)
         {
-            var result = expression_.Transform(json);
-            if (result == null)
-                return null;
-            return subExpression_.Transform(result);
+            var token = expression_.Transform(json);
+            return token == null ? null : subExpression_.Transform(token);
         }
     }
 }
