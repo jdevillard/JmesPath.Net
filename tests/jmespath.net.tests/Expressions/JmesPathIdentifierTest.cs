@@ -20,90 +20,26 @@ namespace jmespath.net.tests.Expressions
          */
 
         [Fact]
-        public void JmesPathIdentifier_value()
+        public void JmesPathIdentifier_Transform()
         {
-            var identifier = new JmesPathIdentifier("foo");
-            const string input = "{\"foo\": \"value\"}";
-
-            var json = JToken.Parse(input);
-            
-            Assert.Equal("\"value\"", identifier.Transform(json).AsString());
+            JmesPathIdentifier_Transform("foo", "{\"foo\": \"value\"}", "\"value\"");
+            JmesPathIdentifier_Transform("bar", "{\"foo\": \"value\"}", null);
+            JmesPathIdentifier_Transform("foo", "{\"foo\": [0, 1, 2]}", "[0,1,2]");
+            JmesPathIdentifier_Transform("with space", "{\"with space\": \"value\"}", "\"value\"");
+            JmesPathIdentifier_Transform("special chars: !@#", "{\"special chars: !@#\": \"value\"}", "\"value\"");
+            JmesPathIdentifier_Transform("quote\"char", "{\"quote\\\"char\": \"value\"}", "\"value\"");
+            JmesPathIdentifier_Transform("\u2713", "{\"\u2713\": \"value\"}", "\"value\"");
         }
 
-        [Fact]
-        public void JmesPathIdentifier_null()
+        private void JmesPathIdentifier_Transform(string expression, string input, string expected)
         {
-            var identifier = new JmesPathIdentifier("bar");
-            const string input = "{\"foo\": \"value\"}";
+            var identifier = new JmesPathIdentifier(expression);
+            var token = JToken.Parse(input);
 
-            var json = JToken.Parse(input);
+            var result = identifier.Transform(token);
+            var actual = result?.AsString();
 
-            Assert.Equal(null, identifier.Transform(json));
-        }
-
-        [Fact]
-        public void JmesPathIdentifier_array()
-        {
-            var identifier = new JmesPathIdentifier("foo");
-            const string input = "{\"foo\": [0, 1, 2]}";
-
-            var json = JToken.Parse(input);
-
-            var actual = identifier.Transform(json);
-
-            const string output = "[0, 1, 2]";
-            var expected = JToken.Parse(output) as JArray;
-
-            Assert.NotNull(expected);
-            Assert.Equal(expected.Type, actual.Type);
-            Assert.Equal(expected.Count, ((JArray) actual).Count);
-            Assert.Equal(expected[0], ((JArray)actual)[0]);
-            Assert.Equal(expected[1], ((JArray)actual)[1]);
-            Assert.Equal(expected[2], ((JArray)actual)[2]);
-        }
-
-        [Fact]
-        public void JmesPathIdentifier_withspace_value()
-        {
-            var identifier = new JmesPathIdentifier("with space");
-            const string input = "{\"with space\": \"value\"}";
-
-            var json = JToken.Parse(input);
-
-            Assert.Equal("\"value\"", identifier.Transform(json).AsString());
-        }
-
-        [Fact]
-        public void JmesPathIdentifier_withspecialchars_value()
-        {
-            var identifier = new JmesPathIdentifier("special chars: !@#");
-            const string input = "{\"special chars: !@#\": \"value\"}";
-
-            var json = JToken.Parse(input);
-
-            Assert.Equal("\"value\"", identifier.Transform(json).AsString());
-        }
-
-        [Fact]
-        public void JmesPathIdentifier_withquote_value()
-        {
-            var identifier = new JmesPathIdentifier("quote\"char");
-            const string input = "{\"quote\\\"char\": \"value\"}";
-
-            var json = JToken.Parse(input);
-
-            Assert.Equal("\"value\"", identifier.Transform(json).AsString());
-        }
-
-        [Fact]
-        public void JmesPathIdentifier_withunicode_value()
-        {
-            var identifier = new JmesPathIdentifier("\u2713");
-            const string input = "{\"\u2713\": \"value\"}";
-
-            var json = JToken.Parse(input);
-
-            Assert.Equal("\"value\"", identifier.Transform(json).AsString());
+            Assert.Equal(expected, actual);
         }
     }
 }
