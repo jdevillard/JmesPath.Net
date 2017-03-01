@@ -7,20 +7,43 @@ namespace jmespath.net.tests.Expressions
 {
     public class JmesPathSubExpressionTest
     {
+        /*
+         * http://jmespath.org/specification.html#subexpressions
+         * 
+         * search(foo.bar, {"foo": {"bar": "value"}}) -> "value"
+         * search(foo."bar", {"foo": {"bar": "value"}}) -> "value"
+         * search(foo.bar, {"foo": {"baz": "value"}}) -> null
+         * search(foo.bar.baz, {"foo": {"bar": {"baz": "value"}}}) -> "value"
+         * 
+         */
+
         [Fact]
-        public void JmesPathSubExpression_identifier()
+        public void JmesPathSubExpression_Transform()
         {
-            const string json = "{\"foo\": {\"bar\": \"baz\"}}";
-            var token = JToken.Parse(json);
+            JmesPathSubExpression_Transform(new[] {"foo", "bar"}, "{\"foo\": {\"bar\": \"value\" }}", "\"value\"");
+            JmesPathSubExpression_Transform(new[] { "foo", "bar" }, "{\"foo\": {\"bar\": \"value\" }}", "\"value\"");
+            JmesPathSubExpression_Transform(new[] { "foo", "bar" }, "{\"foo\": {\"baz\": \"value\" }}", null);
+            JmesPathSubExpression_Transform(new[] { "foo", "bar", "baz" }, "{\"foo\": {\"bar\": { \"baz\": \"value\" }}}", "\"value\"");
+        }
 
-            var expr = new JmesPathIdentifier("foo");
-            var sub = new JmesPathIdentifier("bar");
+        public void JmesPathSubExpression_Transform(string[] expressions, string input, string expected)
+        {
+            JmesPathExpression expression = null;
 
-            var combined = new JmesPathSubExpression(expr, sub);
+            foreach (var identifier in expressions)
+            {
+                JmesPathExpression ident = new JmesPathIdentifier(identifier);
+                expression = expression != null
+                    ? new JmesPathSubExpression(expression, ident)
+                    : ident
+                    ;
+            }
 
-            var result = combined.Transform(token);
+            var token = JToken.Parse(input);
+            var result = expression.Transform(token);
+            var actual = result?.AsString();
 
-            Assert.Equal("\"baz\"", result.AsString());
+            Assert.Equal(expected, actual);
         }
     }
 }
