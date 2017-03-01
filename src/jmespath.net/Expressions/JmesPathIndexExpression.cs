@@ -7,6 +7,11 @@ namespace DevLab.JmesPath.Expressions
         private readonly JmesPathExpression expression_;
         private readonly JmesPathExpression specifier_;
 
+        public JmesPathIndexExpression(JmesPathExpression expression, JmesPathNumber index)
+            : this(expression, new JmesPathBracketSpecifier(index))
+        {
+        }
+
         public JmesPathIndexExpression(JmesPathExpression expression, JmesPathExpression specifier)
         {
             expression_ = expression;

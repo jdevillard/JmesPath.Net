@@ -10,26 +10,37 @@ namespace jmespath.net.tests.Expressions
         /*
          * http://jmespath.org/specification.html#index-expressions
          * 
-         * search([0:4:1], [0, 1, 2, 3]) -> [0, 1, 2, 3]
-         * search([0:4], [0, 1, 2, 3]) -> [0, 1, 2, 3]
-         * search([0:3], [0, 1, 2, 3]) -> [0, 1, 2]
-         * search([:2], [0, 1, 2, 3]) -> [0, 1]
-         * search([::2], [0, 1, 2, 3]) -> [0, 2]
-         * search([::-1], [0, 1, 2, 3]) -> [3, 2, 1, 0]
-         * search([-2:], [0, 1, 2, 3]) -> [2, 3]
+         * index-expression  = expression bracket-specifier / bracket-specifier
+         * bracket-specifier = "[" (number / "*") "]" / "[]"
          * 
          */
 
         [Fact]
-        public void JmesPathIndexExpression_index()
+        public void JmesPathIndexExpression_Transform()
         {
-            var number = new JmesPathNumber(0);
-            var specifier = new JmesPathSliceExpression(number);
+            JmesPathIndexExpression_Transform("foo", 0, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"first\"");
+            JmesPathIndexExpression_Transform("foo", 1, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"second\"");
+            JmesPathIndexExpression_Transform("foo", 2, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"third\"");
+            JmesPathIndexExpression_Transform("foo", 3, "{\"foo\": [\"first\", \"second\", \"third\"]}", null);
+            JmesPathIndexExpression_Transform("foo", -1, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"third\"");
+            JmesPathIndexExpression_Transform("foo", -2, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"second\"");
+            JmesPathIndexExpression_Transform("foo", -3, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"first\"");
+            JmesPathIndexExpression_Transform("foo", -4, "{\"foo\": [\"first\", \"second\", \"third\"]}", null);
+        }
 
-            const string input = "[\"first\",\"second\"]";
+        public void JmesPathIndexExpression_Transform(string identifier, int specifier, string input, string expected)
+        {
+            JmesPathExpression index = new JmesPathIndexExpression(
+                new JmesPathIdentifier(identifier),
+                new JmesPathNumber(specifier)
+                );
+
             var json = JToken.Parse(input);
 
-            Assert.Equal("\"first\"", specifier.Transform(json).AsString());
+            var result = index.Transform(json);
+            var actual = result?.AsString();
+
+            Assert.Equal(expected, actual);
         }
     }
 }

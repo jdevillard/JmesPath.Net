@@ -61,7 +61,7 @@ namespace DevLab.JmesPath
             var number = (int) token.Value;
 
             var index = new JmesPathNumber(number);
-            var expression = new JmesPathSliceExpression(index);
+            var expression = new JmesPathBracketSpecifier(index);
             expressions_.Push(expression);
         }
 
