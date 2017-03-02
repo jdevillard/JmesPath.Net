@@ -23,7 +23,7 @@ namespace jmespath.net.tests.Expressions
             var result = select.Transform(token);
 
             Assert.Equal(JTokenType.Object, result.Type);
-            Assert.Equal("{\"bar\":\"value\"}", result.AsString());
+            Assert.Equal("{\"bar\":\"value\"}", result.Token.AsString());
         }
     }
 }

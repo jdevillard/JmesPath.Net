@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
@@ -19,7 +20,7 @@ namespace DevLab.JmesPath.Expressions
             step_ = step;
         }
 
-        public override JToken Transform(JToken json)
+        protected override JToken Transform(JToken json)
         {
             if (json.Type != JTokenType.Array)
                 return null;
@@ -66,9 +67,10 @@ namespace DevLab.JmesPath.Expressions
             var items = new List<JToken>();
 
             for (var index = start; (stop > 0 ? index < stop : index >= stop); index += step)
-                items.Add(array[index]);
+                if (index >= 0 && index < length)
+                    items.Add(array[index]);
 
-            return new JArray(items);
+            return new JArray().AddRange(items);
         }
     }
 }

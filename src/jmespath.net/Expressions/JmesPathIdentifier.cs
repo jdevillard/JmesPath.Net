@@ -13,7 +13,7 @@ namespace DevLab.JmesPath.Expressions
 
         public string Name => name_;
 
-        public override JToken Transform(JToken json)
+        protected override JToken Transform(JToken json)
         {
             System.Diagnostics.Debug.Assert(json.Type == JTokenType.Object);
             var jsonObject = json as JObject;

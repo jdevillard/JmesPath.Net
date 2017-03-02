@@ -9,6 +9,8 @@ namespace DevLab.JmesPath
 {
     public sealed class JmesPath
     {
+        public static JToken JNull = JValue.Parse("null");
+
         public String Transform(string json, string expression)
         {
             var jmesPath = Parse(expression);
@@ -18,7 +20,7 @@ namespace DevLab.JmesPath
             var token = JToken.Parse(json);
             var result = jmesPath.Transform(token);
 
-            return result.AsString();
+            return (result?.Token ?? JNull).AsString();
         }
 
         private static JmesPathExpression Parse(string expression)

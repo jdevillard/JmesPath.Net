@@ -5,16 +5,14 @@ namespace DevLab.JmesPath.Expressions
 {
     public class JmesPathRawString : JmesPathExpression
     {
-        private readonly string value_;
-
         public JmesPathRawString(string value)
         {
-            value_ = value;
+            Value = value;
         }
 
-        public string Value => value_;
+        public string Value { get; }
 
-        public override JToken Transform(JToken json)
+        protected override JToken Transform(JToken json)
         {
             return new JValue(Value);
         }

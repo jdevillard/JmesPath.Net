@@ -15,7 +15,7 @@ namespace DevLab.JmesPath.Expressions
 
         public int Value { get; }
 
-        public override JToken Transform(JToken json)
+        protected override JToken Transform(JToken json)
         {
             System.Diagnostics.Debug.Assert(false);
             throw new NotImplementedException();

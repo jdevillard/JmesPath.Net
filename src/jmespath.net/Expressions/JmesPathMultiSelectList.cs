@@ -15,12 +15,12 @@ namespace DevLab.JmesPath.Expressions
                 expressions_.Add(expression);
         }
 
-        public override JToken Transform(JToken json)
+        protected override JToken Transform(JToken json)
         {
             var items = new List<JToken>();
             foreach (var expression in expressions_)
             {
-                var result = expression.Transform(json);
+                var result = expression.Transform(json)?.Token;
                 // TODO: what is result == null ?
 
                 items.Add(result);

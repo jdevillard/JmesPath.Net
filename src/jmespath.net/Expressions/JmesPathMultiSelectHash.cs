@@ -15,14 +15,16 @@ namespace DevLab.JmesPath.Expressions
                 dictionary_.Add(key, dictionary[key]);
         }
 
-        public override JToken Transform(JToken json)
+        protected override JToken Transform(JToken json)
         {
             var properties = new List<JProperty>();
 
             foreach (var key in dictionary_.Keys)
             {
                 var expression = dictionary_[key];
-                var result = expression.Transform(json);
+                var result = expression.Transform(json)?.Token;
+
+                // TODO: what is result == null?
 
                 properties.Add(new JProperty(key, result));
             }

@@ -9,7 +9,7 @@ namespace DevLab.JmesPath.Expressions
         private readonly JmesPathExpression specifier_;
 
         public JmesPathIndexExpression(JmesPathExpression expression, JmesPathNumber index)
-            : this(expression, new JmesPathBracketSpecifier(index))
+            : this(expression, new JmesPathIndex(index))
         {
         }
 
@@ -21,10 +21,14 @@ namespace DevLab.JmesPath.Expressions
             specifier_ = specifier;
         }
 
-        public override JToken Transform(JToken json)
+        public override bool IsProjection
+            => specifier_.IsProjection
+            ;
+
+        protected override JToken Transform(JToken json)
         {
             var token = expression_?.Transform(json) ?? json;
-            return token == null ? null : specifier_.Transform(token);
+            return token == null ? null : specifier_.Transform(token)?.Token;
         }
     }
 }

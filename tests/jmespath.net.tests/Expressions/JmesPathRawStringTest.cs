@@ -21,7 +21,7 @@ namespace jmespath.net.tests.Expressions
                 
             var json = JToken.Parse(input);
            
-            Assert.Equal("\"foo\"", rawString.Transform(json).AsString());
+            Assert.Equal("\"foo\"", rawString.Transform(json).Token.AsString());
         }
     }
 }

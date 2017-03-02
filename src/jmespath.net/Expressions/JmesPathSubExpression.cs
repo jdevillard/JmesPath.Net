@@ -22,16 +22,18 @@ namespace DevLab.JmesPath.Expressions
             if (expression == null) throw new ArgumentNullException(nameof(expression));
             if (subExpression == null) throw new ArgumentNullException(nameof(subExpression));
 
-            System.Diagnostics.Debug.Assert(subExpression is JmesPathIdentifier);
-
             expression_ = expression;
             subExpression_ = subExpression;
         }
 
-        public override JToken Transform(JToken json)
+        public override bool IsProjection
+            => subExpression_.IsProjection
+            ;
+
+        protected override JToken Transform(JToken json)
         {
             var token = expression_.Transform(json);
-            return token == null ? null : subExpression_.Transform(token);
+            return token == null ? null : subExpression_.Transform(token)?.Token;
         }
     }
 }

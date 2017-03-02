@@ -43,15 +43,6 @@ namespace DevLab.JmesPath
             expression_ = null;
         }
 
-        private void OnNumber(Token token)
-        {
-            var number = token as NumberToken;
-            System.Diagnostics.Debug.Assert(number != null);
-            int value = (int)number.Value;
-            var expression = new JmesPathNumber(value);
-            expressions_.Push(expression);
-        }
-
         private void OnIdentifier(Token token)
         {
             var @string = (string)token.Value;
@@ -77,7 +68,7 @@ namespace DevLab.JmesPath
 
             var index = new JmesPathNumber((int)number.Value);
 
-            var expression = new JmesPathBracketSpecifier(index);
+            var expression = new JmesPathIndex(index);
 
             expressions_.Push(expression);
         }

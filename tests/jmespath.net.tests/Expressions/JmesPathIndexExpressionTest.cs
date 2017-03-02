@@ -38,7 +38,7 @@ namespace jmespath.net.tests.Expressions
             var json = JToken.Parse(input);
 
             var result = index.Transform(json);
-            var actual = result?.AsString();
+            var actual = result.Token?.AsString();
 
             Assert.Equal(expected, actual);
         }

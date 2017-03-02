@@ -24,7 +24,7 @@ namespace jmespath.net.tests.Expressions
             var result = select.Transform(token);
 
             Assert.Equal(JTokenType.Array, result.Type);
-            Assert.Equal("[\"foo_value\",\"bar_value\"]", result.AsString());
+            Assert.Equal("[\"foo_value\",\"bar_value\"]", result.Token.AsString());
         }
     }
 }
