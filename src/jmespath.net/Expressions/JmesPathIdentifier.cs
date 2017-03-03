@@ -15,11 +15,8 @@ namespace DevLab.JmesPath.Expressions
 
         protected override JToken Transform(JToken json)
         {
-            System.Diagnostics.Debug.Assert(json.Type == JTokenType.Object);
             var jsonObject = json as JObject;
-            System.Diagnostics.Debug.Assert(jsonObject != null);
-
-            return jsonObject[name_];
+            return jsonObject?[name_];
         }
     }
 }
