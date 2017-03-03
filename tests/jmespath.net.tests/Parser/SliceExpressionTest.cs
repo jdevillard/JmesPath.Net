@@ -3,7 +3,7 @@ using DevLab.JmesPath;
 
 namespace jmespath.net.tests.Parser
 {
-    public class SliceExpressionsTest
+    public class SliceExpressionTest
     {
         [Fact]
         public void ParseSliceExpression_IndexExpression()

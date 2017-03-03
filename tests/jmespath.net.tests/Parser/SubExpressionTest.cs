@@ -2,7 +2,7 @@ using Xunit;
 using DevLab.JmesPath;
 namespace jmespath.net.tests.Parser
 {
-    public class ExpressionTest
+    public class SubExpressionTest
     {
         [Fact]
         public void ParseSubExpression()

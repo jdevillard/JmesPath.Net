@@ -3,7 +3,7 @@ using DevLab.JmesPath;
 
 namespace jmespath.net.tests.Parser
 {
-    public class BracketSpecifierTest
+    public class IndexTest
     {
         [Fact]
         public void BracketSpecifier_IndexExpression()
