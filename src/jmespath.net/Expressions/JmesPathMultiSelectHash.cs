@@ -23,9 +23,6 @@ namespace DevLab.JmesPath.Expressions
             {
                 var expression = dictionary_[key];
                 var result = expression.Transform(json)?.Token;
-
-                // TODO: what is result == null?
-
                 properties.Add(new JProperty(key, result));
             }
 
