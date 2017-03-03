@@ -11,16 +11,21 @@ namespace DevLab.JmesPath
     {
         public static JToken JNull = JValue.Parse("null");
 
-        public String Transform(string json, string expression)
+        public JToken Transform(JToken token, string expression)
         {
             var jmesPath = Parse(expression);
             if (jmesPath == null)
                 return null;
 
-            var token = JToken.Parse(json);
             var result = jmesPath.Transform(token);
+            return result?.Token ?? JNull;
+        }
 
-            return (result?.Token ?? JNull).AsString();
+        public String Transform(string json, string expression)
+        {
+            var token = JToken.Parse(json);
+            var result = Transform(token, expression);
+            return result.AsString();
         }
 
         private static JmesPathExpression Parse(string expression)
