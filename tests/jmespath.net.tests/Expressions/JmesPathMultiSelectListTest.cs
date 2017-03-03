@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Xunit;
 using DevLab.JmesPath.Expressions;
@@ -8,23 +7,53 @@ namespace jmespath.net.tests.Expressions
 {
     public class JmesPathMultiSelectListTest
     {
+        /*
+         * http://jmespath.org/specification.html#multiselect-list
+         * 
+         * search([foo,bar], {"foo": "a", "bar": "b", "baz": "c"}) -> ["a", "b"]
+         * search([foo,bar], {"foo": "a", "baz": "b"}) -> ["a", null]
+         * search([foo,bar.baz], {"foo": "a", "bar": {"baz": "b"}}) -> ["a", "b"]
+         * search([foo,bar[0]], {"foo": "a", "bar": ["b"], "baz": "c"}) -> ["a", "b"]
+         * 
+         */
         [Fact]
         public void JmesPathMultiSelectList()
         {
-            const string json = "{\"foo\": \"foo_value\", \"bar\": \"bar_value\"}";
-            var token = JToken.Parse(json);
-
-            var items = new List<JmesPathExpression>
-            {
+            JmesPathMultiSelectList expression = new JmesPathMultiSelectList(
                 new JmesPathIdentifier("foo"),
-                new JmesPathIdentifier("bar"),
-            };
+                new JmesPathIdentifier("bar"));
 
-            var select = new JmesPathMultiSelectList(items);
-            var result = select.Transform(token);
+            JmesPathMultiSelectList_Transform(expression, "{\"foo\": \"a\", \"bar\": \"b\", \"baz\": \"c\"}", "[\"a\",\"b\"]");
+            JmesPathMultiSelectList_Transform(expression, "{\"foo\": \"a\", \"baz\": \"b\"}", "[\"a\",null]");
+
+            expression = new JmesPathMultiSelectList(
+                new JmesPathIdentifier("foo"),
+                new JmesPathSubExpression(
+                    new JmesPathIdentifier("bar"),
+                    new JmesPathIdentifier("baz")
+                    )
+                );
+
+            JmesPathMultiSelectList_Transform(expression, "{\"foo\": \"a\", \"bar\": {\"baz\": \"b\"}}", "[\"a\",\"b\"]");
+
+            expression = new JmesPathMultiSelectList(
+                new JmesPathIdentifier("foo"),
+                new JmesPathIndexExpression(
+                    new JmesPathIdentifier("bar"),
+                    new JmesPathIndex(0)
+                    )
+                );
+
+            JmesPathMultiSelectList_Transform(expression, "{\"foo\": \"a\", \"bar\": [\"b\"], \"baz\": \"c\"}", "[\"a\",\"b\"]");
+        }
+
+        public void JmesPathMultiSelectList_Transform(JmesPathMultiSelectList expression, string input, string expected)
+        {
+            var token = JToken.Parse(input);
+            var result = expression.Transform(token);
 
             Assert.Equal(JTokenType.Array, result.Type);
-            Assert.Equal("[\"foo_value\",\"bar_value\"]", result.Token.AsString());
+            Assert.Equal(expected, result.Token.AsString());
         }
     }
 }

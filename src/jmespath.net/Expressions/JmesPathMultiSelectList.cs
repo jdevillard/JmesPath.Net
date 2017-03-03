@@ -9,7 +9,12 @@ namespace DevLab.JmesPath.Expressions
             = new List<JmesPathExpression>()
             ;
 
-        public JmesPathMultiSelectList(IList<JmesPathExpression> expressions)
+        public JmesPathMultiSelectList(params JmesPathExpression[] expressions)
+            : this((IEnumerable<JmesPathExpression>)expressions)
+        {
+        }
+
+        public JmesPathMultiSelectList(IEnumerable<JmesPathExpression> expressions)
         {
             foreach (var expression in expressions)
                 expressions_.Add(expression);
@@ -21,8 +26,6 @@ namespace DevLab.JmesPath.Expressions
             foreach (var expression in expressions_)
             {
                 var result = expression.Transform(json)?.Token;
-                // TODO: what is result == null ?
-
                 items.Add(result);
             }
 
