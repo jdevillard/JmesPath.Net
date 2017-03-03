@@ -26,37 +26,33 @@
 %start expression
 
 %%
-expression			: identifier
+expression			: expression_impl
 					{
-						System.Diagnostics.Debug.WriteLine("expression (identifier): {0}.", $1.Token);
-						OnExpression();
-					}
-					| index_expression
-					{
-						System.Diagnostics.Debug.WriteLine("expression (index_expression): {0}.", $1.Token);
-						OnExpression();
-					}
-					| multi_select_hash
-					{
-						System.Diagnostics.Debug.WriteLine("expression (multi_select_hash): {0}", $1.Token);
-						OnExpression();
-					}
-					| multi_select_list
-					{
-						System.Diagnostics.Debug.WriteLine("expression (multi_select_list): {0}", $1.Token);
-						OnExpression();
-					}
-					| raw_string
-					{
-						System.Diagnostics.Debug.WriteLine("expression (sub_expression): {0}.", $1.Token);
-						OnExpression();
-					}
-					| sub_expression
-					{
-						System.Diagnostics.Debug.WriteLine("expression (sub_expression): {0}.", $1.Token);
 						OnExpression();
 					}
 					;
+
+expression_impl		: sub_expression
+					| index_expression
+					| hash_wildcard
+					| identifier
+					| multi_select_list
+					| multi_select_hash
+					| raw_string
+					;
+
+sub_expression		: sub_expression_impl
+					{
+						OnSubExpression();
+					}
+					;
+
+sub_expression_impl	: expression T_DOT identifier
+					| expression T_DOT multi_select_hash
+					| expression T_DOT multi_select_list
+					| expression T_DOT hash_wildcard
+					;
+
 
 index_expression	: expression bracket_specifier
 					{
@@ -73,12 +69,14 @@ bracket_specifier	: T_LBRACKET T_NUMBER T_RBRACKET
 					}
 					| T_LBRACKET T_STAR T_RBRACKET
 					{
+						System.Diagnostics.Debug.WriteLine("bracket_specifier (list wildcard projection).");
+						OnListWildcardProjection();
 					}
 					| T_LBRACKET slice_expression T_RBRACKET
 					| T_LBRACKET T_RBRACKET
 					{
-						System.Diagnostics.Debug.WriteLine("bracket_specifier (empty).");
-						OnSliceExpression(null, null, null);
+						System.Diagnostics.Debug.WriteLine("bracket_specifier (flattening projection).");
+						OnFlattenProjection();
 					}
 					;
 
@@ -131,46 +129,34 @@ slice_expression	: T_NUMBER T_COLON T_NUMBER
 					}
 					;
 
-sub_expression		: expression T_DOT identifier
+identifier			: identifier_impl
 					{
-						OnSubExpression();
-					}
-					| expression T_DOT multi_select_hash
-					{
-						OnSubExpression();
-					}
-					| expression T_DOT multi_select_list
-					{
-						OnSubExpression();
+						System.Diagnostics.Debug.WriteLine("identifier ({0}): {1}.", $1.Token.Type, $1.Token);
+						OnIdentifier($1.Token);
 					}
 					;
+					
+identifier_impl		: quoted_string
+					| unquoted_string
+					;
 
-identifier			: unquoted_string
+hash_wildcard		: T_STAR
 					{
-						System.Diagnostics.Debug.WriteLine("identifier (quoted string): {0}.", $1.Token);
-						OnIdentifier($1.Token);
-					}
-					| quoted_string
-					{
-						System.Diagnostics.Debug.WriteLine("identifier (unquoted string): {0}", $1.Token);
-						OnIdentifier($1.Token);
+						System.Diagnostics.Debug.WriteLine("wildcard (hash wildcard projection): {0}", $1.Token);
+						OnHashWildcardProjection();
 					}
 					;
 
 quoted_string		: T_QSTRING
-					{
-						System.Diagnostics.Debug.WriteLine("quoted string : {0}", $1.Token);
-					}
 					;
+
+unquoted_string		: T_USTRING
+					;
+
 raw_string			: T_RSTRING
 					{
 						System.Diagnostics.Debug.WriteLine("raw string : {0}", $1.Token);
 						OnRawString($1.Token);
-					}
-					;
-unquoted_string		: T_USTRING
-					{
-						System.Diagnostics.Debug.WriteLine("unquoted string : {0}", $1.Token);
 					}
 					;
 

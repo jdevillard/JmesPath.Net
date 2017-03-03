@@ -159,5 +159,24 @@ namespace DevLab.JmesPath
         }
 
         #endregion
+
+        #region projections
+
+        private void OnFlattenProjection()
+        {
+            expressions_.Push(new JmesPathFlattenProjection());
+        }
+
+        private void OnHashWildcardProjection()
+        {
+            expressions_.Push(new JmesPathHashWildcardProjection());
+        }
+
+        private void OnListWildcardProjection()
+        {
+            expressions_.Push(new JmesPathListWildcardProjection());
+        }
+
+        #endregion
     }
 }
