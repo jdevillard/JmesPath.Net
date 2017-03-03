@@ -64,16 +64,12 @@ index_expression	: expression bracket_specifier
 						OnIndexExpression();
 					}
 					| bracket_specifier
-					{
-						System.Diagnostics.Debug.WriteLine("index expression (bracket_specifier): {0}.", $1.Token);
-						OnIndexExpression();
-					}
 					;
 
 bracket_specifier	: T_LBRACKET T_NUMBER T_RBRACKET
 					{
 						System.Diagnostics.Debug.WriteLine("bracket_specifier (index): {0}.", $2.Token);
-						OnBracketSpecifier($2.Token);
+						OnIndex($2.Token);
 					}
 					| T_LBRACKET T_STAR T_RBRACKET
 					{

@@ -59,14 +59,14 @@ namespace DevLab.JmesPath
 
         #region index_expression
 
-        private void OnBracketSpecifier(Token token)
+        private void OnIndex(Token token)
         {
             var number = token as NumberToken;
 
             System.Diagnostics.Debug.Assert(token.Type == TokenType.T_NUMBER);
             System.Diagnostics.Debug.Assert(number != null);
 
-            var index = new JmesPathNumber((int)number.Value);
+            var index = (int)number.Value;
 
             var expression = new JmesPathIndex(index);
 
@@ -89,9 +89,9 @@ namespace DevLab.JmesPath
             System.Diagnostics.Debug.Assert(stop == null || stop is NumberToken);
             System.Diagnostics.Debug.Assert(step == null || step is NumberToken);
 
-            var startIndex = start == null ? null : new JmesPathNumber((int)start.Value);
-            var stopIndex = stop == null ? null : new JmesPathNumber((int)stop.Value);
-            var stepIndex = step == null ? null : new JmesPathNumber((int)step.Value);
+            var startIndex = (int?)start?.Value;
+            var stopIndex = (int?)stop?.Value;
+            var stepIndex = (int?)step?.Value;
 
             var sliceExpression = new JmesPathSliceExpression(startIndex, stopIndex, stepIndex);
 

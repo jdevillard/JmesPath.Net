@@ -32,7 +32,7 @@ namespace jmespath.net.tests.Expressions
         {
             JmesPathExpression index = new JmesPathIndexExpression(
                 new JmesPathIdentifier(identifier),
-                new JmesPathNumber(specifier)
+                new JmesPathIndex(specifier)
                 );
 
             var json = JToken.Parse(input);

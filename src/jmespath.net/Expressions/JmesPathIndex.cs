@@ -4,16 +4,16 @@ namespace DevLab.JmesPath.Expressions
 {
     public class JmesPathIndex : JmesPathExpression
     {
-        private readonly JmesPathExpression expression_;
+        private readonly int index_;
 
         /// <summary>
         /// Initialize a new instance of the <see cref="JmesPathIndex"/>
         /// with the given index.
         /// </summary>
         /// <param name="index"></param>
-        public JmesPathIndex(JmesPathNumber index)
+        public JmesPathIndex(int index)
         {
-            expression_ = index;
+            index_ = index;
         }
 
         protected override JToken Transform(JToken json)
@@ -25,7 +25,8 @@ namespace DevLab.JmesPath.Expressions
             if (array == null)
                 return null;
 
-            var index = ((JmesPathNumber)expression_).Value;
+            var index = index_;
+
             if (index < 0)
                 index = array.Count + index;
             if (index < 0 || index >= array.Count)

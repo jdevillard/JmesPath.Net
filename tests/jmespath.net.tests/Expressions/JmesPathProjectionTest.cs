@@ -44,7 +44,7 @@ namespace jmespath.net.tests.Expressions
             JmesPathProjection_Transform(expression, "[{\"foo\": 1}, {\"foo\": 2}, {\"foo\": 3}]", "[1,2,3]");
             JmesPathProjection_Transform(expression, "[{\"foo\": 1}, {\"foo\": 2}, {\"bar\": 3}]", "[1,2]");
 
-            identifier = new JmesPathIndex(new JmesPathNumber(0));
+            identifier = new JmesPathIndex(0);
             wildcard = new JmesPathListWildcardProjection();
             expression = new JmesPathIndexExpression(wildcard, identifier);
 

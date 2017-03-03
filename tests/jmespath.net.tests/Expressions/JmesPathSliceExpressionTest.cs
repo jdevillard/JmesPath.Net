@@ -47,9 +47,9 @@ namespace jmespath.net.tests.Expressions
             System.Diagnostics.Debug.Assert(numbers.Length == 3);
 
             JmesPathExpression expression = new JmesPathSliceExpression(
-                numbers[0] == null ? null : new JmesPathNumber((int) numbers[0]),
-                numbers[1] == null ? null : new JmesPathNumber((int) numbers[1]),
-                numbers[2] == null ? null : new JmesPathNumber((int) numbers[2])
+                numbers[0],
+                numbers[1],
+                numbers[2]
                 );
 
             var json = JToken.Parse(input);

@@ -9,11 +9,11 @@ namespace DevLab.JmesPath.Expressions
     /// </summary>
     public class JmesPathSliceExpression : JmesPathExpression
     {
-        private readonly JmesPathNumber start_;
-        private readonly JmesPathNumber stop_;
-        private readonly JmesPathNumber step_;
+        private readonly int? start_;
+        private readonly int? stop_;
+        private readonly int? step_;
 
-        public JmesPathSliceExpression(JmesPathNumber start, JmesPathNumber stop, JmesPathNumber step)
+        public JmesPathSliceExpression(int? start, int? stop, int? step)
         {
             start_ = start;
             stop_ = stop;
@@ -35,7 +35,7 @@ namespace DevLab.JmesPath.Expressions
             // slice expressions adhere to the following rules:
             // if the given step is omitted, it it assumed to be 1.
 
-            var step = step_?.Value ?? 1;
+            var step = step_ ?? 1;
 
             // if the given step is 0, an error MUST be raised.
             // no runtime check here - the parser will ensure that 0 is not a valid value
@@ -46,7 +46,7 @@ namespace DevLab.JmesPath.Expressions
 
             // if no start position is given, it is assumed to be 0 if the given step is greater than 0 or the end of the array if the given step is less than 0.
 
-            var start = start_?.Value ?? (step > 0 ? 0 : length - 1);
+            var start = start_ ?? (step > 0 ? 0 : length - 1);
 
             // if a negative start position is given, it is calculated as the total length of the array plus the given start position.
 
@@ -55,7 +55,7 @@ namespace DevLab.JmesPath.Expressions
 
             // if no stop position is given, it is assumed to be the length of the array if the given step is greater than 0 or 0 if the given step is less than 0.
 
-            var stop = stop_?.Value ?? (step > 0 ? length : 0);
+            var stop = stop_ ?? (step > 0 ? length : 0);
 
             // if a negative stop position is given, it is calculated as the total length of the array plus the given stop position.
 
