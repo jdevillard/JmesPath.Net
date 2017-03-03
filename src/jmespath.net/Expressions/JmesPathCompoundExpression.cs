@@ -39,7 +39,7 @@ namespace DevLab.JmesPath.Expressions
         protected override JToken Transform(JToken json)
         {
             var token = left_.Transform(json);
-            return token == null ? null : right_.Transform(token)?.Token;
+            return token?.Token == null ? null : right_.Transform(token)?.Token;
         }
     }
 }

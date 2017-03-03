@@ -28,6 +28,26 @@ namespace jmespath.net.tests.Expressions
             JmesPathIndexExpression_Transform("foo", -4, "{\"foo\": [\"first\", \"second\", \"third\"]}", null);
         }
 
+        [Fact]
+        public void JmesPathIndexExpression_Compliance()
+        {
+            var expression =
+                new JmesPathIndexExpression(
+                    new JmesPathIndexExpression(
+                        new JmesPathIndexExpression(
+                            new JmesPathIndexExpression(
+                                new JmesPathSubExpression(
+                                    new JmesPathIdentifier("foo"),
+                                    new JmesPathIdentifier("bar")),
+                                new JmesPathIndex(0)),
+                            new JmesPathIndex(0)),
+                        new JmesPathIndex(0)),
+                    new JmesPathIndex(0))
+                ;
+
+            JmesPathIndexExpression_Transform(expression, "{\"foo\": { \"bar\": [[\"one\", \"two\"], [\"three\", \"four\"]] }}", null);
+        }
+
         public void JmesPathIndexExpression_Transform(string identifier, int specifier, string input, string expected)
         {
             JmesPathExpression index = new JmesPathIndexExpression(
@@ -35,6 +55,11 @@ namespace jmespath.net.tests.Expressions
                 new JmesPathIndex(specifier)
                 );
 
+            JmesPathIndexExpression_Transform(index, input, expected);
+        }
+
+        private static void JmesPathIndexExpression_Transform(JmesPathExpression index, string input, string expected)
+        {
             var json = JToken.Parse(input);
 
             var result = index.Transform(json);
