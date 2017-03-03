@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using DevLab.JmesPath.Expressions;
+using Newtonsoft.Json.Linq;
 using StarodubOleg.GPPG.Runtime;
 
 namespace DevLab.JmesPath
@@ -50,12 +51,20 @@ namespace DevLab.JmesPath
             expressions_.Push(expression);
         }
 
+        private void OnLiteralString(Token token)
+        {
+            var @string = (JToken)token.Value;
+            var expression = new JmesPathLiteral(@string);
+            expressions_.Push(expression);
+        }
+
         private void OnRawString(Token token)
         {
             var @string = (string)token.Value;
             var expression = new JmesPathRawString(@string);
             expressions_.Push(expression);
         }
+
 
         #region index_expression
 

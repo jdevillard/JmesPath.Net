@@ -26,6 +26,9 @@ namespace DevLab.JmesPath
                 case TokenType.T_NUMBER:
                     return new NumberToken(yytext);
 
+                case TokenType.T_LSTRING:
+                    return new LiteralStringToken(yytext);
+
                 case TokenType.T_QSTRING:
                     return new QuotedStringToken(yytext);
                 
