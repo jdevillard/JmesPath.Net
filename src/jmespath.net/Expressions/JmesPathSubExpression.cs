@@ -6,11 +6,8 @@ namespace DevLab.JmesPath.Expressions
     /// <summary>
     /// Represents a JmesPath sub expression.
     /// </summary>
-    public sealed class JmesPathSubExpression : JmesPathExpression
+    public sealed class JmesPathSubExpression : JmesPathCompoundExpression
     {
-        private readonly JmesPathExpression expression_;
-        private readonly JmesPathExpression subExpression_;
-
         /// <summary>
         /// Initialize a new instance of the <see cref="JmesPathSubExpression"/> class
         /// with two <see cref="JmesPathExpression"/> objects.
@@ -18,22 +15,15 @@ namespace DevLab.JmesPath.Expressions
         /// <param name="expression"></param>
         /// <param name="subExpression"></param>
         public JmesPathSubExpression(JmesPathExpression expression, JmesPathExpression subExpression)
+            : base(expression, subExpression)
         {
-            if (expression == null) throw new ArgumentNullException(nameof(expression));
-            if (subExpression == null) throw new ArgumentNullException(nameof(subExpression));
-
-            expression_ = expression;
-            subExpression_ = subExpression;
-        }
-
-        public override bool IsProjection
-            => subExpression_.IsProjection
-            ;
-
-        protected override JToken Transform(JToken json)
-        {
-            var token = expression_.Transform(json);
-            return token == null ? null : subExpression_.Transform(token)?.Token;
+            System.Diagnostics.Debug.Assert(
+                subExpression is JmesPathIdentifier ||
+                subExpression is JmesPathMultiSelectHash ||
+                subExpression is JmesPathMultiSelectHash ||
+                subExpression is JmesPathHashWildcardProjection ||
+                false
+                );
         }
     }
 }
