@@ -2,7 +2,7 @@
 
 namespace DevLab.JmesPath
 {
-    public class Token
+    internal class Token
     {
         public Token(TokenType type, string rawText)
         {

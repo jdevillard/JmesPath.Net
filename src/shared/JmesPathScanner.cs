@@ -6,8 +6,8 @@
 //
 //  GPLEX Version:  0.1.0.0
 //  Machine:  DESKTOP-UQ0H65F
-//  DateTime: 02/03/2017 14:32:18
-//  GPLEX input file <C:\Projects\jjme\src\jmespath.net/JmesPathScanner.lex - 02/03/2017 08:46:10>
+//  DateTime: 04/03/2017 16:59:45
+//  GPLEX input file <C:\Projects\jjme\src\jmespath.net/../shared/JmesPathScanner.lex - 04/03/2017 16:51:53>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: verbose, parser, stack, minimize
@@ -45,13 +45,13 @@ namespace DevLab.JmesPath
     // If you declare /noparser, or %option noparser then you get this.
     //
 
-     public enum TokenType
+     internal enum TokenType
     { 
       EOF = 0, maxParseToken = int.MaxValue 
       // must have at least these two, values are almost arbitrary
     }
 
-     public abstract class ScanBase
+     internal abstract class ScanBase
     {
         [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "yylex")]
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "yylex")]
@@ -73,7 +73,7 @@ namespace DevLab.JmesPath
         }
     }
     
-     public interface IColorScan
+     internal interface IColorScan
     {
         void SetSource(string source, int offset);
         int GetNext(ref int state, out int start, out int end);
@@ -85,7 +85,7 @@ namespace DevLab.JmesPath
     // If the compiler can't find the scanner base class maybe you
     // need to run GPPG with the /gplex option, or GPLEX with /noparser
 #if BABEL
-     public sealed partial class JmesPathScanner : ScanBase, IColorScan
+     internal sealed partial class JmesPathScanner : ScanBase, IColorScan
     {
         private ScanBuff buffer;
         int currentScOrd;  // start condition ordinal
@@ -102,7 +102,7 @@ namespace DevLab.JmesPath
                    currentStart = startState[value]; }
         }
 #else  // BABEL
-     public sealed partial class JmesPathScanner : ScanBase
+     internal sealed partial class JmesPathScanner : ScanBase
     {
         private ScanBuff buffer;
         int currentScOrd;  // start condition ordinal
@@ -339,12 +339,12 @@ int NextState() {
         // =================== End Nested classes =======================
 
 #if !NOFILES
-     public JmesPathScanner(Stream file) {
+     internal JmesPathScanner(Stream file) {
             SetSource(file); // no unicode option
         }   
 #endif // !NOFILES
 
-     public JmesPathScanner() { }
+     internal JmesPathScanner() { }
 
         private int readPos;
 

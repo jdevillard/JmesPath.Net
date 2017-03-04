@@ -4,7 +4,7 @@ using StarodubOleg.GPPG.Runtime;
 
 namespace DevLab.JmesPath
 {
-    public partial class JmesPathParser
+    internal partial class JmesPathParser
     {
         private readonly Stack<IDictionary<string, JmesPathExpression>> selectHashes_
             = new Stack<IDictionary<string, JmesPathExpression>>()

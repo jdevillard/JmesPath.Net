@@ -1,7 +1,7 @@
 ﻿%namespace DevLab.JmesPath
 %partial
 %parsertype JmesPathParser
-%visibility public
+%visibility internal
 %tokentype TokenType
 
 %union 	{ 

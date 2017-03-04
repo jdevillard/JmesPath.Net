@@ -1,6 +1,6 @@
 ﻿%namespace DevLab.JmesPath
 %scannertype JmesPathScanner
-%visibility public
+%visibility internal
 %tokentype	TokenType
 
 %option stack, minimize, parser, verbose, persistbuffer, embedbuffers 
