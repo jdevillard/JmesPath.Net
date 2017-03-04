@@ -22,6 +22,59 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "jmespathnet.compliance", "t
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "jmespathnet.tests", "tests\jmespathnet.tests\jmespathnet.tests.xproj", "{43EC8A0D-27A8-476C-8806-ED18FCC8B2F2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{D7ED4508-6E06-4A3D-84CC-B9C6132F2C37}"
+	ProjectSection(SolutionItems) = preProject
+		src\shared\JmesPath.cs = src\shared\JmesPath.cs
+		src\shared\JmesPathParser.cs = src\shared\JmesPathParser.cs
+		src\shared\JmesPathParser.y = src\shared\JmesPathParser.y
+		src\shared\JmesPathParser_ctor.cs = src\shared\JmesPathParser_ctor.cs
+		src\shared\JmesPathScanner.cs = src\shared\JmesPathScanner.cs
+		src\shared\JmesPathScanner.lex = src\shared\JmesPathScanner.lex
+		src\shared\NumberToken.cs = src\shared\NumberToken.cs
+		src\shared\QuotedStringToken.cs = src\shared\QuotedStringToken.cs
+		src\shared\RawStringToken.cs = src\shared\RawStringToken.cs
+		src\shared\Token.cs = src\shared\Token.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Expressions", "Expressions", "{E60EA8D6-41E7-41D5-A857-EE13F70BA2D9}"
+	ProjectSection(SolutionItems) = preProject
+		src\shared\Expressions\JmesPathArgument.cs = src\shared\Expressions\JmesPathArgument.cs
+		src\shared\Expressions\JmesPathCompoundExpression.cs = src\shared\Expressions\JmesPathCompoundExpression.cs
+		src\shared\Expressions\JmesPathExpression.cs = src\shared\Expressions\JmesPathExpression.cs
+		src\shared\Expressions\JmesPathFlattenProjection.cs = src\shared\Expressions\JmesPathFlattenProjection.cs
+		src\shared\Expressions\JmesPathHashWildcardProjection.cs = src\shared\Expressions\JmesPathHashWildcardProjection.cs
+		src\shared\Expressions\JmesPathIdentifier.cs = src\shared\Expressions\JmesPathIdentifier.cs
+		src\shared\Expressions\JmesPathIndex.cs = src\shared\Expressions\JmesPathIndex.cs
+		src\shared\Expressions\JmesPathIndexExpression.cs = src\shared\Expressions\JmesPathIndexExpression.cs
+		src\shared\Expressions\JmesPathListWildcardProjection.cs = src\shared\Expressions\JmesPathListWildcardProjection.cs
+		src\shared\Expressions\JmesPathMultiSelectHash.cs = src\shared\Expressions\JmesPathMultiSelectHash.cs
+		src\shared\Expressions\JmesPathMultiSelectList.cs = src\shared\Expressions\JmesPathMultiSelectList.cs
+		src\shared\Expressions\JmesPathProjection.cs = src\shared\Expressions\JmesPathProjection.cs
+		src\shared\Expressions\JmesPathRawString.cs = src\shared\Expressions\JmesPathRawString.cs
+		src\shared\Expressions\JmesPathSliceExpression.cs = src\shared\Expressions\JmesPathSliceExpression.cs
+		src\shared\Expressions\JmesPathSubExpression.cs = src\shared\Expressions\JmesPathSubExpression.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{BDDA6016-6E7D-42F2-AA42-AF81017EC6CE}"
+	ProjectSection(SolutionItems) = preProject
+		src\shared\Utils\JArrayExtensions.cs = src\shared\Utils\JArrayExtensions.cs
+		src\shared\Utils\JTokenExtensions.cs = src\shared\Utils\JTokenExtensions.cs
+		src\shared\Utils\StringUtil.cs = src\shared\Utils\StringUtil.cs
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "jmespath.netstandard.signed", "src\jmespath.net.signed\jmespath.netstandard.signed.xproj", "{290C0EFC-EADB-4C7A-920A-084276BA803A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gppg", "gppg", "{7964E7C4-3075-4E08-8CC1-B98DBC73FB2A}"
+	ProjectSection(SolutionItems) = preProject
+		src\gppg.runtime\AbstractScanner.cs = src\gppg.runtime\AbstractScanner.cs
+		src\gppg.runtime\IMerge.cs = src\gppg.runtime\IMerge.cs
+		src\gppg.runtime\LexLocation.cs = src\gppg.runtime\LexLocation.cs
+		src\gppg.runtime\PushdownPrefixState.cs = src\gppg.runtime\PushdownPrefixState.cs
+		src\gppg.runtime\Rule.cs = src\gppg.runtime\Rule.cs
+		src\gppg.runtime\ShiftReduceParser.cs = src\gppg.runtime\ShiftReduceParser.cs
+		src\gppg.runtime\State.cs = src\gppg.runtime\State.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +93,10 @@ Global
 		{43EC8A0D-27A8-476C-8806-ED18FCC8B2F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43EC8A0D-27A8-476C-8806-ED18FCC8B2F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43EC8A0D-27A8-476C-8806-ED18FCC8B2F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{290C0EFC-EADB-4C7A-920A-084276BA803A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{290C0EFC-EADB-4C7A-920A-084276BA803A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{290C0EFC-EADB-4C7A-920A-084276BA803A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{290C0EFC-EADB-4C7A-920A-084276BA803A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,5 +105,10 @@ Global
 		{C1B8BA55-2115-406F-944D-39EFA384879D} = {6D7773F3-76FA-4E25-A85C-7AA1AD5668D8}
 		{63368C99-13F3-49F6-B221-2AD3595486E7} = {CF8C1543-B634-47F5-BF43-4508F64E0554}
 		{43EC8A0D-27A8-476C-8806-ED18FCC8B2F2} = {17EC0D83-06FD-45A9-87CE-5A6901204774}
+		{D7ED4508-6E06-4A3D-84CC-B9C6132F2C37} = {6D7773F3-76FA-4E25-A85C-7AA1AD5668D8}
+		{E60EA8D6-41E7-41D5-A857-EE13F70BA2D9} = {D7ED4508-6E06-4A3D-84CC-B9C6132F2C37}
+		{BDDA6016-6E7D-42F2-AA42-AF81017EC6CE} = {D7ED4508-6E06-4A3D-84CC-B9C6132F2C37}
+		{290C0EFC-EADB-4C7A-920A-084276BA803A} = {6D7773F3-76FA-4E25-A85C-7AA1AD5668D8}
+		{7964E7C4-3075-4E08-8CC1-B98DBC73FB2A} = {6D7773F3-76FA-4E25-A85C-7AA1AD5668D8}
 	EndGlobalSection
 EndGlobal
