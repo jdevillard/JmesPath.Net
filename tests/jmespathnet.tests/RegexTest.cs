@@ -171,6 +171,26 @@ namespace jmespath.net.tests
             Assert.Equal(true, Match("'\\'Hello\\''", pattern));
         }
 
+        [Fact]
+        public void Regex_JsonLiteral_String()
+        {
+            /*
+             *  ; The ``json-value`` is any valid JSON value with the one exception that the
+                ; ``%x60`` character must be escaped.  While it's encouraged that implementations
+                ; use any existing JSON parser for this grammar rule (after handling the escaped
+                ; literal characters), the grammar rule is shown below for completeness::
+
+            */
+
+            // `[^`]*((\\`)*[^`]*)*`
+
+            const string pattern = @"`[^`]*((\\`)*[^`]*)*`";
+
+            Assert.Equal(true, Match("`abcd`", pattern));
+            Assert.Equal(true, Match("`\\a\\b\\c`", pattern));
+            Assert.Equal(true, Match("`\\`Hello\\``", pattern));
+            Assert.Equal(false, Match("`\\`Hel`lo\\``", pattern));
+        }
         private static bool Match(string input, string pattern)
         {
             var regex = new Regex("^" + pattern + "$", RegexOptions.Singleline);

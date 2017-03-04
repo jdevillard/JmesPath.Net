@@ -193,18 +193,6 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "StarodubOleg.GPPG.Runtime/0.1.0-alpha1-2": {
-        "type": "package",
-        "dependencies": {
-          "NETStandard.Library": "1.6.0"
-        },
-        "compile": {
-          "lib/netstandard1.6/StarodubOleg.GPPG.Runtime.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.6/StarodubOleg.GPPG.Runtime.dll": {}
-        }
-      },
       "System.AppContext/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -1709,18 +1697,6 @@
         },
         "runtime": {
           "runtimes/unix/lib/netstandard1.5/System.Runtime.Extensions.dll": {}
-        }
-      },
-      "StarodubOleg.GPPG.Runtime/0.1.0-alpha1-2": {
-        "type": "package",
-        "dependencies": {
-          "NETStandard.Library": "1.6.0"
-        },
-        "compile": {
-          "lib/netstandard1.6/StarodubOleg.GPPG.Runtime.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.6/StarodubOleg.GPPG.Runtime.dll": {}
         }
       },
       "System.AppContext/4.1.0": {
@@ -3287,18 +3263,6 @@
           "runtimes/unix/lib/netstandard1.5/System.Runtime.Extensions.dll": {}
         }
       },
-      "StarodubOleg.GPPG.Runtime/0.1.0-alpha1-2": {
-        "type": "package",
-        "dependencies": {
-          "NETStandard.Library": "1.6.0"
-        },
-        "compile": {
-          "lib/netstandard1.6/StarodubOleg.GPPG.Runtime.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.6/StarodubOleg.GPPG.Runtime.dll": {}
-        }
-      },
       "System.AppContext/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -4825,18 +4789,6 @@
         },
         "runtime": {
           "runtimes/win/lib/netstandard1.0/System.Private.Uri.dll": {}
-        }
-      },
-      "StarodubOleg.GPPG.Runtime/0.1.0-alpha1-2": {
-        "type": "package",
-        "dependencies": {
-          "NETStandard.Library": "1.6.0"
-        },
-        "compile": {
-          "lib/netstandard1.6/StarodubOleg.GPPG.Runtime.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.6/StarodubOleg.GPPG.Runtime.dll": {}
         }
       },
       "System.AppContext/4.1.0": {
@@ -6831,16 +6783,6 @@
         "runtime.win7.System.Private.Uri.nuspec",
         "runtimes/aot/lib/netcore50/System.Private.Uri.dll",
         "runtimes/win/lib/netstandard1.0/System.Private.Uri.dll"
-      ]
-    },
-    "StarodubOleg.GPPG.Runtime/0.1.0-alpha1-2": {
-      "sha512": "Y8HRD2aHidDZjCbZth+DlgmszPOVlWUZnmc7GLRVbgcdWr5YAG4VZQt0ubq6/l2rTGCfrpC9TsAmRkAMoJjRlQ==",
-      "type": "package",
-      "path": "StarodubOleg.GPPG.Runtime/0.1.0-alpha1-2",
-      "files": [
-        "StarodubOleg.GPPG.Runtime.0.1.0-alpha1-2.nupkg.sha512",
-        "StarodubOleg.GPPG.Runtime.nuspec",
-        "lib/netstandard1.6/StarodubOleg.GPPG.Runtime.dll"
       ]
     },
     "System.AppContext/4.1.0": {
@@ -10048,8 +9990,7 @@
   "projectFileDependencyGroups": {
     "": [
       "NETStandard.Library >= 1.6.0",
-      "Newtonsoft.Json >= 9.0.1",
-      "StarodubOleg.GPPG.Runtime >= 0.1.0-alpha1-2"
+      "Newtonsoft.Json >= 9.0.1"
     ],
     ".NETStandard,Version=v1.6": []
   },

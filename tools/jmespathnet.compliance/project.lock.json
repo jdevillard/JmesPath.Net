@@ -2091,8 +2091,7 @@
         "framework": ".NETStandard,Version=v1.6",
         "dependencies": {
           "NETStandard.Library": "1.6.0",
-          "Newtonsoft.Json": "9.0.1",
-          "StarodubOleg.GPPG.Runtime": "0.1.0-alpha1-2"
+          "Newtonsoft.Json": "9.0.1"
         }
       }
     }

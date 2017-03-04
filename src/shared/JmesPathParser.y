@@ -18,6 +18,7 @@
 	T_RBRACE,
 	T_LBRACKET,
 	T_RBRACKET,
+	T_LSTRING,
 	T_QSTRING,
 	T_RSTRING,
 	T_USTRING
@@ -38,6 +39,7 @@ expression_impl		: sub_expression
 					| identifier
 					| multi_select_list
 					| multi_select_hash
+					| literal
 					| raw_string
 					;
 
@@ -153,6 +155,12 @@ quoted_string		: T_QSTRING
 unquoted_string		: T_USTRING
 					;
 
+literal				: T_LSTRING
+					{
+						System.Diagnostics.Debug.WriteLine("literal string : {0}", $1.Token);
+						OnLiteralString($1.Token);
+					}
+					;
 raw_string			: T_RSTRING
 					{
 						System.Diagnostics.Debug.WriteLine("raw string : {0}", $1.Token);
