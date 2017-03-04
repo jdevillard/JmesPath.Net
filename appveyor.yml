@@ -18,11 +18,12 @@ before_build:
 
 build_script:
 - dotnet build "src\jmespath.net" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
+- dotnet build "src\jmespath.net.signed" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
 
 after_build:
 
 test_script:
-- dotnet test "tests\jmespath.net.tests" -c %CONFIGURATION%
+- dotnet test "tests\jmespathnet.tests" -c %CONFIGURATION%
 
 cache:
 - '%USERPROFILE%\.nuget\packages'
