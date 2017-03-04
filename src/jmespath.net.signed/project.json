@@ -25,10 +25,7 @@
 	"keyFile": "jmespath.net.snk",
   },
   "scripts": {
-    "precompile": [
-      "dotnet %project:Directory%../../../bin/dotnet-gplex.dll /out:%project:Directory%/../shared/JmesPathScanner.cs %project:Directory%/../shared/JmesPathScanner.lex",
-      "dotnet %project:Directory%../../../bin/dotnet-gppg.dll /gplex /out:%project:Directory%/../shared/JmesPathParser.cs %project:Directory%/../shared/JmesPathParser.y"
-    ],
+    "precompile": [],
     "postcompile": []
   },
   "packOptions": {
