@@ -25,8 +25,39 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{17EC0D83-06FD-45A9-87CE-5A6901204774}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{D7ED4508-6E06-4A3D-84CC-B9C6132F2C37}"
+	ProjectSection(SolutionItems) = preProject
+		src\shared\JmesPath.cs = src\shared\JmesPath.cs
+		src\shared\JmesPathParser.cs = src\shared\JmesPathParser.cs
+		src\shared\JmesPathParser.y = src\shared\JmesPathParser.y
+		src\shared\JmesPathParser_ctor.cs = src\shared\JmesPathParser_ctor.cs
+		src\shared\JmesPathScanner.cs = src\shared\JmesPathScanner.cs
+		src\shared\JmesPathScanner.lex = src\shared\JmesPathScanner.lex
+		src\shared\LiteralStringToken.cs = src\shared\LiteralStringToken.cs
+		src\shared\NumberToken.cs = src\shared\NumberToken.cs
+		src\shared\QuotedStringToken.cs = src\shared\QuotedStringToken.cs
+		src\shared\RawStringToken.cs = src\shared\RawStringToken.cs
+		src\shared\Token.cs = src\shared\Token.cs
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Expressions", "Expressions", "{E60EA8D6-41E7-41D5-A857-EE13F70BA2D9}"
+	ProjectSection(SolutionItems) = preProject
+		src\shared\Expressions\JmesPathArgument.cs = src\shared\Expressions\JmesPathArgument.cs
+		src\shared\Expressions\JmesPathCompoundExpression.cs = src\shared\Expressions\JmesPathCompoundExpression.cs
+		src\shared\Expressions\JmesPathExpression.cs = src\shared\Expressions\JmesPathExpression.cs
+		src\shared\Expressions\JmesPathFlattenProjection.cs = src\shared\Expressions\JmesPathFlattenProjection.cs
+		src\shared\Expressions\JmesPathHashWildcardProjection.cs = src\shared\Expressions\JmesPathHashWildcardProjection.cs
+		src\shared\Expressions\JmesPathIdentifier.cs = src\shared\Expressions\JmesPathIdentifier.cs
+		src\shared\Expressions\JmesPathIndex.cs = src\shared\Expressions\JmesPathIndex.cs
+		src\shared\Expressions\JmesPathIndexExpression.cs = src\shared\Expressions\JmesPathIndexExpression.cs
+		src\shared\Expressions\JmesPathListWildcardProjection.cs = src\shared\Expressions\JmesPathListWildcardProjection.cs
+		src\shared\Expressions\JmesPathLiteral.cs = src\shared\Expressions\JmesPathLiteral.cs
+		src\shared\Expressions\JmesPathMultiSelectHash.cs = src\shared\Expressions\JmesPathMultiSelectHash.cs
+		src\shared\Expressions\JmesPathMultiSelectList.cs = src\shared\Expressions\JmesPathMultiSelectList.cs
+		src\shared\Expressions\JmesPathProjection.cs = src\shared\Expressions\JmesPathProjection.cs
+		src\shared\Expressions\JmesPathRawString.cs = src\shared\Expressions\JmesPathRawString.cs
+		src\shared\Expressions\JmesPathSliceExpression.cs = src\shared\Expressions\JmesPathSliceExpression.cs
+		src\shared\Expressions\JmesPathSubExpression.cs = src\shared\Expressions\JmesPathSubExpression.cs
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{BDDA6016-6E7D-42F2-AA42-AF81017EC6CE}"
 	ProjectSection(SolutionItems) = preProject
