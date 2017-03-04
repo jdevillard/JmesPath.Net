@@ -13,7 +13,11 @@ namespace jmespath.net.compliance
             var cmdLine = CommandLine.Parse(args);
 
             var folder = cmdLine.TestSuitesFolder;
-            var files = Directory.EnumerateFiles(folder, "*.json");
+            var files = Enumerable.Empty<string>();
+            if (Directory.Exists(folder))
+                files = Directory.EnumerateFiles(folder, "*.json");
+            else if (File.Exists(folder))
+                files = new[] { folder };
 
             var compliance = new Compliance();
 
@@ -30,7 +34,7 @@ namespace jmespath.net.compliance
             var succeeded = compliance.TestResults.Count(r => r.Success);
             var failed = total - succeeded;
 
-            var success = (double)succeeded/total;
+            var success = (double)succeeded / total;
 
             ConsoleEx.WriteLine(ConsoleColor.White, $"Compliance summary:");
             ConsoleEx.WriteLine(ConsoleColor.White, $"Success rate: {success:P}, {succeeded}/{total} succeeded, {failed}/{total} failed.");
