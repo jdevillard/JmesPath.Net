@@ -6,8 +6,8 @@
 //
 //  GPLEX Version:  0.1.0.0
 //  Machine:  DESKTOP-UQ0H65F
-//  DateTime: 04/03/2017 17:19:12
-//  GPLEX input file <C:\Projects\jjme\src\jmespath.net/../shared/JmesPathScanner.lex - 04/03/2017 17:06:52>
+//  DateTime: 04/03/2017 18:59:48
+//  GPLEX input file <C:\Projects\jjme\src\jmespath.net/../shared/JmesPathScanner.lex - 04/03/2017 18:58:43>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: verbose, parser, stack, minimize
@@ -124,8 +124,8 @@ namespace DevLab.JmesPath
         
         enum Result {accept, noMatch, contextFound};
 
-        const int maxAccept = 14;
-        const int initial = 15;
+        const int maxAccept = 15;
+        const int initial = 16;
         const int eofNum = 0;
         const int goStart = -1;
         const int INITIAL = 0;
@@ -162,9 +162,9 @@ namespace DevLab.JmesPath
         }
     };
 
-    static int[] startState = new int[] {15, 0};
+    static int[] startState = new int[] {16, 0};
 
-    static Table[] NxS = new Table[27] {
+    static Table[] NxS = new Table[29] {
 /* NxS[   0] */ new Table(0, 0, 0, null), // Shortest string ""
 /* NxS[   1] */ new Table(0, 0, -1, null), // Shortest string "*"
 /* NxS[   2] */ new Table(0, 0, -1, null), // Shortest string ","
@@ -180,91 +180,95 @@ namespace DevLab.JmesPath
           6, 6, 6, 6, 6, -1, -1, -1, -1, 6, -1, 6, 6, 6, 6, 6, 
           6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
           6, 6, 6, 6, 6}),
-/* NxS[   7] */ new Table(0, 0, -1, null), // Shortest string "["
+/* NxS[   7] */ // Shortest string "["
+      new Table(42, 1, -1, new sbyte[] {22}),
 /* NxS[   8] */ new Table(0, 0, -1, null), // Shortest string "]"
 /* NxS[   9] */ new Table(0, 0, -1, null), // Shortest string "{"
 /* NxS[  10] */ new Table(0, 0, -1, null), // Shortest string "}"
 /* NxS[  11] */ new Table(0, 0, -1, null), // Shortest string "``"
 /* NxS[  12] */ // Shortest string "`\\`"
-      new Table(92, 5, 19, new sbyte[] {20, 19, 19, 19, 11}),
-/* NxS[  13] */ new Table(0, 0, -1, null), // Shortest string "''"
-/* NxS[  14] */ new Table(0, 0, -1, null), // Shortest string "\"\""
-/* NxS[  15] */ // Shortest string ""
-      new Table(34, 92, -1, new sbyte[] {16, -1, -1, -1, -1, 17, 
-          -1, -1, 1, -1, 2, 18, 3, -1, 4, 4, 4, 4, 4, 4, 4, 4, 
+      new Table(92, 5, 20, new sbyte[] {21, 20, 20, 20, 11}),
+/* NxS[  13] */ new Table(0, 0, -1, null), // Shortest string "[*]"
+/* NxS[  14] */ new Table(0, 0, -1, null), // Shortest string "''"
+/* NxS[  15] */ new Table(0, 0, -1, null), // Shortest string "\"\""
+/* NxS[  16] */ // Shortest string ""
+      new Table(34, 92, -1, new sbyte[] {17, -1, -1, -1, -1, 18, 
+          -1, -1, 1, -1, 2, 19, 3, -1, 4, 4, 4, 4, 4, 4, 4, 4, 
           4, 4, 5, -1, -1, -1, -1, -1, -1, 6, 6, 6, 6, 6, 6, 6, 
           6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
-          6, 6, 6, 7, -1, 8, -1, 6, 19, 6, 6, 6, 6, 6, 6, 6, 
+          6, 6, 6, 7, -1, 8, -1, 6, 20, 6, 6, 6, 6, 6, 6, 6, 
           6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 
           6, 6, 6, 9, -1, 10}),
-/* NxS[  16] */ // Shortest string "\""
-      new Table(8, 85, 16, new sbyte[] {-1, -1, -1, 16, -1, -1, 
-          16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 
-          16, 16, 16, 16, 14, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 
-          16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 
-          16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 
-          16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 22}),
-/* NxS[  17] */ // Shortest string "'"
-      new Table(39, 54, 17, new sbyte[] {13, 17, 17, 17, 17, 17, 
+/* NxS[  17] */ // Shortest string "\""
+      new Table(8, 85, 17, new sbyte[] {-1, -1, -1, 17, -1, -1, 
+          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
+          17, 17, 17, 17, 15, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
           17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
           17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 21}),
-/* NxS[  18] */ // Shortest string "-"
+          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 24}),
+/* NxS[  18] */ // Shortest string "'"
+      new Table(39, 54, 18, new sbyte[] {14, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 23}),
+/* NxS[  19] */ // Shortest string "-"
       new Table(48, 10, -1, new sbyte[] {4, 4, 4, 4, 4, 4, 
           4, 4, 4, 4}),
-/* NxS[  19] */ // Shortest string "`"
-      new Table(92, 5, 19, new sbyte[] {20, 19, 19, 19, 11}),
-/* NxS[  20] */ // Shortest string "`\\"
-      new Table(92, 5, 19, new sbyte[] {20, 19, 19, 19, 12}),
-/* NxS[  21] */ // Shortest string "'\\"
-      new Table(0, 256, 17, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  22] */ // Shortest string "\"\\"
-      new Table(34, 84, -1, new sbyte[] {16, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, 16, -1, -1, -1, -1, -1, -1, -1, -1, 
+/* NxS[  20] */ // Shortest string "`"
+      new Table(92, 5, 20, new sbyte[] {21, 20, 20, 20, 11}),
+/* NxS[  21] */ // Shortest string "`\\"
+      new Table(92, 5, 20, new sbyte[] {21, 20, 20, 20, 12}),
+/* NxS[  22] */ // Shortest string "[*"
+      new Table(93, 1, -1, new sbyte[] {13}),
+/* NxS[  23] */ // Shortest string "'\\"
+      new Table(0, 256, 18, new sbyte[] {18, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 
+          18, 18, 18, 18, 18, 18, 18, 18, 18, 18}),
+/* NxS[  24] */ // Shortest string "\"\\"
+      new Table(34, 84, -1, new sbyte[] {17, -1, -1, -1, -1, -1, 
+          -1, -1, -1, -1, -1, -1, -1, 17, -1, -1, -1, -1, -1, -1, -1, -1, 
           -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
           -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, 16, -1, -1, -1, -1, -1, 16, -1, -1, -1, 16, -1, 
-          -1, -1, -1, -1, -1, -1, 16, -1, -1, -1, 16, -1, 16, 23}),
-/* NxS[  23] */ // Shortest string "\"\\u"
-      new Table(48, 55, -1, new sbyte[] {24, 24, 24, 24, 24, 24, 
-          24, 24, 24, 24, -1, -1, -1, -1, -1, -1, -1, 24, 24, 24, 24, 24, 
-          24, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 24, 24, 24, 24, 24, 
-          24}),
-/* NxS[  24] */ // Shortest string "\"\\u0"
-      new Table(48, 55, -1, new sbyte[] {25, 25, 25, 25, 25, 25, 
-          25, 25, 25, 25, -1, -1, -1, -1, -1, -1, -1, 25, 25, 25, 25, 25, 
-          25, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 25, 25, 25, 25, 25, 
-          25}),
-/* NxS[  25] */ // Shortest string "\"\\u00"
+          -1, -1, -1, -1, 17, -1, -1, -1, -1, -1, 17, -1, -1, -1, 17, -1, 
+          -1, -1, -1, -1, -1, -1, 17, -1, -1, -1, 17, -1, 17, 25}),
+/* NxS[  25] */ // Shortest string "\"\\u"
       new Table(48, 55, -1, new sbyte[] {26, 26, 26, 26, 26, 26, 
           26, 26, 26, 26, -1, -1, -1, -1, -1, -1, -1, 26, 26, 26, 26, 26, 
           26, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
           -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 26, 26, 26, 26, 26, 
           26}),
-/* NxS[  26] */ // Shortest string "\"\\u000"
-      new Table(48, 55, -1, new sbyte[] {16, 16, 16, 16, 16, 16, 
-          16, 16, 16, 16, -1, -1, -1, -1, -1, -1, -1, 16, 16, 16, 16, 16, 
-          16, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 16, 16, 16, 16, 16, 
-          16}),
+/* NxS[  26] */ // Shortest string "\"\\u0"
+      new Table(48, 55, -1, new sbyte[] {27, 27, 27, 27, 27, 27, 
+          27, 27, 27, 27, -1, -1, -1, -1, -1, -1, -1, 27, 27, 27, 27, 27, 
+          27, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
+          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 27, 27, 27, 27, 27, 
+          27}),
+/* NxS[  27] */ // Shortest string "\"\\u00"
+      new Table(48, 55, -1, new sbyte[] {28, 28, 28, 28, 28, 28, 
+          28, 28, 28, 28, -1, -1, -1, -1, -1, -1, -1, 28, 28, 28, 28, 28, 
+          28, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
+          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 28, 28, 28, 28, 28, 
+          28}),
+/* NxS[  28] */ // Shortest string "\"\\u000"
+      new Table(48, 55, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, 17, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 17, 17, 
+          17, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
+          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 17, 17, 
+          17}),
     };
 
 int NextState() {
@@ -692,8 +696,8 @@ int NextState() {
             if (yywrap())
                 return (int)TokenType.EOF;
             break;
-        case 1: // Recognized '{T_STAR}',	Shortest string "*"
-yylval.Token = Token.Create(TokenType.T_STAR, yytext); return (int)TokenType.T_STAR;
+        case 1: // Recognized '{T_HASHWILDCARD}',	Shortest string "*"
+yylval.Token = Token.Create(TokenType.T_HASHWILDCARD, yytext); return (int)TokenType.T_HASHWILDCARD;
             break;
         case 2: // Recognized '{T_COMMA}',	Shortest string ","
 yylval.Token = Token.Create(TokenType.T_COMMA, yytext); return (int)TokenType.T_COMMA;
@@ -726,10 +730,13 @@ yylval.Token = Token.Create(TokenType.T_RBRACE, yytext); return (int)TokenType.T
         case 12: // Recognized '{T_LSTRING}',	Shortest string "`\\`"
 yylval.Token = Token.Create(TokenType.T_LSTRING, yytext); return (int)TokenType.T_LSTRING;
             break;
-        case 13: // Recognized '{T_RSTRING}',	Shortest string "''"
+        case 13: // Recognized '{T_LISTWILDCARD}',	Shortest string "[*]"
+yylval.Token = Token.Create(TokenType.T_LISTWILDCARD, yytext); return (int)TokenType.T_LISTWILDCARD;
+            break;
+        case 14: // Recognized '{T_RSTRING}',	Shortest string "''"
 yylval.Token = Token.Create(TokenType.T_RSTRING, yytext); return (int)TokenType.T_RSTRING;
             break;
-        case 14: // Recognized '{T_QSTRING}',	Shortest string "\"\""
+        case 15: // Recognized '{T_QSTRING}',	Shortest string "\"\""
 yylval.Token = Token.Create(TokenType.T_QSTRING, yytext); return (int)TokenType.T_QSTRING;
             break;
         default:

@@ -12,7 +12,8 @@
 	T_COLON,
 	T_COMMA,
 	T_DOT,
-	T_STAR,
+	T_HASHWILDCARD,
+	T_LISTWILDCARD,
 	T_NUMBER,
 	T_LBRACE,
 	T_RBRACE,
@@ -69,7 +70,7 @@ bracket_specifier	: T_LBRACKET T_NUMBER T_RBRACKET
 						System.Diagnostics.Debug.WriteLine("bracket_specifier (index): {0}.", $2.Token);
 						OnIndex($2.Token);
 					}
-					| T_LBRACKET T_STAR T_RBRACKET
+					| T_LISTWILDCARD
 					{
 						System.Diagnostics.Debug.WriteLine("bracket_specifier (list wildcard projection).");
 						OnListWildcardProjection();
@@ -142,7 +143,7 @@ identifier_impl		: quoted_string
 					| unquoted_string
 					;
 
-hash_wildcard		: T_STAR
+hash_wildcard		: T_HASHWILDCARD
 					{
 						System.Diagnostics.Debug.WriteLine("wildcard (hash wildcard projection): {0}", $1.Token);
 						OnHashWildcardProjection();
