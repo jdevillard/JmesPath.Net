@@ -1,32 +1,30 @@
 ﻿using System.Collections.Generic;
-using DevLab.JmesPath.Utils;
+using System.Linq;
+using System.Text;
 using Newtonsoft.Json.Linq;
+using DevLab.JmesPath.Utils;
 
 namespace DevLab.JmesPath.Expressions
 {
     public sealed class JmesPathArgument
     {
+        public static JToken JNull = JValue.Parse("null");
+        public static JmesPathArgument Null = new JmesPathArgument(JNull);
+
         public JmesPathArgument(JToken token)
-            : this(token, false)
         {
+            Token = token ?? JNull;
         }
 
-        public JmesPathArgument(IEnumerable<JToken> tokens, bool isProjection)
-            : this(new JArray().AddRange(tokens), isProjection)
+        public JmesPathArgument(IEnumerable<JmesPathArgument> projection)
         {
+            System.Diagnostics.Debug.Assert(projection != null);
+            Projection = projection.ToArray();
         }
 
-        internal JmesPathArgument(JToken token, bool isProjection)
-        {
-            Token = token;
-            IsProjection = isProjection;
-        }
-
-        public JTokenType Type
-            => Token.Type
+        public bool IsProjection
+            => Projection != null
             ;
-
-        public bool IsProjection { get; private set; }
 
         public static implicit operator JmesPathArgument(JToken token)
         {
@@ -34,10 +32,31 @@ namespace DevLab.JmesPath.Expressions
         }
 
         public JToken Token { get; internal set; }
+        public JmesPathArgument[] Projection { get; internal set; }
+
+        public JToken AsJToken()
+        {
+            if (Token != null)
+                return Token;
+
+            var items = new List<JToken>();
+            foreach (var projected in Projection)
+                items.Add(projected.AsJToken());
+
+            return new JArray().AddRange(items);
+        }
 
         public override string ToString()
         {
-            return $"{Token} {(IsProjection ? "(Projection)" : "")}";
+            if (Token != null)
+                return $"T:<{Token}>";
+            else
+            {
+                var builder = new StringBuilder();
+                foreach (var argument in Projection)
+                    builder.Append(argument);
+                return $"P:<{builder.ToString()}>";
+            }
         }
     }
 }

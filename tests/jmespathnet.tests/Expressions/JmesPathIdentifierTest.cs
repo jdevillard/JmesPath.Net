@@ -23,7 +23,7 @@ namespace jmespath.net.tests.Expressions
         public void JmesPathIdentifier_Transform()
         {
             JmesPathIdentifier_Transform("foo", "{\"foo\": \"value\"}", "\"value\"");
-            JmesPathIdentifier_Transform("bar", "{\"foo\": \"value\"}", null);
+            JmesPathIdentifier_Transform("bar", "{\"foo\": \"value\"}", "null");
             JmesPathIdentifier_Transform("foo", "{\"foo\": [0, 1, 2]}", "[0,1,2]");
             JmesPathIdentifier_Transform("with space", "{\"with space\": \"value\"}", "\"value\"");
             JmesPathIdentifier_Transform("special chars: !@#", "{\"special chars: !@#\": \"value\"}", "\"value\"");
@@ -37,7 +37,7 @@ namespace jmespath.net.tests.Expressions
             var token = JToken.Parse(input);
 
             var result = identifier.Transform(token);
-            var actual = result.Token?.AsString();
+            var actual = result.Token.AsString();
 
             Assert.Equal(expected, actual);
         }

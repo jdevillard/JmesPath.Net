@@ -5,14 +5,11 @@ namespace DevLab.JmesPath.Expressions
 {
     public abstract class JmesPathProjection : JmesPathExpression
     {
-        public abstract JToken[] Project(JToken json);
+        public abstract JmesPathArgument Project(JmesPathArgument json);
         
-        public override bool IsProjection => true;
-
-        protected override JToken Transform(JToken json)
+        protected override JmesPathArgument Transform(JToken json)
         {
-            var items = Project(json);
-            return new JArray().AddRange(items);
+            return Project(json);
         }
     }
 }

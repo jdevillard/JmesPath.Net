@@ -1,40 +1,42 @@
 ﻿using System.Collections.Generic;
-using DevLab.JmesPath.Utils;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
 {
     public sealed class JmesPathFlattenProjection : JmesPathProjection
     {
-        public override JToken[] Project(JToken json)
+        public override JmesPathArgument Project(JmesPathArgument argument)
         {
-            var items = new List<JToken>();
-
-            var array = json as JArray;
-            if (array == null)
-                return null;
-
-            foreach (var item in array)
+            if (!argument.IsProjection)
             {
-                var nested = item as JArray;
-                if (nested == null)
-                    items.Add(item);
+                var items = new List<JmesPathArgument>();
 
-                else
-                    items.AddRange(nested);
+                var array = argument.Token as JArray;
+                if (array == null)
+                    return null;
+
+                foreach (var item in array)
+                {
+                    var nested = item as JArray;
+                    if (nested == null)
+                        items.Add(item);
+
+                    else
+                        items.AddRange(nested.Select(i => (JmesPathArgument)i));
+                }
+
+                return new JmesPathArgument(items);
             }
 
-            return items.ToArray();
+            return Project(argument.AsJToken());
         }
 
         public override JmesPathArgument Transform(JmesPathArgument argument)
         {
-            if (!argument.IsProjection)
-                return base.Transform(argument);
-
-            var array = argument.Token as JArray;
-            var items =  Project(array);
-            return new JmesPathArgument(items, IsProjection);
+            if (argument.IsProjection)
+                return Project(argument);
+            return base.Transform(argument);
         }
     }
 }

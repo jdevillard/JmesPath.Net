@@ -20,7 +20,7 @@ namespace DevLab.JmesPath.Expressions
             step_ = step;
         }
 
-        protected override JToken Transform(JToken json)
+        protected override JmesPathArgument Transform(JToken json)
         {
             if (json.Type != JTokenType.Array)
                 return null;

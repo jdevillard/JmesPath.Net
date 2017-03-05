@@ -5,14 +5,21 @@ namespace DevLab.JmesPath.Expressions
 {
     public sealed class JmesPathHashWildcardProjection : JmesPathProjection
     {
-        public override JToken[] Project(JToken json)
+        public override JmesPathArgument Project(JmesPathArgument json)
         {
-            var item = json as JObject;
+            if (json.Projection != null)
+                return json;
 
-            return item?.Properties()
-                .Select(p => p.Value)
-                .ToArray()
+            var item = json.Token as JObject;
+            if (item == null) return JmesPathArgument.Null;
+
+            var hashes =
+                item
+                .Properties()
+                .Select(p => (JmesPathArgument) p.Value)
                 ;
+
+            return new JmesPathArgument(hashes);
         }
     }
 }

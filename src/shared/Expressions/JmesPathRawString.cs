@@ -12,7 +12,7 @@ namespace DevLab.JmesPath.Expressions
 
         public string Value { get; }
 
-        protected override JToken Transform(JToken json)
+        protected override JmesPathArgument Transform(JToken json)
         {
             return new JValue(Value);
         }

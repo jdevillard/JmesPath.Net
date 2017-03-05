@@ -22,9 +22,9 @@ namespace jmespath.net.tests.Expressions
         {
             JmesPathSubExpression_Transform(new[] {"foo", "bar"}, "{\"foo\": {\"bar\": \"value\" }}", "\"value\"");
             JmesPathSubExpression_Transform(new[] { "foo", "bar" }, "{\"foo\": {\"bar\": \"value\" }}", "\"value\"");
-            JmesPathSubExpression_Transform(new[] { "foo", "bar" }, "{\"foo\": {\"baz\": \"value\" }}", null);
+            JmesPathSubExpression_Transform(new[] { "foo", "bar" }, "{\"foo\": {\"baz\": \"value\" }}", "null");
             JmesPathSubExpression_Transform(new[] { "foo", "bar", "baz" }, "{\"foo\": {\"bar\": { \"baz\": \"value\" }}}", "\"value\"");
-            JmesPathSubExpression_Transform(new[] { "foo", "bar", "baz", "bad" }, "{\"foo\": {\"bar\": {\"baz\": \"correct\"}}}", null);            
+            JmesPathSubExpression_Transform(new[] { "foo", "bar", "baz", "bad" }, "{\"foo\": {\"bar\": {\"baz\": \"correct\"}}}", "null");
         }
 
         public void JmesPathSubExpression_Transform(string[] expressions, string input, string expected)
@@ -42,7 +42,7 @@ namespace jmespath.net.tests.Expressions
 
             var token = JToken.Parse(input);
             var result = expression.Transform(token);
-            var actual = result.Token?.AsString();
+            var actual = result.AsJToken().AsString();
 
             Assert.Equal(expected, actual);
         }

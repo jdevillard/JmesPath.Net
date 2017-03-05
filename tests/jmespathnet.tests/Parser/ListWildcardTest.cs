@@ -8,13 +8,16 @@ namespace jmespath.net.tests.Parser
         [Fact]
         public void ParseProjection()
         {
-            const string json = "[{\"foo\": 1}, {\"foo\": 2}, {\"foo\": 3}]";
-            const string expression = "[*].foo";
+            ParseProjection_Transform("[*].foo", "[{\"foo\": 1}, {\"foo\": 2}, {\"foo\": 3}]", "[1,2,3]");
+            ParseProjection_Transform("foo[*].bar[*].kind", "{\"foo\": [{\"bar\": [{\"kind\": \"basic\"}, {\"kind\": \"intermediate\"}]},{\"bar\": [{\"kind\": \"advanced\"}, {\"kind\": \"expert\"}]},{\"bar\": \"string\"}]}", "[[\"basic\",\"intermediate\"],[\"advanced\",\"expert\"]]");
+        }
 
+        private void ParseProjection_Transform(string expression, string input, string expected)
+        {
             var path = new JmesPath();
 
-            var result = path.Transform(json, expression);
-            Assert.Equal("[1,2,3]", result);
+            var result = path.Transform(input, expression);
+            Assert.Equal(expected, result);
         }
     }
 }

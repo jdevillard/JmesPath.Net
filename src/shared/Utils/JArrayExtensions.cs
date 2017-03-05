@@ -16,9 +16,6 @@ namespace DevLab.JmesPath.Utils
         /// <returns></returns>
         public static JArray AddRange(this JArray array, params JToken[] tokens)
         {
-            if (tokens == null)
-                return array;
-
             foreach (var token in tokens)
                 array.Add(token);
 

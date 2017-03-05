@@ -52,8 +52,12 @@ namespace jmespath.net.tests.Expressions
             var token = JToken.Parse(input);
             var result = expression.Transform(token);
 
-            Assert.Equal(JTokenType.Array, result.Type);
-            Assert.Equal(expected, result.Token.AsString());
+            var transformed = result?.AsJToken();
+
+            if (transformed != null)
+                Assert.Equal(JTokenType.Array, transformed.Type);
+
+            Assert.Equal(expected, transformed?.AsString());
         }
     }
 }

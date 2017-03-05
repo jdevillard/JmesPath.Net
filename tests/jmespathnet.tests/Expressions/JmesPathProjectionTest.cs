@@ -61,9 +61,10 @@ namespace jmespath.net.tests.Expressions
         [Fact]
         public void JmesPathProjection_Wildcard_Hash()
         {
-            var identifier = new JmesPathIdentifier("foo");
-            var wildcard = new JmesPathHashWildcardProjection();
-            var expression = new JmesPathSubExpression(wildcard, identifier);
+            var expression = new JmesPathSubExpression(
+                new JmesPathHashWildcardProjection(),
+                new JmesPathIdentifier("foo")
+                );
 
             JmesPathProjection_Transform(expression, "{\"a\": {\"foo\": 1}, \"b\": {\"foo\": 2}, \"c\": {\"bar\": 1}}", "[1,2]");
         }
@@ -95,11 +96,33 @@ namespace jmespath.net.tests.Expressions
             JmesPathProjection_Transform(expression, "{ \"toto\": [[{\"first\": [[0, 1], 2, [3, 4]]}, {\"first\": 5}], [{\"first\": 6}], [[{\"first\": 7}]]] }", "[0,1,2,3,4,5,6,7]");
         }
 
+        /*
+         * Compliance
+         * 
+         * search(foo.*.bar[0], { "foo": {\"a\": {\"bar\": [0, 2]}, \"b\": {\"bar\": [1, 3]}}}) -> [0, 1]
+         * 
+         */
+
+        [Fact]
+        public void JmesPathProjection_Compliance()
+        {
+            var expression = new JmesPathIndexExpression(
+                new JmesPathSubExpression(
+                    new JmesPathSubExpression(
+                        new JmesPathIdentifier("foo"),
+                        new JmesPathHashWildcardProjection()
+                        ),
+                    new JmesPathIdentifier("bar")),
+                new JmesPathIndex(0)
+                );
+
+            JmesPathProjection_Transform(expression, "{ \"foo\": {\"a\": {\"bar\": [0, 2]}, \"b\": {\"bar\": [1, 3]}}}", "[0,1]");
+        }
         public void JmesPathProjection_Transform(JmesPathExpression expression, string input, string expected)
         {
             var token = JToken.Parse(input);
             var result = expression.Transform(token);
-            var actual = result.Token.AsString();
+            var actual = result.AsJToken().AsString();
 
             Assert.Equal(expected, actual);
         }

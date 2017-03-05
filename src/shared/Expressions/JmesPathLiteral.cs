@@ -15,7 +15,7 @@ namespace DevLab.JmesPath.Expressions
 
         public JToken Value => value_;
 
-        protected override JToken Transform(JToken json)
+        protected override JmesPathArgument Transform(JToken json)
         {
             return value_;
         }

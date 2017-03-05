@@ -26,20 +26,16 @@ namespace DevLab.JmesPath.Expressions
             right_ = right;
         }
 
-        public override bool IsProjection
-            => right_.IsProjection
-            ;
-
         protected JmesPathExpression Left
             => left_;
 
         protected JmesPathExpression Right
             => right_;
 
-        protected override JToken Transform(JToken json)
+        protected override JmesPathArgument Transform(JToken json)
         {
             var token = left_.Transform(json);
-            return token?.Token == null ? null : right_.Transform(token)?.Token;
+            return right_.Transform(token);
         }
     }
 }

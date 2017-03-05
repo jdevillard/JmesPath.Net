@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
@@ -11,6 +10,9 @@ namespace DevLab.JmesPath.Expressions
     {
         /// <summary>
         /// Evaluates the expression against the specified JSON object.
+        /// The result cannot be null and is:
+        /// either a valid JSON found in the resulting <see cref="JmesPathArgument"/>'s Token property.
+        /// or a projection found in the resulting <see cref="JmesPathArgument"/>'s Projection property.
         /// </summary>
         /// <param name="argument"></param>
         /// <returns></returns>
@@ -18,25 +20,27 @@ namespace DevLab.JmesPath.Expressions
         {
             if (argument.IsProjection)
             {
-                var array = argument.Token as JArray;
-                System.Diagnostics.Debug.Assert(array != null);
-                var items = new List<JToken>();
-                foreach (var token in array)
+                var items = new List<JmesPathArgument>();
+                foreach (var projected in argument.Projection)
                 {
-                    var item = Transform(token);
-                    if (item != null)
+                    var item = Transform(projected);
+                    if (item.IsProjection)
+                        items.Add(item);
+                    else if (item.Token != JmesPathArgument.JNull)
                         items.Add(item);
                 }
 
-                return new JmesPathArgument(items, IsProjection);
+                return new JmesPathArgument(items);
             }
 
-            var result = Transform(argument.Token);
-            return new JmesPathArgument(result, IsProjection);
+            return Transform(argument.Token) ?? JmesPathArgument.Null;
         }
 
-        public virtual bool IsProjection { get; } = false;
-
-        protected abstract JToken Transform(JToken json);
+        /// <summary>
+        /// Evaluates the expression against the specified JSON.
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        protected abstract JmesPathArgument Transform(JToken json);
     }
 }

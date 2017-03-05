@@ -20,7 +20,7 @@ namespace DevLab.JmesPath.Expressions
                 expressions_.Add(expression);
         }
 
-        protected override JToken Transform(JToken json)
+        protected override JmesPathArgument Transform(JToken json)
         {
             var items = new List<JToken>();
             foreach (var expression in expressions_)

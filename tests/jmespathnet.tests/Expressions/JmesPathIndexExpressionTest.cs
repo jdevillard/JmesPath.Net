@@ -21,11 +21,11 @@ namespace jmespath.net.tests.Expressions
             JmesPathIndexExpression_Transform("foo", 0, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"first\"");
             JmesPathIndexExpression_Transform("foo", 1, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"second\"");
             JmesPathIndexExpression_Transform("foo", 2, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"third\"");
-            JmesPathIndexExpression_Transform("foo", 3, "{\"foo\": [\"first\", \"second\", \"third\"]}", null);
+            JmesPathIndexExpression_Transform("foo", 3, "{\"foo\": [\"first\", \"second\", \"third\"]}", "null");
             JmesPathIndexExpression_Transform("foo", -1, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"third\"");
             JmesPathIndexExpression_Transform("foo", -2, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"second\"");
             JmesPathIndexExpression_Transform("foo", -3, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"first\"");
-            JmesPathIndexExpression_Transform("foo", -4, "{\"foo\": [\"first\", \"second\", \"third\"]}", null);
+            JmesPathIndexExpression_Transform("foo", -4, "{\"foo\": [\"first\", \"second\", \"third\"]}", "null");
         }
 
         [Fact]
@@ -45,7 +45,7 @@ namespace jmespath.net.tests.Expressions
                     new JmesPathIndex(0))
                 ;
 
-            JmesPathIndexExpression_Transform(expression, "{\"foo\": { \"bar\": [[\"one\", \"two\"], [\"three\", \"four\"]] }}", null);
+            JmesPathIndexExpression_Transform(expression, "{\"foo\": { \"bar\": [[\"one\", \"two\"], [\"three\", \"four\"]] }}", "null");
         }
 
         public void JmesPathIndexExpression_Transform(string identifier, int specifier, string input, string expected)
@@ -63,7 +63,7 @@ namespace jmespath.net.tests.Expressions
             var json = JToken.Parse(input);
 
             var result = index.Transform(json);
-            var actual = result.Token?.AsString();
+            var actual = result.AsJToken().AsString();
 
             Assert.Equal(expected, actual);
         }
