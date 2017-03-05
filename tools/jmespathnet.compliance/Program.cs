@@ -26,7 +26,7 @@ namespace jmespath.net.compliance
                 var name = Path.GetFileName(path);
                 ConsoleEx.WriteLine(ConsoleColor.Cyan, $"Executing compliance test {name}...");
 
-                var content = File.ReadAllText(path);
+                var content = File.ReadAllText(path, new UTF8Encoding(false));
                 compliance.RunTestSuite(content);
             }
 

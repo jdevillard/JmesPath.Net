@@ -60,6 +60,9 @@ namespace jmespath.net.compliance
 
             var result = EvaluateExpression(document, expression);
 
+            if (result.Success)
+                result.Success = CompareJson(expected, result.Result);
+
             var succeeded = result.Success;
             var color = succeeded ? ConsoleColor.Green : ConsoleColor.Yellow;
             var message = succeeded ? "Succeeded" : "Failed";
