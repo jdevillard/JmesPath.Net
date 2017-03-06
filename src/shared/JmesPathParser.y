@@ -120,15 +120,53 @@ expressions			: expression
 					}
 					;
 
-slice_expression	: T_NUMBER T_COLON T_NUMBER
+slice_expression	: T_COLON
 					{
-						System.Diagnostics.Debug.WriteLine("bracket_specifier : [{0}:{1}].", $1.Token, $3.Token);
+						OnSliceExpression(null, null, null);
+					}
+					| T_NUMBER T_COLON
+					{
+						OnSliceExpression($1.Token, null, null);
+					}
+					| T_NUMBER T_COLON          T_COLON
+					{
+						OnSliceExpression($1.Token, null, null);
+					}
+					| T_NUMBER T_COLON T_NUMBER
+					{
+						OnSliceExpression($1.Token, $3.Token, null);
+					}
+					| T_NUMBER T_COLON T_NUMBER T_COLON
+					{
 						OnSliceExpression($1.Token, $3.Token, null);
 					}
 					| T_NUMBER T_COLON T_NUMBER T_COLON T_NUMBER
 					{
-						System.Diagnostics.Debug.WriteLine("bracket_specifier : [{0}:{1}:{2}].", $1.Token, $3.Token, $5.Token);
 						OnSliceExpression($1.Token, $3.Token, $5.Token);
+					}
+					| T_NUMBER T_COLON          T_COLON T_NUMBER
+					{
+						OnSliceExpression($1.Token, null, $4.Token);
+					}
+					|          T_COLON T_NUMBER
+					{
+						OnSliceExpression(null, $2.Token, null);
+					}
+					|          T_COLON T_NUMBER T_COLON
+					{
+						OnSliceExpression(null, $2.Token, null);
+					}
+					|          T_COLON T_NUMBER T_COLON T_NUMBER
+					{
+						OnSliceExpression(null, $2.Token, $4.Token);
+					}
+					|          T_COLON          T_COLON T_NUMBER
+					{
+						OnSliceExpression(null, null, $3.Token);
+					}
+					|          T_COLON          T_COLON
+					{
+						OnSliceExpression(null, null, null);
 					}
 					;
 

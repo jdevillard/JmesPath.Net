@@ -54,23 +54,23 @@ namespace DevLab.JmesPath.Expressions
 
                 // if a negative start position is given, it is calculated as the total length of the array plus the given start position.
 
-                if (start < 0)
-                    start = length + start;
+                if (start_.GetValueOrDefault() < 0)
+                    start = length + start_.Value;
 
                 // if no stop position is given, it is assumed to be the length of the array if the given step is greater than 0 or 0 if the given step is less than 0.
 
-                var stop = stop_ ?? (step > 0 ? length : 0);
+                var stop = stop_ ?? (step > 0 ? length : -1);
 
                 // if a negative stop position is given, it is calculated as the total length of the array plus the given stop position.
 
-                if (stop < 0)
-                    stop = length + stop;
+                if (stop_.GetValueOrDefault() < 0)
+                    stop = length + stop_.Value;
 
                 // if the element being sliced is an array and yields no results, the result MUST be an empty array.
 
                 var items = new List<JToken>();
 
-                for (var index = start; (stop > 0 ? index < stop : index >= stop); index += step)
+                for (var index = start; (step > 0 ? index < stop : index > stop); index += step)
                     if (index >= 0 && index < length)
                         items.Add(array[index]);
 
