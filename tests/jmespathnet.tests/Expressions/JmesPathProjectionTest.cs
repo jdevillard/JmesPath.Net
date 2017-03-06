@@ -7,6 +7,34 @@ namespace jmespath.net.tests.Expressions
 {
     public class JmesPathProjectionTest
     {
+        [Fact]
+        public void JmesPathProjection_Slice()
+        {
+            // expression foo[0:2].a
+
+            JmesPathExpression expression = new JmesPathSubExpression(
+                new JmesPathIndexExpression(
+                    new JmesPathIdentifier("foo"),
+                    new JmesPathSliceProjection(0, 2, null)
+                    ),
+                new JmesPathIdentifier("a")
+                );
+
+            JmesPathProjection_Transform(expression, "{\"foo\": [{\"a\": 1}, {\"a\": 2}, {\"a\": 3}, {\"a\": 4}]}", "[1,2]");
+
+            // expression foo[0:2][0:1]
+
+            expression = new JmesPathIndexExpression(
+                new JmesPathIndexExpression(
+                    new JmesPathIdentifier("foo"),
+                    new JmesPathSliceProjection(0, 2, null)
+                    ),
+                new JmesPathSliceProjection(0, 1, null)
+                );
+
+            JmesPathProjection_Transform(expression, "{\"foo\": [[1, 2, 3], [4, 5, 6]]}", "[[1],[4]]");
+        }
+
         /*
          * http://jmespath.org/specification.html#flatten-operator
          * 

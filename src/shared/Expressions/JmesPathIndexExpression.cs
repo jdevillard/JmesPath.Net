@@ -10,7 +10,7 @@ namespace DevLab.JmesPath.Expressions
         {
             System.Diagnostics.Debug.Assert(
                 specifier is JmesPathIndex ||
-                specifier is JmesPathSliceExpression ||
+                specifier is JmesPathSliceProjection ||
                 specifier is JmesPathFlattenProjection ||
                 specifier is JmesPathListWildcardProjection ||
                 false

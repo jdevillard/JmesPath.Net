@@ -28,35 +28,51 @@ namespace jmespath.net.tests.Expressions
         [Fact]
         public void JmesPathSliceExpression_Transform()
         {
-            JmesPathSliceExpression_Transform(new int?[3] { (int?)0, (int?)4, (int?)1 }, "[0, 1, 2, 3]", "[0,1,2,3]");
-            JmesPathSliceExpression_Transform(new int?[3] {(int?)0, (int?)4, null}, "[0, 1, 2, 3]", "[0,1,2,3]");
-            JmesPathSliceExpression_Transform(new int?[3] { (int?)0, (int?)3, (int?)null }, "[0, 1, 2, 3]", "[0,1,2]");
-            JmesPathSliceExpression_Transform(new int?[3] { (int?)null, (int?)2, (int?)null }, "[0, 1, 2, 3]", "[0,1]");
-            JmesPathSliceExpression_Transform(new int?[3] { (int?)null, (int?)null, (int?)2 }, "[0, 1, 2, 3]", "[0,2]");
-            JmesPathSliceExpression_Transform(new int?[3] { (int?)null, (int?)null, (int?)-1 }, "[0, 1, 2, 3]", "[3,2,1,0]");
-            JmesPathSliceExpression_Transform(new int?[3] { (int?)-2, (int?)null, (int?)null }, "[0, 1, 2, 3]", "[2,3]");
+            JmesPathSliceExpression_Transform(new int?[] { 0, 4, 1 }, "[0, 1, 2, 3]", "[0,1,2,3]");
+            JmesPathSliceExpression_Transform(new int?[] {0, 4, null}, "[0, 1, 2, 3]", "[0,1,2,3]");
+            JmesPathSliceExpression_Transform(new int?[] { 0, 3, null }, "[0, 1, 2, 3]", "[0,1,2]");
+            JmesPathSliceExpression_Transform(new int?[] { null, 2, null }, "[0, 1, 2, 3]", "[0,1]");
+            JmesPathSliceExpression_Transform(new int?[] { null, null, 2 }, "[0, 1, 2, 3]", "[0,2]");
+            JmesPathSliceExpression_Transform(new int?[] { null, null, -1 }, "[0, 1, 2, 3]", "[3,2,1,0]");
+            JmesPathSliceExpression_Transform(new int?[] { -2, null, null }, "[0, 1, 2, 3]", "[2,3]");
 
-            JmesPathSliceExpression_Transform(new int?[3] { (int?)-8, (int?)3, (int?)2 }, "[0, 1, 2, 3]", "[0,2]");
-            JmesPathSliceExpression_Transform(new int?[3] { (int?)-8, (int?)-3, (int?)-2 }, "[0, 1, 2, 3]", "[]");
-            JmesPathSliceExpression_Transform(new int?[3] { (int?)8, (int?)2, (int?)7 }, "[0, 1, 2, 3]", "[]");
-            JmesPathSliceExpression_Transform(new int?[3] { (int?)null, (int?)null, (int?)null }, "[0, 1, 2, 3]", "[0,1,2,3]");
+            JmesPathSliceExpression_Transform(new int?[] { -8, 3, 2 }, "[0, 1, 2, 3]", "[0,2]");
+            JmesPathSliceExpression_Transform(new int?[] { -8, -3, -2 }, "[0, 1, 2, 3]", "[]");
+            JmesPathSliceExpression_Transform(new int?[] { 8, 2, 7 }, "[0, 1, 2, 3]", "[]");
+            JmesPathSliceExpression_Transform(new int?[] { null, null, null }, "[0, 1, 2, 3]", "[0,1,2,3]");
+        }
+
+        [Fact]
+        public void JmesPathSliceExpression_Compliance()
+        {
+            var expression = new JmesPathIndexExpression(
+                new JmesPathIdentifier("foo"),
+                new JmesPathSliceProjection(null, 10, null)
+                );
+
+            JmesPathSliceExpression_Transform(expression, "{\"foo\": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],\"bar\": {\"baz\": 1}}", "[0,1,2,3,4,5,6,7,8,9]");
         }
 
         public void JmesPathSliceExpression_Transform(int?[] numbers, string input, string expected)
         {
             System.Diagnostics.Debug.Assert(numbers.Length == 3);
 
-            JmesPathExpression expression = new JmesPathSliceExpression(
+            JmesPathExpression expression = new JmesPathSliceProjection(
                 numbers[0],
                 numbers[1],
                 numbers[2]
                 );
 
+            JmesPathSliceExpression_Transform(expression, input, expected);
+        }
+
+        private void JmesPathSliceExpression_Transform(JmesPathExpression expression, string input, string expected)
+        {
             var json = JToken.Parse(input);
             var result = expression.Transform(json);
-            var actual = result.Token.AsString();
+            var actual = result.AsJToken().AsString();
 
             Assert.Equal(expected, actual);
         }
     }
-}
+    }

@@ -102,7 +102,7 @@ namespace DevLab.JmesPath
             var stopIndex = (int?)stop?.Value;
             var stepIndex = (int?)step?.Value;
 
-            var sliceExpression = new JmesPathSliceExpression(startIndex, stopIndex, stepIndex);
+            var sliceExpression = new JmesPathSliceProjection(startIndex, stopIndex, stepIndex);
 
             expressions_.Push(sliceExpression);
         }
