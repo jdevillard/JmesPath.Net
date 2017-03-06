@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using DevLab.JmesPath.Utils;
 
 namespace DevLab.JmesPath.Expressions
 {
@@ -29,7 +30,7 @@ namespace DevLab.JmesPath.Expressions
                 items.Add(result);
             }
 
-            return new JArray(items);
+            return new JArray().AddRange(items);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace DevLab.JmesPath.Expressions
             System.Diagnostics.Debug.Assert(
                 subExpression is JmesPathIdentifier ||
                 subExpression is JmesPathMultiSelectHash ||
-                subExpression is JmesPathMultiSelectHash ||
+                subExpression is JmesPathMultiSelectList ||
                 subExpression is JmesPathHashWildcardProjection ||
                 false
                 );
