@@ -53,6 +53,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Expressions", "Expressions"
 		src\shared\Expressions\JmesPathLiteral.cs = src\shared\Expressions\JmesPathLiteral.cs
 		src\shared\Expressions\JmesPathMultiSelectHash.cs = src\shared\Expressions\JmesPathMultiSelectHash.cs
 		src\shared\Expressions\JmesPathMultiSelectList.cs = src\shared\Expressions\JmesPathMultiSelectList.cs
+		src\shared\Expressions\JmesPathPipeExpression.cs = src\shared\Expressions\JmesPathPipeExpression.cs
 		src\shared\Expressions\JmesPathProjection.cs = src\shared\Expressions\JmesPathProjection.cs
 		src\shared\Expressions\JmesPathRawString.cs = src\shared\Expressions\JmesPathRawString.cs
 		src\shared\Expressions\JmesPathSliceProjection.cs = src\shared\Expressions\JmesPathSliceProjection.cs

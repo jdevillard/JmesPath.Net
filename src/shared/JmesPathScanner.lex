@@ -11,8 +11,8 @@ EOL             (\r\n?|\n)
 T_COLON         :
 T_COMMA         ,
 T_DOT           \.
-T_HASHWILDCARD	\*
-T_LISTWILDCARD	\[\*\]
+T_STAR			\*
+T_PIPE			\|
 T_NUMBER		\-?[0-9]+
 T_LSTRING		`[^`]*((\\`)*[^`]*)*`
 T_QSTRING		\"[^\"\\\b\f\n\r\t]*((\\[\"\\/bfnrt]|\\u[0-9a-fA-F]{4})+[^\"\\\b\f\n\r\t]*)*\"
@@ -32,8 +32,8 @@ T_RBRACKET		\]
 {T_COLON}			{ yylval.Token = Token.Create(TokenType.T_COLON, yytext); return (int)TokenType.T_COLON; }
 {T_COMMA}			{ yylval.Token = Token.Create(TokenType.T_COMMA, yytext); return (int)TokenType.T_COMMA; }
 {T_DOT}				{ yylval.Token = Token.Create(TokenType.T_DOT, yytext); return (int)TokenType.T_DOT; }
-{T_HASHWILDCARD}	{ yylval.Token = Token.Create(TokenType.T_HASHWILDCARD, yytext); return (int)TokenType.T_HASHWILDCARD; }
-{T_LISTWILDCARD}	{ yylval.Token = Token.Create(TokenType.T_LISTWILDCARD, yytext); return (int)TokenType.T_LISTWILDCARD; }
+{T_STAR}			{ yylval.Token = Token.Create(TokenType.T_STAR, yytext); return (int)TokenType.T_STAR; }
+{T_PIPE}			{ yylval.Token = Token.Create(TokenType.T_PIPE, yytext); return (int)TokenType.T_PIPE; }
 {T_NUMBER}			{ yylval.Token = Token.Create(TokenType.T_NUMBER, yytext); return (int)TokenType.T_NUMBER; }
 {T_LSTRING}			{ yylval.Token = Token.Create(TokenType.T_LSTRING, yytext); return (int)TokenType.T_LSTRING; }
 {T_QSTRING}			{ yylval.Token = Token.Create(TokenType.T_QSTRING, yytext); return (int)TokenType.T_QSTRING; }

@@ -12,8 +12,8 @@
 	T_COLON,
 	T_COMMA,
 	T_DOT,
-	T_HASHWILDCARD,
-	T_LISTWILDCARD,
+	T_STAR,
+	T_PIPE,
 	T_NUMBER,
 	T_LBRACE,
 	T_RBRACE,
@@ -24,6 +24,11 @@
 	T_RSTRING,
 	T_USTRING
 
+%left T_PIPE
+%left T_DOT
+%left T_LBRACKET
+%left T_STAR
+%left T_RBRACKET
 
 %start expression
 
@@ -41,6 +46,7 @@ expression_impl		: sub_expression
 					| multi_select_list
 					| multi_select_hash
 					| literal
+					| pipe_expression
 					| raw_string
 					;
 
@@ -70,7 +76,7 @@ bracket_specifier	: T_LBRACKET T_NUMBER T_RBRACKET
 						System.Diagnostics.Debug.WriteLine("bracket_specifier (index): {0}.", $2.Token);
 						OnIndex($2.Token);
 					}
-					| T_LISTWILDCARD
+					| T_LBRACKET T_STAR T_RBRACKET
 					{
 						System.Diagnostics.Debug.WriteLine("bracket_specifier (list wildcard projection).");
 						OnListWildcardProjection();
@@ -117,6 +123,12 @@ expressions			: expression
 					| expressions T_COMMA expression
 					{
 						AddMultiSelectListExpression();
+					}
+					;
+
+pipe_expression		: expression T_PIPE expression
+					{
+						OnPipeExpression();
 					}
 					;
 
@@ -181,7 +193,7 @@ identifier_impl		: quoted_string
 					| unquoted_string
 					;
 
-hash_wildcard		: T_HASHWILDCARD
+hash_wildcard		: T_STAR
 					{
 						System.Diagnostics.Debug.WriteLine("wildcard (hash wildcard projection): {0}", $1.Token);
 						OnHashWildcardProjection();

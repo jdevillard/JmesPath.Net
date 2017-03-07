@@ -32,22 +32,25 @@ namespace DevLab.JmesPath
 
         private void OnExpression()
         {
-            expression_ = expressions_.Pop();
+            if (expression_ == null)
+                expression_ = expressions_.Pop();
         }
 
-        private void OnSubExpression()
+        #region Implementation
+
+        private void Prolog()
         {
-            var mainExpression = expression_;
-            var nestedExpression = expressions_.Pop();
-
-            var subExpression = new JmesPathSubExpression(mainExpression, nestedExpression);
-
-            expressions_.Push(subExpression);
+            if (expression_ != null)
+                expressions_.Push(expression_);
             expression_ = null;
         }
 
+        #endregion
+
         private void OnIdentifier(Token token)
         {
+            Prolog();
+
             var @string = (string)token.Value;
             var expression = new JmesPathIdentifier(@string);
             expressions_.Push(expression);
@@ -55,6 +58,8 @@ namespace DevLab.JmesPath
 
         private void OnLiteralString(Token token)
         {
+            Prolog();
+
             var @string = (JToken)token.Value;
             var expression = new JmesPathLiteral(@string);
             expressions_.Push(expression);
@@ -62,16 +67,47 @@ namespace DevLab.JmesPath
 
         private void OnRawString(Token token)
         {
+            Prolog();
+
             var @string = (string)token.Value;
             var expression = new JmesPathRawString(@string);
             expressions_.Push(expression);
         }
 
+        private void OnSubExpression()
+        {
+            Prolog();
+
+            System.Diagnostics.Debug.Assert(expressions_.Count >= 2);
+
+            var right = expressions_.Pop();
+            var left = expressions_.Pop();
+
+            var expression = new JmesPathSubExpression(left, right);
+
+            expressions_.Push(expression);
+        }
+
+        private void OnPipeExpression()
+        {
+            Prolog();
+
+            System.Diagnostics.Debug.Assert(expressions_.Count >= 2);
+
+            var right = expressions_.Pop();
+            var left = expressions_.Pop();
+
+            var expression = new JmesPathPipeExpression(left, right);
+
+            expressions_.Push(expression);
+        }
 
         #region index_expression
 
         private void OnIndex(Token token)
         {
+            Prolog();
+
             var number = token as NumberToken;
 
             System.Diagnostics.Debug.Assert(token.Type == TokenType.T_NUMBER);
@@ -86,16 +122,22 @@ namespace DevLab.JmesPath
 
         private void OnIndexExpression()
         {
-            var expression = expression_;
-            var specifier = expressions_.Pop();
+            Prolog();
 
-            var indexExpression = new JmesPathIndexExpression(expression, specifier);
+            System.Diagnostics.Debug.Assert(expressions_.Count >= 2);
 
-            expressions_.Push(indexExpression);
+            var right = expressions_.Pop();
+            var left = expressions_.Pop();
+
+            var expression = new JmesPathIndexExpression(left, right);
+
+            expressions_.Push(expression);
         }
 
         private void OnSliceExpression(Token start, Token stop, Token step)
         {
+            Prolog();
+
             System.Diagnostics.Debug.Assert(start == null || start is NumberToken);
             System.Diagnostics.Debug.Assert(stop == null || stop is NumberToken);
             System.Diagnostics.Debug.Assert(step == null || step is NumberToken);
@@ -120,9 +162,12 @@ namespace DevLab.JmesPath
 
         private void AddMultiSelectHashExpression()
         {
-            System.Diagnostics.Debug.Assert(expression_ != null);
-            System.Diagnostics.Debug.Assert(expressions_.Count > 0);
+            Prolog();
+
+            System.Diagnostics.Debug.Assert(expressions_.Count >= 2);
             System.Diagnostics.Debug.Assert(selectHashes_.Count > 0);
+
+            var expression = expressions_.Pop();
 
             var identifier = expressions_.Pop() as JmesPathIdentifier;
             System.Diagnostics.Debug.Assert(identifier != null);
@@ -130,8 +175,7 @@ namespace DevLab.JmesPath
             System.Diagnostics.Debug.Assert(name != null);
 
             var items = selectHashes_.Peek();
-            items.Add(name, expression_);
-            expression_ = null;
+            items.Add(name, expression);
         }
 
         private void PopMultiSelectHash()
@@ -153,11 +197,12 @@ namespace DevLab.JmesPath
 
         private void AddMultiSelectListExpression()
         {
-            System.Diagnostics.Debug.Assert(expression_ != null);
+            Prolog();
+
             System.Diagnostics.Debug.Assert(selectLists_.Count > 0);
+            var expression = expressions_.Pop();
             var items = selectLists_.Peek();
-            items.Add(expression_);
-            expression_ = null;
+            items.Add(expression);
         }
 
         private void PopMultiSelectList()
@@ -175,16 +220,22 @@ namespace DevLab.JmesPath
 
         private void OnFlattenProjection()
         {
+            Prolog();
+
             expressions_.Push(new JmesPathFlattenProjection());
         }
 
         private void OnHashWildcardProjection()
         {
+            Prolog();
+
             expressions_.Push(new JmesPathHashWildcardProjection());
         }
 
         private void OnListWildcardProjection()
         {
+            Prolog();
+
             expressions_.Push(new JmesPathListWildcardProjection());
         }
 
