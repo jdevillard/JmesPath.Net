@@ -1,11 +1,10 @@
-using Newtonsoft.Json.Linq;
-using Xunit;
 using DevLab.JmesPath.Expressions;
-using DevLab.JmesPath.Utils;
 
 namespace jmespath.net.tests.Expressions
 {
-    public class JmesPathIndexExpressionTest
+    using FactAttribute = Xunit.FactAttribute;
+
+    public class JmesPathIndexExpressionTest : JmesPathExpressionsTestBase
     {
         /*
          * http://jmespath.org/specification.html#index-expressions
@@ -18,14 +17,14 @@ namespace jmespath.net.tests.Expressions
         [Fact]
         public void JmesPathIndexExpression_Transform()
         {
-            JmesPathIndexExpression_Transform("foo", 0, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"first\"");
-            JmesPathIndexExpression_Transform("foo", 1, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"second\"");
-            JmesPathIndexExpression_Transform("foo", 2, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"third\"");
-            JmesPathIndexExpression_Transform("foo", 3, "{\"foo\": [\"first\", \"second\", \"third\"]}", "null");
-            JmesPathIndexExpression_Transform("foo", -1, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"third\"");
-            JmesPathIndexExpression_Transform("foo", -2, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"second\"");
-            JmesPathIndexExpression_Transform("foo", -3, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"first\"");
-            JmesPathIndexExpression_Transform("foo", -4, "{\"foo\": [\"first\", \"second\", \"third\"]}", "null");
+            Assert("foo", 0, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"first\"");
+            Assert("foo", 1, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"second\"");
+            Assert("foo", 2, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"third\"");
+            Assert("foo", 3, "{\"foo\": [\"first\", \"second\", \"third\"]}", "null");
+            Assert("foo", -1, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"third\"");
+            Assert("foo", -2, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"second\"");
+            Assert("foo", -3, "{\"foo\": [\"first\", \"second\", \"third\"]}", "\"first\"");
+            Assert("foo", -4, "{\"foo\": [\"first\", \"second\", \"third\"]}", "null");
         }
 
         [Fact]
@@ -45,27 +44,17 @@ namespace jmespath.net.tests.Expressions
                     new JmesPathIndex(0))
                 ;
 
-            JmesPathIndexExpression_Transform(expression, "{\"foo\": { \"bar\": [[\"one\", \"two\"], [\"three\", \"four\"]] }}", "null");
+            Assert(expression, "{\"foo\": { \"bar\": [[\"one\", \"two\"], [\"three\", \"four\"]] }}", "null");
         }
 
-        public void JmesPathIndexExpression_Transform(string identifier, int specifier, string input, string expected)
+        private void Assert(string identifier, int specifier, string input, string expected)
         {
             JmesPathExpression index = new JmesPathIndexExpression(
                 new JmesPathIdentifier(identifier),
                 new JmesPathIndex(specifier)
                 );
 
-            JmesPathIndexExpression_Transform(index, input, expected);
-        }
-
-        private static void JmesPathIndexExpression_Transform(JmesPathExpression index, string input, string expected)
-        {
-            var json = JToken.Parse(input);
-
-            var result = index.Transform(json);
-            var actual = result.AsJToken().AsString();
-
-            Assert.Equal(expected, actual);
+            Assert(index, input, expected);
         }
     }
 }

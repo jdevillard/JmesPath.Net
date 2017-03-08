@@ -1,11 +1,10 @@
-using Newtonsoft.Json.Linq;
-using Xunit;
 using DevLab.JmesPath.Expressions;
-using DevLab.JmesPath.Utils;
 
 namespace jmespath.net.tests.Expressions
 {
-    public class JmesPathSubExpressionTest
+    using FactAttribute = Xunit.FactAttribute;
+
+    public class JmesPathSubExpressionTest : JmesPathExpressionsTestBase
     {
         /*
          * http://jmespath.org/specification.html#subexpressions
@@ -20,14 +19,14 @@ namespace jmespath.net.tests.Expressions
         [Fact]
         public void JmesPathSubExpression_Transform()
         {
-            JmesPathSubExpression_Transform(new[] {"foo", "bar"}, "{\"foo\": {\"bar\": \"value\" }}", "\"value\"");
-            JmesPathSubExpression_Transform(new[] { "foo", "bar" }, "{\"foo\": {\"bar\": \"value\" }}", "\"value\"");
-            JmesPathSubExpression_Transform(new[] { "foo", "bar" }, "{\"foo\": {\"baz\": \"value\" }}", "null");
-            JmesPathSubExpression_Transform(new[] { "foo", "bar", "baz" }, "{\"foo\": {\"bar\": { \"baz\": \"value\" }}}", "\"value\"");
-            JmesPathSubExpression_Transform(new[] { "foo", "bar", "baz", "bad" }, "{\"foo\": {\"bar\": {\"baz\": \"correct\"}}}", "null");
+            Assert(new[] {"foo", "bar"}, "{\"foo\": {\"bar\": \"value\" }}", "\"value\"");
+            Assert(new[] { "foo", "bar" }, "{\"foo\": {\"bar\": \"value\" }}", "\"value\"");
+            Assert(new[] { "foo", "bar" }, "{\"foo\": {\"baz\": \"value\" }}", "null");
+            Assert(new[] { "foo", "bar", "baz" }, "{\"foo\": {\"bar\": { \"baz\": \"value\" }}}", "\"value\"");
+            Assert(new[] { "foo", "bar", "baz", "bad" }, "{\"foo\": {\"bar\": {\"baz\": \"correct\"}}}", "null");
         }
 
-        public void JmesPathSubExpression_Transform(string[] expressions, string input, string expected)
+        private void Assert(string[] expressions, string input, string expected)
         {
             JmesPathExpression expression = null;
 
@@ -40,11 +39,7 @@ namespace jmespath.net.tests.Expressions
                     ;
             }
 
-            var token = JToken.Parse(input);
-            var result = expression.Transform(token);
-            var actual = result.AsJToken().AsString();
-
-            Assert.Equal(expected, actual);
+            Assert(expression, input, expected);
         }
     }
 }

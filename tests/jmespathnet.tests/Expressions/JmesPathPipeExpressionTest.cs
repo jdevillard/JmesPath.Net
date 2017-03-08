@@ -1,11 +1,10 @@
-using Newtonsoft.Json.Linq;
-using Xunit;
 using DevLab.JmesPath.Expressions;
-using DevLab.JmesPath.Utils;
 
 namespace jmespath.net.tests.Expressions
 {
-    public class JmesPathPipeExpressionTest
+    using FactAttribute = Xunit.FactAttribute;
+
+    public class JmesPathPipeExpressionTest : JmesPathExpressionsTestBase
     {
         /*
          * http://jmespath.org/specification.html#pipe-expressions
@@ -30,7 +29,7 @@ namespace jmespath.net.tests.Expressions
                 new JmesPathIdentifier("bar")
                 );
 
-            JmesPathPipeExpression_Transform(expression, "{\"foo\": {\"bar\": \"baz\"}}", "\"baz\"");
+            Assert(expression, "{\"foo\": {\"bar\": \"baz\"}}", "\"baz\"");
 
             expression = new JmesPathPipeExpression(
                 new JmesPathSubExpression(
@@ -42,24 +41,15 @@ namespace jmespath.net.tests.Expressions
                new JmesPathIndex(0)
                );
 
-            JmesPathPipeExpression_Transform(expression, "{\"foo\": [{\"bar\": [\"first1\", \"second1\"]},{\"bar\": [\"first2\", \"second2\"]}]}", "[\"first1\",\"second1\"]");
-            JmesPathPipeExpression_Transform(expression, "{\"foo\": [{\"bar\": [\"first1\", \"second1\"]},{\"bar\": [\"first2\", \"second2\"]}]}", "[\"first1\",\"second1\"]");
+            Assert(expression, "{\"foo\": [{\"bar\": [\"first1\", \"second1\"]},{\"bar\": [\"first2\", \"second2\"]}]}", "[\"first1\",\"second1\"]");
+            Assert(expression, "{\"foo\": [{\"bar\": [\"first1\", \"second1\"]},{\"bar\": [\"first2\", \"second2\"]}]}", "[\"first1\",\"second1\"]");
 
             expression = new JmesPathPipeExpression(
                 new JmesPathIdentifier("foo"),
                 new JmesPathIndex(0)
                 );
 
-            JmesPathPipeExpression_Transform(expression, "{\"foo\": [0, 1, 2]}", "0");
-        }
-
-        private void JmesPathPipeExpression_Transform(JmesPathExpression expression, string input, string expected)
-        {
-            var json = JToken.Parse(input);
-            var result = expression.Transform(json);
-            var actual = result.AsJToken().AsString();
-
-            Assert.Equal(expected, actual);
+            Assert(expression, "{\"foo\": [0, 1, 2]}", "0");
         }
     }
 }

@@ -1,11 +1,10 @@
-using Newtonsoft.Json.Linq;
-using Xunit;
 using DevLab.JmesPath.Expressions;
-using DevLab.JmesPath.Utils;
 
 namespace jmespath.net.tests.Expressions
 {
-    public class JmesPathIdentifierTest
+    using FactAttribute = Xunit.FactAttribute;
+
+    public class JmesPathIdentifierTest : JmesPathExpressionsTestBase
     {
         /*
          * http://jmespath.org/specification.html#identifiers
@@ -22,24 +21,19 @@ namespace jmespath.net.tests.Expressions
         [Fact]
         public void JmesPathIdentifier_Transform()
         {
-            JmesPathIdentifier_Transform("foo", "{\"foo\": \"value\"}", "\"value\"");
-            JmesPathIdentifier_Transform("bar", "{\"foo\": \"value\"}", "null");
-            JmesPathIdentifier_Transform("foo", "{\"foo\": [0, 1, 2]}", "[0,1,2]");
-            JmesPathIdentifier_Transform("with space", "{\"with space\": \"value\"}", "\"value\"");
-            JmesPathIdentifier_Transform("special chars: !@#", "{\"special chars: !@#\": \"value\"}", "\"value\"");
-            JmesPathIdentifier_Transform("quote\"char", "{\"quote\\\"char\": \"value\"}", "\"value\"");
-            JmesPathIdentifier_Transform("\u2713", "{\"\u2713\": \"value\"}", "\"value\"");
+            Assert("foo", "{\"foo\": \"value\"}", "\"value\"");
+            Assert("bar", "{\"foo\": \"value\"}", "null");
+            Assert("foo", "{\"foo\": [0, 1, 2]}", "[0,1,2]");
+            Assert("with space", "{\"with space\": \"value\"}", "\"value\"");
+            Assert("special chars: !@#", "{\"special chars: !@#\": \"value\"}", "\"value\"");
+            Assert("quote\"char", "{\"quote\\\"char\": \"value\"}", "\"value\"");
+            Assert("\u2713", "{\"\u2713\": \"value\"}", "\"value\"");
         }
 
-        private void JmesPathIdentifier_Transform(string expression, string input, string expected)
+        private void Assert(string identifier, string input, string expected)
         {
-            var identifier = new JmesPathIdentifier(expression);
-            var token = JToken.Parse(input);
-
-            var result = identifier.Transform(token);
-            var actual = result.Token.AsString();
-
-            Assert.Equal(expected, actual);
+            var expression = new JmesPathIdentifier(identifier);
+            Assert(expression, input, expected);
         }
     }
 }

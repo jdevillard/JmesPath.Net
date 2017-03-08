@@ -1,11 +1,10 @@
-using Newtonsoft.Json.Linq;
-using Xunit;
 using DevLab.JmesPath.Expressions;
-using DevLab.JmesPath.Utils;
 
 namespace jmespath.net.tests.Expressions
 {
-    public class JmesPathMultiSelectListTest
+    using FactAttribute = Xunit.FactAttribute;
+
+    public class JmesPathMultiSelectListTest : JmesPathExpressionsTestBase
     {
         /*
          * http://jmespath.org/specification.html#multiselect-list
@@ -23,8 +22,8 @@ namespace jmespath.net.tests.Expressions
                 new JmesPathIdentifier("foo"),
                 new JmesPathIdentifier("bar"));
 
-            JmesPathMultiSelectList_Transform(expression, "{\"foo\": \"a\", \"bar\": \"b\", \"baz\": \"c\"}", "[\"a\",\"b\"]");
-            JmesPathMultiSelectList_Transform(expression, "{\"foo\": \"a\", \"baz\": \"b\"}", "[\"a\",null]");
+            Assert(expression, "{\"foo\": \"a\", \"bar\": \"b\", \"baz\": \"c\"}", "[\"a\",\"b\"]");
+            Assert(expression, "{\"foo\": \"a\", \"baz\": \"b\"}", "[\"a\",null]");
 
             expression = new JmesPathMultiSelectList(
                 new JmesPathIdentifier("foo"),
@@ -34,7 +33,7 @@ namespace jmespath.net.tests.Expressions
                     )
                 );
 
-            JmesPathMultiSelectList_Transform(expression, "{\"foo\": \"a\", \"bar\": {\"baz\": \"b\"}}", "[\"a\",\"b\"]");
+            Assert(expression, "{\"foo\": \"a\", \"bar\": {\"baz\": \"b\"}}", "[\"a\",\"b\"]");
 
             expression = new JmesPathMultiSelectList(
                 new JmesPathIdentifier("foo"),
@@ -44,20 +43,7 @@ namespace jmespath.net.tests.Expressions
                     )
                 );
 
-            JmesPathMultiSelectList_Transform(expression, "{\"foo\": \"a\", \"bar\": [\"b\"], \"baz\": \"c\"}", "[\"a\",\"b\"]");
-        }
-
-        public void JmesPathMultiSelectList_Transform(JmesPathMultiSelectList expression, string input, string expected)
-        {
-            var token = JToken.Parse(input);
-            var result = expression.Transform(token);
-
-            var transformed = result?.AsJToken();
-
-            if (transformed != null)
-                Assert.Equal(JTokenType.Array, transformed.Type);
-
-            Assert.Equal(expected, transformed?.AsString());
+            Assert(expression, "{\"foo\": \"a\", \"bar\": [\"b\"], \"baz\": \"c\"}", "[\"a\",\"b\"]");
         }
     }
 }

@@ -1,11 +1,10 @@
-using Newtonsoft.Json.Linq;
-using Xunit;
 using DevLab.JmesPath.Expressions;
-using DevLab.JmesPath.Utils;
 
 namespace jmespath.net.tests.Expressions
 {
-    public class JmesPathProjectionTest
+    using FactAttribute = Xunit.FactAttribute;
+
+    public class JmesPathProjectionTest : JmesPathExpressionsTestBase
     {
         [Fact]
         public void JmesPathProjection_Slice()
@@ -20,7 +19,7 @@ namespace jmespath.net.tests.Expressions
                 new JmesPathIdentifier("a")
                 );
 
-            JmesPathProjection_Transform(expression, "{\"foo\": [{\"a\": 1}, {\"a\": 2}, {\"a\": 3}, {\"a\": 4}]}", "[1,2]");
+            Assert(expression, "{\"foo\": [{\"a\": 1}, {\"a\": 2}, {\"a\": 3}, {\"a\": 4}]}", "[1,2]");
 
             // expression foo[0:2][0:1]
 
@@ -32,7 +31,7 @@ namespace jmespath.net.tests.Expressions
                 new JmesPathSliceProjection(0, 1, null)
                 );
 
-            JmesPathProjection_Transform(expression, "{\"foo\": [[1, 2, 3], [4, 5, 6]]}", "[[1],[4]]");
+            Assert(expression, "{\"foo\": [[1, 2, 3], [4, 5, 6]]}", "[[1],[4]]");
         }
 
         /*
@@ -47,9 +46,9 @@ namespace jmespath.net.tests.Expressions
         [Fact]
         public void JmesPathProjection_Flatten()
         {
-            JmesPathProjection_Transform(new JmesPathFlattenProjection(), "[[0, 1], 2, [3], 4, [5, [6, 7]]]", "[0,1,2,3,4,5,[6,7]]");
-            JmesPathProjection_Transform(new JmesPathFlattenProjection(), "[0, 1, 2, 3, 4, 5, [6, 7]]", "[0,1,2,3,4,5,6,7]");
-            JmesPathProjection_Transform(new JmesPathIndexExpression(new JmesPathFlattenProjection(), new JmesPathFlattenProjection()), "[[0, 1], 2, [3], 4, [5, [6, 7]]]", "[0,1,2,3,4,5,6,7]");
+            Assert(new JmesPathFlattenProjection(), "[[0, 1], 2, [3], 4, [5, [6, 7]]]", "[0,1,2,3,4,5,[6,7]]");
+            Assert(new JmesPathFlattenProjection(), "[0, 1, 2, 3, 4, 5, [6, 7]]", "[0,1,2,3,4,5,6,7]");
+            Assert(new JmesPathIndexExpression(new JmesPathFlattenProjection(), new JmesPathFlattenProjection()), "[[0, 1], 2, [3], 4, [5, [6, 7]]]", "[0,1,2,3,4,5,6,7]");
         }
 
         /*
@@ -69,14 +68,14 @@ namespace jmespath.net.tests.Expressions
             JmesPathProjection wildcard = new JmesPathListWildcardProjection();
             JmesPathExpression expression = new JmesPathSubExpression(wildcard, identifier);
 
-            JmesPathProjection_Transform(expression, "[{\"foo\": 1}, {\"foo\": 2}, {\"foo\": 3}]", "[1,2,3]");
-            JmesPathProjection_Transform(expression, "[{\"foo\": 1}, {\"foo\": 2}, {\"bar\": 3}]", "[1,2]");
+            Assert(expression, "[{\"foo\": 1}, {\"foo\": 2}, {\"foo\": 3}]", "[1,2,3]");
+            Assert(expression, "[{\"foo\": 1}, {\"foo\": 2}, {\"bar\": 3}]", "[1,2]");
 
             identifier = new JmesPathIndex(0);
             wildcard = new JmesPathListWildcardProjection();
             expression = new JmesPathIndexExpression(wildcard, identifier);
 
-            JmesPathProjection_Transform(expression, "[\"foo\", \"bar\"]", "[]");
+            Assert(expression, "[\"foo\", \"bar\"]", "[]");
         }
 
         /*
@@ -94,7 +93,7 @@ namespace jmespath.net.tests.Expressions
                 new JmesPathIdentifier("foo")
                 );
 
-            JmesPathProjection_Transform(expression, "{\"a\": {\"foo\": 1}, \"b\": {\"foo\": 2}, \"c\": {\"bar\": 1}}", "[1,2]");
+            Assert(expression, "{\"a\": {\"foo\": 1}, \"b\": {\"foo\": 2}, \"c\": {\"bar\": 1}}", "[1,2]");
         }
 
         /*
@@ -120,8 +119,8 @@ namespace jmespath.net.tests.Expressions
                 new JmesPathFlattenProjection()
                 );
 
-            JmesPathProjection_Transform(expression, "{ \"toto\": [{\"first\": 0}, {\"first\": 1}, {\"first\": 2}, {\"first\": 3}] }", "[0,1,2,3]");
-            JmesPathProjection_Transform(expression, "{ \"toto\": [[{\"first\": [[0, 1], 2, [3, 4]]}, {\"first\": 5}], [{\"first\": 6}], [[{\"first\": 7}]]] }", "[0,1,2,3,4,5,6,7]");
+            Assert(expression, "{ \"toto\": [{\"first\": 0}, {\"first\": 1}, {\"first\": 2}, {\"first\": 3}] }", "[0,1,2,3]");
+            Assert(expression, "{ \"toto\": [[{\"first\": [[0, 1], 2, [3, 4]]}, {\"first\": 5}], [{\"first\": 6}], [[{\"first\": 7}]]] }", "[0,1,2,3,4,5,6,7]");
         }
 
         /*
@@ -144,15 +143,7 @@ namespace jmespath.net.tests.Expressions
                 new JmesPathIndex(0)
                 );
 
-            JmesPathProjection_Transform(expression, "{ \"foo\": {\"a\": {\"bar\": [0, 2]}, \"b\": {\"bar\": [1, 3]}}}", "[0,1]");
-        }
-        public void JmesPathProjection_Transform(JmesPathExpression expression, string input, string expected)
-        {
-            var token = JToken.Parse(input);
-            var result = expression.Transform(token);
-            var actual = result.AsJToken().AsString();
-
-            Assert.Equal(expected, actual);
+            Assert(expression, "{ \"foo\": {\"a\": {\"bar\": [0, 2]}, \"b\": {\"bar\": [1, 3]}}}", "[0,1]");
         }
     }
 }

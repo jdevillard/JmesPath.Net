@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
-using Xunit;
 using DevLab.JmesPath.Expressions;
-using DevLab.JmesPath.Utils;
 
 namespace jmespath.net.tests.Expressions
 {
+    using FactAttribute = Xunit.FactAttribute;
+
     /*
      * http://jmespath.org/specification.html#multiselect-hash
      * 
@@ -20,7 +19,7 @@ namespace jmespath.net.tests.Expressions
      * 
      */
 
-    public class JmesPathMultiSelectHashTest
+    public class JmesPathMultiSelectHashTest : JmesPathExpressionsTestBase
     {
         [Fact]
         public void JmesPathMultiSelectHash()
@@ -33,8 +32,8 @@ namespace jmespath.net.tests.Expressions
                 }
                 );
 
-            JmesPathMultiSelectList_Transform(expression, "{\"foo\": \"a\", \"bar\": \"b\", \"baz\": \"c\"}", "{\"foo\":\"a\",\"bar\":\"b\"}");
-            JmesPathMultiSelectList_Transform(expression, "{\"foo\": \"a\", \"baz\": \"b\"}", "{\"foo\":\"a\",\"bar\":null}");
+            Assert(expression, "{\"foo\": \"a\", \"bar\": \"b\", \"baz\": \"c\"}", "{\"foo\":\"a\",\"bar\":\"b\"}");
+            Assert(expression, "{\"foo\": \"a\", \"baz\": \"b\"}", "{\"foo\":\"a\",\"bar\":null}");
 
             expression = new JmesPathMultiSelectHash(
                 new Dictionary<string, JmesPathExpression>
@@ -48,7 +47,7 @@ namespace jmespath.net.tests.Expressions
                 }
                 );
 
-            JmesPathMultiSelectList_Transform(expression, "{\"foo\": \"a\", \"bar\": {\"baz\": \"b\"}}", "{\"foo\":\"a\",\"bar.baz\":\"b\"}");
+            Assert(expression, "{\"foo\": \"a\", \"bar\": {\"baz\": \"b\"}}", "{\"foo\":\"a\",\"bar.baz\":\"b\"}");
 
             expression = new JmesPathMultiSelectHash(
                 new Dictionary<string, JmesPathExpression>
@@ -62,20 +61,7 @@ namespace jmespath.net.tests.Expressions
                 }
                 );
 
-            JmesPathMultiSelectList_Transform(expression, "{\"foo\": \"a\", \"bar\": [\"b\"]}", "{\"foo\":\"a\",\"firstbar\":\"b\"}");
-        }
-
-        public void JmesPathMultiSelectList_Transform(JmesPathMultiSelectHash expression, string input, string expected)
-        {
-            var token = JToken.Parse(input);
-            var result = expression.Transform(token);
-
-            var transformed = result?.AsJToken();
-
-            if (transformed != null)
-                Assert.Equal(JTokenType.Object, transformed.Type);
-
-            Assert.Equal(expected, transformed?.AsString());
+            Assert(expression, "{\"foo\": \"a\", \"bar\": [\"b\"]}", "{\"foo\":\"a\",\"firstbar\":\"b\"}");
         }
     }
 }
