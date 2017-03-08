@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
@@ -26,7 +27,7 @@ namespace DevLab.JmesPath.Expressions
                     var item = Transform(projected);
                     if (item.IsProjection)
                         items.Add(item);
-                    else if (item.Token != JmesPathArgument.JNull)
+                    else if (item.Token != JTokens.Null)
                         items.Add(item);
                 }
 

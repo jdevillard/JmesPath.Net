@@ -9,22 +9,32 @@
        	}
 
 %token
+
+	T_AND,
+	T_OR,
+	T_NOT,
+
 	T_COLON,
 	T_COMMA,
 	T_DOT,
 	T_STAR,
 	T_PIPE,
+
 	T_NUMBER,
-	T_LBRACE,
-	T_RBRACE,
-	T_LBRACKET,
-	T_RBRACKET,
 	T_LSTRING,
 	T_QSTRING,
 	T_RSTRING,
-	T_USTRING
+	T_USTRING,
+
+	T_LBRACE,
+	T_RBRACE,
+	T_LBRACKET,
+	T_RBRACKET
 
 %left T_PIPE
+%left T_OR
+%left T_AND
+%left T_NOT
 %left T_DOT
 %left T_LBRACKET
 %left T_STAR
@@ -41,8 +51,11 @@ expression			: expression_impl
 
 expression_impl		: sub_expression
 					| index_expression
-					| hash_wildcard
+					| or_expression
 					| identifier
+					| and_expression
+					| not_expression
+					| hash_wildcard
 					| multi_select_list
 					| multi_select_hash
 					| literal
@@ -86,6 +99,42 @@ bracket_specifier	: T_LBRACKET T_NUMBER T_RBRACKET
 					{
 						System.Diagnostics.Debug.WriteLine("bracket_specifier (flattening projection).");
 						OnFlattenProjection();
+					}
+					;
+
+or_expression		: expression T_OR expression
+					{
+						OnOrExpression();
+					}
+					;
+
+identifier			: identifier_impl
+					{
+						System.Diagnostics.Debug.WriteLine("identifier ({0}): {1}.", $1.Token.Type, $1.Token);
+						OnIdentifier($1.Token);
+					}
+					;
+					
+identifier_impl		: quoted_string
+					| unquoted_string
+					;
+
+and_expression		: expression T_AND expression
+					{
+						OnAndExpression();
+					}
+					;
+
+not_expression		: T_NOT expression
+					{
+						OnNotExpression();
+					}
+					;
+
+hash_wildcard		: T_STAR
+					{
+						System.Diagnostics.Debug.WriteLine("wildcard (hash wildcard projection): {0}", $1.Token);
+						OnHashWildcardProjection();
 					}
 					;
 
@@ -179,24 +228,6 @@ slice_expression	: T_COLON
 					|          T_COLON          T_COLON
 					{
 						OnSliceExpression(null, null, null);
-					}
-					;
-
-identifier			: identifier_impl
-					{
-						System.Diagnostics.Debug.WriteLine("identifier ({0}): {1}.", $1.Token.Type, $1.Token);
-						OnIdentifier($1.Token);
-					}
-					;
-					
-identifier_impl		: quoted_string
-					| unquoted_string
-					;
-
-hash_wildcard		: T_STAR
-					{
-						System.Diagnostics.Debug.WriteLine("wildcard (hash wildcard projection): {0}", $1.Token);
-						OnHashWildcardProjection();
 					}
 					;
 

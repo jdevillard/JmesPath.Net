@@ -1,16 +1,12 @@
-﻿using System;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
 {
     /// <summary>
     /// Represents a pipe expression that stops projections.
     /// </summary>
-    public class JmesPathPipeExpression : JmesPathExpression
+    public class JmesPathPipeExpression : JmesPathCompoundExpression
     {
-        private readonly JmesPathExpression left_;
-        private readonly JmesPathExpression right_;
-
         /// <summary>
         /// Initialize a new instance of the <see cref="JmesPathPipeExpression"/> class
         /// with two <see cref="JmesPathExpression"/> objects.
@@ -18,18 +14,21 @@ namespace DevLab.JmesPath.Expressions
         /// <param name="left"></param>
         /// <param name="right"></param>
         public JmesPathPipeExpression(JmesPathExpression left, JmesPathExpression right)
+            : base(left, right)
         {
-            if (left == null) throw new ArgumentNullException(nameof(left));
-            if (right == null) throw new ArgumentNullException(nameof(right));
-
-            left_ = left;
-            right_ = right;
         }
 
         protected override JmesPathArgument Transform(JToken json)
         {
-            var token = left_.Transform(json);
-            return right_.Transform(token.AsJToken());
+            // stop projections after
+            // evaluating the left expression
+
+            var token = Left
+                .Transform(json)
+                .AsJToken()
+                ;
+
+            return Right.Transform(token);
         }
     }
 }

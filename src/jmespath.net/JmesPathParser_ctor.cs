@@ -89,6 +89,46 @@ namespace DevLab.JmesPath
             expressions_.Push(expression);
         }
 
+        private void OnOrExpression()
+        {
+            Prolog();
+
+            System.Diagnostics.Debug.Assert(expressions_.Count >= 2);
+
+            var right = expressions_.Pop();
+            var left = expressions_.Pop();
+
+            var expression = new JmesPathOrExpression(left, right);
+
+            expressions_.Push(expression);
+        }
+
+        private void OnAndExpression()
+        {
+            Prolog();
+
+            System.Diagnostics.Debug.Assert(expressions_.Count >= 2);
+
+            var right = expressions_.Pop();
+            var left = expressions_.Pop();
+
+            var expression = new JmesPathAndExpression(left, right);
+
+            expressions_.Push(expression);
+        }
+
+        private void OnNotExpression()
+        {
+            Prolog();
+
+            System.Diagnostics.Debug.Assert(expressions_.Count >= 1);
+
+            var expression = expressions_.Pop();
+            var negated = new JmesPathNotExpression(expression);
+
+            expressions_.Push(negated);
+        }
+
         private void OnPipeExpression()
         {
             Prolog();

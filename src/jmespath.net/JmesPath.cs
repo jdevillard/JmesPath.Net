@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using Newtonsoft.Json.Linq;
 using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Utils;
-using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath
 {

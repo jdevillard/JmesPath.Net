@@ -4,7 +4,8 @@ using Newtonsoft.Json.Linq;
 namespace DevLab.JmesPath.Expressions
 {
     /// <summary>
-    /// Represents the base class for a JmesPath sub or index expression.
+    /// Represents the base class for a JmesPath expression that
+    /// operates on a sequence of two expressions.
     /// </summary>
     public class JmesPathCompoundExpression : JmesPathExpression
     {

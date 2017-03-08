@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
@@ -8,17 +9,18 @@ namespace DevLab.JmesPath.Expressions
 {
     public sealed class JmesPathArgument
     {
-        public static JToken JNull = JValue.Parse("null");
-        public static JmesPathArgument Null = new JmesPathArgument(JNull);
+        public static JmesPathArgument Null = new JmesPathArgument(JTokens.Null);
+        public static JmesPathArgument True = new JmesPathArgument(JTokens.True);
+        public static JmesPathArgument False = new JmesPathArgument(JTokens.False);
 
         public JmesPathArgument(JToken token)
         {
-            Token = token ?? JNull;
+            Token = token ?? JTokens.Null;
         }
 
         public JmesPathArgument(IEnumerable<JmesPathArgument> projection)
         {
-            System.Diagnostics.Debug.Assert(projection != null);
+            Debug.Assert(projection != null);
             Projection = projection.ToArray();
         }
 
@@ -46,6 +48,13 @@ namespace DevLab.JmesPath.Expressions
             return new JArray().AddRange(items);
         }
 
+        public static bool IsFalse(JmesPathArgument argument)
+        {
+            var token = argument.AsJToken();
+            return JTokens.IsFalse(token);
+        }
+
+#if DEBUG
         public override string ToString()
         {
             if (Token != null)
@@ -58,5 +67,6 @@ namespace DevLab.JmesPath.Expressions
                 return $"P:<{builder.ToString()}>";
             }
         }
+#endif
     }
 }
