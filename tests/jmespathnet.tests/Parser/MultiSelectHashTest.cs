@@ -1,20 +1,17 @@
-using Xunit;
-using DevLab.JmesPath;
-
 namespace jmespath.net.tests.Parser
 {
-    public class MultiSelectHashTest
+    using FactAttribute = Xunit.FactAttribute;
+
+    public class MultiSelectHashTest: ParserTestBase
     {
         [Fact]
         public void ParseMultiSelectHash()
         {
             const string input = "{\"foo\": \"value\"}";
             const string expression = "{\"bar\": foo}";
+            const string expected = "{\"bar\":\"value\"}";
 
-            var path = new JmesPath();
-
-            var result = path.Transform(input, expression);
-            Assert.Equal("{\"bar\":\"value\"}", result);
+            Assert(expression, input, expected);
         }
 
         [Fact]
@@ -22,11 +19,9 @@ namespace jmespath.net.tests.Parser
         {
             const string input = "{\"foo\": \"value\"}";
             const string expression = "{\"bar\": foo,\"baz\":'bazvalue'}";
+            const string expected = "{\"bar\":\"value\",\"baz\":\"bazvalue\"}";
 
-            var path = new JmesPath();
-
-            var result = path.Transform(input, expression);
-            Assert.Equal("{\"bar\":\"value\",\"baz\":\"bazvalue\"}", result);
+            Assert(expression, input, expected);
         }
     }
 }

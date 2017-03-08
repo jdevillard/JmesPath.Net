@@ -1,9 +1,8 @@
-﻿using Xunit;
-using DevLab.JmesPath;
-
-namespace jmespath.net.tests.Parser
+﻿namespace jmespath.net.tests.Parser
 {
-    public class LiteralTest
+    using FactAttribute = Xunit.FactAttribute;
+
+    public class LiteralTest : ParserTestBase
     {
         [Fact]
         public void ParseLiteralString()
@@ -14,11 +13,9 @@ namespace jmespath.net.tests.Parser
              */
             const string json = "{\"foo\": [\"first\",\"second\"]}";
             const string expression = "`\"foo\"`";
+            const string expected = "\"foo\"";
 
-            var path = new JmesPath();
-
-            var result = path.Transform(json, expression);
-            Assert.Equal("\"foo\"", result);
+            Assert(expression, json, expected);
         }
 
         [Fact]
@@ -26,11 +23,9 @@ namespace jmespath.net.tests.Parser
         {
             const string json = "{\"foo\": [\"first\",\"second\"]}";
             const string expression = "{\"a\":`\"foo\"`}";
+            const string expected = "{\"a\":\"foo\"}";
 
-            var path = new JmesPath();
-
-            var result = path.Transform(json, expression);
-            Assert.Equal("{\"a\":\"foo\"}", result);
+            Assert(expression, json, expected);
         }
 
         [Fact]
@@ -38,11 +33,9 @@ namespace jmespath.net.tests.Parser
         {
             const string json = "{\"foo\": [\"first\",\"second\"]}";
             const string expression = "`{\"foo\": [\"first\",\"second\"]}`.foo";
+            const string expected = "[\"first\",\"second\"]";
 
-            var path = new JmesPath();
-
-            var result = path.Transform(json, expression);
-            Assert.Equal("[\"first\",\"second\"]", result);
+            Assert(expression, json, expected);
         }
 
         [Fact]
@@ -50,11 +43,9 @@ namespace jmespath.net.tests.Parser
         {
             const string json = "{\"foo\": [\"first\",\"second\"]}";
             const string expression = "`[\"first\",\"second\"]`[0]";
+            const string expected = "\"first\"";
 
-            var path = new JmesPath();
-
-            var result = path.Transform(json, expression);
-            Assert.Equal("\"first\"", result);
+            Assert(expression, json, expected);
         }
 
         [Fact]
@@ -62,11 +53,9 @@ namespace jmespath.net.tests.Parser
         {
             const string json = "{\"foo\": [\"first\",\"second\"]}";
             const string expression = "{\"bar\":`{\"foo\": [\"first\",\"second\"]}`.foo}";
+            const string expected = "{\"bar\":[\"first\",\"second\"]}";
 
-            var path = new JmesPath();
-
-            var result = path.Transform(json, expression);
-            Assert.Equal("{\"bar\":[\"first\",\"second\"]}", result);
+            Assert(expression, json, expected);
         }
     }
 }

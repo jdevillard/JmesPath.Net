@@ -1,19 +1,18 @@
-using Xunit;
-using DevLab.JmesPath;
+
 namespace jmespath.net.tests.Parser
 {
-    public class SubExpressionTest
+    using FactAttribute = Xunit.FactAttribute;
+
+    public class SubExpressionTest : ParserTestBase
     {
         [Fact]
         public void ParseSubExpression_Identifier()
         {
             const string input = "{\"foo\": {\"bar\": \"baz\"}}";
             const string expression = "foo.bar";
+            const string expected = "\"baz\"";
 
-            var path = new JmesPath();
-
-            var result = path.Transform(input, expression);
-            Assert.Equal("\"baz\"", result);
+            Assert(expression, input, expected);
         }
 
         [Fact]
@@ -21,11 +20,9 @@ namespace jmespath.net.tests.Parser
         {
             const string input = "{\"foo\": {\"a\": 1, \"b\": 2}}";
             const string expression = "foo.*";
+            const string expected = "[1,2]";
 
-            var path = new JmesPath();
-
-            var result = path.Transform(input, expression);
-            Assert.Equal("[1,2]", result);
+            Assert(expression, input, expected);
         }
     }
 }

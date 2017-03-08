@@ -1,20 +1,17 @@
-﻿using Xunit;
-using DevLab.JmesPath;
-
-namespace jmespath.net.tests.Parser
+﻿namespace jmespath.net.tests.Parser
 {
-    public class IdentifierTest
+    using FactAttribute = Xunit.FactAttribute;
+
+    public class IdentifierTest : ParserTestBase
     {
         [Fact]
         public void ParseIdentifier()
         {
             const string input = "{\"foo\": \"value\"}";
             const string expression = "foo";
+            const string expected = "\"value\"";
 
-            var path = new JmesPath();
-
-            var result = path.Transform(input, expression);
-            Assert.Equal("\"value\"", result);
+            Assert(expression, input, expected);
         }
     }
 }

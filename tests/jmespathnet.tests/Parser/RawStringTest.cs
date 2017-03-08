@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Xunit;
-using DevLab.JmesPath;
-
+﻿
 namespace jmespath.net.tests.Parser
 {
-    public class RawStringTest
+    using FactAttribute = Xunit.FactAttribute;
+
+    public class RawStringTest : ParserTestBase
     {
         [Fact]
         public void ParseRawString()
@@ -19,11 +15,9 @@ namespace jmespath.net.tests.Parser
              */
             const string json = "{\"foo\": [\"first\",\"second\"]}";
             const string expression = "'foo\\'\\a\\\\'";
+            const string expected = "\"foo'\\\\a\\\\\\\\\"";
 
-            var path = new JmesPath();
-
-            var result = path.Transform(json, expression);
-            Assert.Equal("\"foo'\\\\a\\\\\\\\\"", result);
+            Assert(expression, json, expected);
         }
     }
 }

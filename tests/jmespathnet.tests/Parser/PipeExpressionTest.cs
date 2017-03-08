@@ -1,9 +1,9 @@
-﻿using Xunit;
-using DevLab.JmesPath;
-
+﻿
 namespace jmespath.net.tests.Parser
 {
-    public class PipeExpressionTest
+    using FactAttribute = Xunit.FactAttribute;
+
+    public class PipeExpressionTest : ParserTestBase
     {
         [Fact]
         public void ParsePipeExpression()
@@ -12,7 +12,7 @@ namespace jmespath.net.tests.Parser
             const string expression = "foo | bar";
             const string expected = "\"baz\"";
 
-            ParsePipeExpression_Transform(expression, json, expected);
+            Assert(expression, json, expected);
         }
 
         [Fact]
@@ -22,15 +22,7 @@ namespace jmespath.net.tests.Parser
             const string expression = "{\"a\": foo.bar, \"b\": foo.other} | *.baz";
             const string expected = "[\"subkey\",\"subkey\"]";
 
-            ParsePipeExpression_Transform(expression, json, expected);
-        }
-
-        private void ParsePipeExpression_Transform(string expression, string input, string expected)
-        {
-            var path = new JmesPath();
-
-            var result = path.Transform(input, expression);
-            Assert.Equal(expected, result);
+            Assert(expression, json, expected);
         }
     }
 }

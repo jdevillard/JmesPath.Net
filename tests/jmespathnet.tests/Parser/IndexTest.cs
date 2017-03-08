@@ -1,20 +1,18 @@
-﻿using Xunit;
-using DevLab.JmesPath;
-
+﻿
 namespace jmespath.net.tests.Parser
 {
-    public class IndexTest
+    using FactAttribute = Xunit.FactAttribute;
+
+    public class IndexTest : ParserTestBase
     {
         [Fact]
         public void BracketSpecifier_IndexExpression()
         {
             const string json = "{\"foo\": [\"first\",\"second\"]}";
             const string expression = "foo[0]";
+            const string expected = "\"first\"";
 
-            var path = new JmesPath();
-
-            var result = path.Transform(json, expression);
-            Assert.Equal("\"first\"", result);
+            Assert(expression, json, expected);
         }
 
         [Fact]
@@ -22,11 +20,9 @@ namespace jmespath.net.tests.Parser
         {
             const string json = "[\"first\",\"second\"]";
             const string expression = "[0]";
+            const string expected = "\"first\"";
 
-            var path = new JmesPath();
-
-            var result = path.Transform(json, expression);
-            Assert.Equal("\"first\"", result);
+            Assert(expression, json, expected);
         }
     }
 }
