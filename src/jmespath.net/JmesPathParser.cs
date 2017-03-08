@@ -4,8 +4,8 @@
 
 // GPPG version 0.1.0.0
 // Machine:  DESKTOP-UQ0H65F
-// DateTime: 08/03/2017 08:28:29
-// Input file <C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y - 07/03/2017 20:44:04>
+// DateTime: 08/03/2017 09:21:58
+// Input file <C:\Projects\jjme\src\jmespath.net/JmesPathParser.y - 07/03/2017 20:44:04>
 
 // options: lines gplex
 
@@ -23,7 +23,7 @@ internal enum TokenType {error=2,EOF=3,T_COLON=4,T_COMMA=5,T_DOT=6,
     T_RBRACKET=13,T_LSTRING=14,T_QSTRING=15,T_RSTRING=16,T_USTRING=17};
 
 internal partial struct ValueType
-#line 7 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 7 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
         { 
        		public Token Token; 
        	}
@@ -199,21 +199,21 @@ internal partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
     switch (action)
     {
       case 2: // expression -> expression_impl
-#line 37 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 37 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnExpression();
 					}
 #line default
         break;
       case 12: // sub_expression -> sub_expression_impl
-#line 54 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 54 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSubExpression();
 					}
 #line default
         break;
       case 17: // index_expression -> expression, bracket_specifier
-#line 67 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 67 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("index expression (expression, bracket_specifier): {0}.", ValueStack[ValueStack.Depth-2].Token);
 						OnIndexExpression();
@@ -221,7 +221,7 @@ internal partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
 #line default
         break;
       case 19: // bracket_specifier -> T_LBRACKET, T_NUMBER, T_RBRACKET
-#line 75 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 75 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("bracket_specifier (index): {0}.", ValueStack[ValueStack.Depth-2].Token);
 						OnIndex(ValueStack[ValueStack.Depth-2].Token);
@@ -229,7 +229,7 @@ internal partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
 #line default
         break;
       case 20: // bracket_specifier -> T_LBRACKET, T_STAR, T_RBRACKET
-#line 80 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 80 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("bracket_specifier (list wildcard projection).");
 						OnListWildcardProjection();
@@ -237,7 +237,7 @@ internal partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
 #line default
         break;
       case 22: // bracket_specifier -> T_LBRACKET, T_RBRACKET
-#line 86 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 86 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("bracket_specifier (flattening projection).");
 						OnFlattenProjection();
@@ -245,14 +245,14 @@ internal partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
 #line default
         break;
       case 23: // multi_select_hash -> T_LBRACE, keyval_expressions, T_RBRACE
-#line 93 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 93 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						PopMultiSelectHash();
 					}
 #line default
         break;
       case 24: // keyval_expressions -> keyval_expression
-#line 98 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 98 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						PushMultiSelectHash();
 						AddMultiSelectHashExpression();
@@ -260,21 +260,21 @@ internal partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
 #line default
         break;
       case 25: // keyval_expressions -> keyval_expressions, T_COMMA, keyval_expression
-#line 103 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 103 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						AddMultiSelectHashExpression();
 					}
 #line default
         break;
       case 27: // multi_select_list -> T_LBRACKET, expressions, T_RBRACKET
-#line 113 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 113 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						PopMultiSelectList();
 					}
 #line default
         break;
       case 28: // expressions -> expression
-#line 119 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 119 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						PushMultiSelectList();
 						AddMultiSelectListExpression();
@@ -282,105 +282,105 @@ internal partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
 #line default
         break;
       case 29: // expressions -> expressions, T_COMMA, expression
-#line 124 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 124 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						AddMultiSelectListExpression();
 					}
 #line default
         break;
       case 30: // pipe_expression -> expression, T_PIPE, expression
-#line 130 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 130 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnPipeExpression();
 					}
 #line default
         break;
       case 31: // slice_expression -> T_COLON
-#line 136 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 136 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(null, null, null);
 					}
 #line default
         break;
       case 32: // slice_expression -> T_NUMBER, T_COLON
-#line 140 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 140 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(ValueStack[ValueStack.Depth-2].Token, null, null);
 					}
 #line default
         break;
       case 33: // slice_expression -> T_NUMBER, T_COLON, T_COLON
-#line 144 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 144 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(ValueStack[ValueStack.Depth-3].Token, null, null);
 					}
 #line default
         break;
       case 34: // slice_expression -> T_NUMBER, T_COLON, T_NUMBER
-#line 148 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 148 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(ValueStack[ValueStack.Depth-3].Token, ValueStack[ValueStack.Depth-1].Token, null);
 					}
 #line default
         break;
       case 35: // slice_expression -> T_NUMBER, T_COLON, T_NUMBER, T_COLON
-#line 152 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 152 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(ValueStack[ValueStack.Depth-4].Token, ValueStack[ValueStack.Depth-2].Token, null);
 					}
 #line default
         break;
       case 36: // slice_expression -> T_NUMBER, T_COLON, T_NUMBER, T_COLON, T_NUMBER
-#line 156 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 156 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(ValueStack[ValueStack.Depth-5].Token, ValueStack[ValueStack.Depth-3].Token, ValueStack[ValueStack.Depth-1].Token);
 					}
 #line default
         break;
       case 37: // slice_expression -> T_NUMBER, T_COLON, T_COLON, T_NUMBER
-#line 160 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 160 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(ValueStack[ValueStack.Depth-4].Token, null, ValueStack[ValueStack.Depth-1].Token);
 					}
 #line default
         break;
       case 38: // slice_expression -> T_COLON, T_NUMBER
-#line 164 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 164 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(null, ValueStack[ValueStack.Depth-1].Token, null);
 					}
 #line default
         break;
       case 39: // slice_expression -> T_COLON, T_NUMBER, T_COLON
-#line 168 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 168 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(null, ValueStack[ValueStack.Depth-2].Token, null);
 					}
 #line default
         break;
       case 40: // slice_expression -> T_COLON, T_NUMBER, T_COLON, T_NUMBER
-#line 172 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 172 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(null, ValueStack[ValueStack.Depth-3].Token, ValueStack[ValueStack.Depth-1].Token);
 					}
 #line default
         break;
       case 41: // slice_expression -> T_COLON, T_COLON, T_NUMBER
-#line 176 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 176 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(null, null, ValueStack[ValueStack.Depth-1].Token);
 					}
 #line default
         break;
       case 42: // slice_expression -> T_COLON, T_COLON
-#line 180 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 180 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(null, null, null);
 					}
 #line default
         break;
       case 43: // identifier -> identifier_impl
-#line 186 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 186 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("identifier ({0}): {1}.", ValueStack[ValueStack.Depth-1].Token.Type, ValueStack[ValueStack.Depth-1].Token);
 						OnIdentifier(ValueStack[ValueStack.Depth-1].Token);
@@ -388,7 +388,7 @@ internal partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
 #line default
         break;
       case 46: // hash_wildcard -> T_STAR
-#line 197 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 197 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("wildcard (hash wildcard projection): {0}", ValueStack[ValueStack.Depth-1].Token);
 						OnHashWildcardProjection();
@@ -396,7 +396,7 @@ internal partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
 #line default
         break;
       case 49: // literal -> T_LSTRING
-#line 210 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 210 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("literal string : {0}", ValueStack[ValueStack.Depth-1].Token);
 						OnLiteralString(ValueStack[ValueStack.Depth-1].Token);
@@ -404,7 +404,7 @@ internal partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
 #line default
         break;
       case 50: // raw_string -> T_RSTRING
-#line 216 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 216 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("raw string : {0}", ValueStack[ValueStack.Depth-1].Token);
 						OnRawString(ValueStack[ValueStack.Depth-1].Token);
@@ -425,7 +425,7 @@ internal partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
         return CharToString((char)terminal);
   }
 
-#line 222 "C:\Projects\jjme\src\jmespath.net/../shared/JmesPathParser.y"
+#line 222 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
  #line default
 }
 }

@@ -17,9 +17,11 @@
   "buildOptions": {
     "compile": {
       "include": [
-        "../shared/**/*.cs",
-		"../gppg.runtime/**/*.cs"
-      ]
+        "../jmespath.net/**/*.cs"
+      ],
+	  "exclude": [
+		"../jmespath.net/Properties/AssemblyInfo.cs"
+	  ]
     },
 	"publicSign": true,
 	"keyFile": "jmespath.net.snk",
