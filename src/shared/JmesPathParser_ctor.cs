@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using DevLab.JmesPath.Expressions;
+using DevLab.JmesPath.Tokens;
 using StarodubOleg.GPPG.Runtime;
 
 namespace DevLab.JmesPath

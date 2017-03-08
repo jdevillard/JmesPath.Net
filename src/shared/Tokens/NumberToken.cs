@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DevLab.JmesPath
+namespace DevLab.JmesPath.Tokens
 {
     internal sealed class NumberToken : Token
     {

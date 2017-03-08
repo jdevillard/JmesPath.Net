@@ -1,7 +1,7 @@
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
-namespace DevLab.JmesPath
+namespace DevLab.JmesPath.Tokens
 {
     internal sealed class LiteralStringToken : Token
     {

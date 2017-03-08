@@ -1,6 +1,6 @@
 ﻿using DevLab.JmesPath.Utils;
 
-namespace DevLab.JmesPath
+namespace DevLab.JmesPath.Tokens
 {
     internal sealed class QuotedStringToken : Token
     {
