@@ -5,7 +5,6 @@
 
 %option stack, minimize, parser, verbose, persistbuffer, embedbuffers 
 
-
 EOL             (\r\n?|\n)
 
 T_AND			&&
@@ -15,8 +14,19 @@ T_NOT			!
 T_COLON         :
 T_COMMA         ,
 T_DOT           \.
-T_STAR			\*
 T_PIPE			\|
+
+T_EQ			==
+T_GT			>
+T_GE			>=
+T_LT			<
+T_LE			<=
+T_NE			!=
+
+T_FLATTEN		\[\]
+T_FILTER		\[\?
+T_HASHWILDCARD	\*
+T_LISTWILDCARD	\[\*\]
 
 T_NUMBER		\-?[0-9]+
 
@@ -44,8 +54,19 @@ T_RPAREN		\)
 {T_COLON}			{ yylval.Token = Token.Create(TokenType.T_COLON, yytext); return (int)TokenType.T_COLON; }
 {T_COMMA}			{ yylval.Token = Token.Create(TokenType.T_COMMA, yytext); return (int)TokenType.T_COMMA; }
 {T_DOT}				{ yylval.Token = Token.Create(TokenType.T_DOT, yytext); return (int)TokenType.T_DOT; }
-{T_STAR}			{ yylval.Token = Token.Create(TokenType.T_STAR, yytext); return (int)TokenType.T_STAR; }
 {T_PIPE}			{ yylval.Token = Token.Create(TokenType.T_PIPE, yytext); return (int)TokenType.T_PIPE; }
+
+{T_EQ}				{ yylval.Token = Token.Create(TokenType.T_EQ, yytext); return (int)TokenType.T_EQ; }
+{T_GT}				{ yylval.Token = Token.Create(TokenType.T_GT, yytext); return (int)TokenType.T_GT; }
+{T_GE}				{ yylval.Token = Token.Create(TokenType.T_GE, yytext); return (int)TokenType.T_GE; }
+{T_LT}				{ yylval.Token = Token.Create(TokenType.T_LT, yytext); return (int)TokenType.T_LT; }
+{T_LE}				{ yylval.Token = Token.Create(TokenType.T_LE, yytext); return (int)TokenType.T_LE; }
+{T_NE}				{ yylval.Token = Token.Create(TokenType.T_NE, yytext); return (int)TokenType.T_NE; }
+
+{T_FILTER}			{ yylval.Token = Token.Create(TokenType.T_FILTER, yytext); return (int)TokenType.T_FILTER; }
+{T_FLATTEN}			{ yylval.Token = Token.Create(TokenType.T_FLATTEN, yytext); return (int)TokenType.T_FLATTEN; }
+{T_HASHWILDCARD}	{ yylval.Token = Token.Create(TokenType.T_HASHWILDCARD, yytext); return (int)TokenType.T_HASHWILDCARD; }
+{T_LISTWILDCARD}	{ yylval.Token = Token.Create(TokenType.T_LISTWILDCARD, yytext); return (int)TokenType.T_LISTWILDCARD; }
 
 {T_NUMBER}			{ yylval.Token = Token.Create(TokenType.T_NUMBER, yytext); return (int)TokenType.T_NUMBER; }
 {T_LSTRING}			{ yylval.Token = Token.Create(TokenType.T_LSTRING, yytext); return (int)TokenType.T_LSTRING; }

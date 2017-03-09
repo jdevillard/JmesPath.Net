@@ -3,9 +3,9 @@
 // (see accompanying GPPGcopyright.rtf)
 
 // GPPG version 0.1.0.0
-// Machine:  MOSKITOSJEREMIE
-// DateTime: 10/03/2017 09:28:30
-// Input file <C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y - 10/03/2017 09:25:24>
+// Machine:  DESKTOP-UQ0H65F
+// DateTime: 10/03/2017 14:26:00
+// Input file <C:\Projects\jjme\src\jmespath.net/JmesPathParser.y - 10/03/2017 14:25:34>
 
 // options: lines gplex
 
@@ -19,12 +19,14 @@ using StarodubOleg.GPPG.Runtime;
 namespace DevLab.JmesPath
 {
 internal enum TokenType {error=2,EOF=3,T_AND=4,T_OR=5,T_NOT=6,
-    T_COLON=7,T_COMMA=8,T_DOT=9,T_STAR=10,T_PIPE=11,T_NUMBER=12,
-    T_LSTRING=13,T_QSTRING=14,T_RSTRING=15,T_USTRING=16,T_LBRACE=17,T_RBRACE=18,
-    T_LBRACKET=19,T_RBRACKET=20,T_LPAREN=21,T_RPAREN=22};
+    T_COLON=7,T_COMMA=8,T_DOT=9,T_PIPE=10,T_EQ=11,T_GT=12,
+    T_GE=13,T_LT=14,T_LE=15,T_NE=16,T_FILTER=17,T_FLATTEN=18,
+    T_HASHWILDCARD=19,T_LISTWILDCARD=20,T_NUMBER=21,T_LSTRING=22,T_QSTRING=23,T_RSTRING=24,
+    T_USTRING=25,T_LBRACE=26,T_RBRACE=27,T_LBRACKET=28,T_RBRACKET=29,T_LPAREN=30,
+    T_RPAREN=31};
 
 internal partial struct ValueType
-#line 7 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+#line 7 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
         { 
        		public Token Token; 
        	}
@@ -54,105 +56,119 @@ internal partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
 #pragma warning disable 649
   private static Dictionary<int, string> aliases;
 #pragma warning restore 649
-  private static Rule[] rules = new Rule[63];
-  private static State[] states = new State[87];
+  private static Rule[] rules = new Rule[71];
+  private static State[] states = new State[101];
   private static string[] nonTerms = new string[] {
       "expression", "$accept", "expression_impl", "sub_expression", "index_expression", 
-      "or_expression", "identifier", "and_expression", "not_expression", "hash_wildcard", 
-      "multi_select_list", "multi_select_hash", "literal", "pipe_expression", 
-      "function_expression", "raw_string", "sub_expression_impl", "bracket_specifier", 
-      "unquoted_string", "arguments", "function_arguments", "slice_expression", 
-      "identifier_impl", "quoted_string", "keyval_expressions", "keyval_expression", 
-      "expressions", };
+      "comparator_expression", "or_expression", "identifier", "and_expression", 
+      "not_expression", "hash_wildcard", "multi_select_list", "multi_select_hash", 
+      "literal", "pipe_expression", "function_expression", "raw_string", "sub_expression_impl", 
+      "bracket_specifier", "unquoted_string", "arguments", "function_arguments", 
+      "slice_expression", "identifier_impl", "quoted_string", "keyval_expressions", 
+      "keyval_expression", "expressions", };
 
   static JmesPathParser() {
-    states[0] = new State(new int[]{19,53,14,10,16,12,6,71,10,74,17,13,13,78,15,82},new int[]{-1,1,-3,48,-4,49,-17,50,-5,51,-18,52,-6,59,-7,60,-23,8,-24,9,-19,61,-8,69,-9,70,-10,73,-11,75,-12,76,-13,77,-14,79,-15,80,-16,81});
-    states[1] = new State(new int[]{3,2,9,3,5,22,4,24,11,26,19,28},new int[]{-18,21});
+    states[0] = new State(new int[]{28,67,20,57,17,58,18,61,23,10,25,12,6,85,19,88,26,13,22,92,24,96},new int[]{-1,1,-3,62,-4,63,-18,64,-5,65,-19,66,-6,72,-7,73,-8,74,-24,8,-25,9,-20,75,-9,83,-10,84,-11,87,-12,89,-13,90,-14,91,-15,93,-16,94,-17,95});
+    states[1] = new State(new int[]{3,2,9,3,11,22,13,24,12,26,15,28,14,30,16,32,5,34,4,36,10,38,28,40,20,57,17,58,18,61},new int[]{-19,21});
     states[2] = new State(-1);
-    states[3] = new State(new int[]{14,10,16,12,17,13,19,86,10,74},new int[]{-7,4,-12,5,-11,6,-10,7,-23,8,-24,9,-19,11});
-    states[4] = new State(-17);
-    states[5] = new State(-18);
-    states[6] = new State(-19);
-    states[7] = new State(-20);
-    states[8] = new State(-33);
-    states[9] = new State(-34);
-    states[10] = new State(-59);
-    states[11] = new State(-35);
-    states[12] = new State(-60);
-    states[13] = new State(new int[]{14,10,16,12},new int[]{-25,14,-26,85,-7,18,-23,8,-24,9,-19,11});
-    states[14] = new State(new int[]{18,15,8,16});
-    states[15] = new State(-39);
-    states[16] = new State(new int[]{14,10,16,12},new int[]{-26,17,-7,18,-23,8,-24,9,-19,11});
-    states[17] = new State(-41);
+    states[3] = new State(new int[]{23,10,25,12,26,13,28,100,19,88},new int[]{-8,4,-13,5,-12,6,-11,7,-24,8,-25,9,-20,11});
+    states[4] = new State(-18);
+    states[5] = new State(-19);
+    states[6] = new State(-20);
+    states[7] = new State(-21);
+    states[8] = new State(-41);
+    states[9] = new State(-42);
+    states[10] = new State(-67);
+    states[11] = new State(-43);
+    states[12] = new State(-68);
+    states[13] = new State(new int[]{23,10,25,12},new int[]{-26,14,-27,99,-8,18,-24,8,-25,9,-20,11});
+    states[14] = new State(new int[]{27,15,8,16});
+    states[15] = new State(-47);
+    states[16] = new State(new int[]{23,10,25,12},new int[]{-27,17,-8,18,-24,8,-25,9,-20,11});
+    states[17] = new State(-49);
     states[18] = new State(new int[]{7,19});
-    states[19] = new State(new int[]{19,53,14,10,16,12,6,71,10,74,17,13,13,78,15,82},new int[]{-1,20,-3,48,-4,49,-17,50,-5,51,-18,52,-6,59,-7,60,-23,8,-24,9,-19,61,-8,69,-9,70,-10,73,-11,75,-12,76,-13,77,-14,79,-15,80,-16,81});
-    states[20] = new State(new int[]{9,3,5,22,4,24,11,26,19,28,18,-42,8,-42},new int[]{-18,21});
-    states[21] = new State(-21);
-    states[22] = new State(new int[]{19,53,14,10,16,12,6,71,10,74,17,13,13,78,15,82},new int[]{-1,23,-3,48,-4,49,-17,50,-5,51,-18,52,-6,59,-7,60,-23,8,-24,9,-19,61,-8,69,-9,70,-10,73,-11,75,-12,76,-13,77,-14,79,-15,80,-16,81});
-    states[23] = new State(new int[]{9,3,5,-32,4,24,11,-32,19,28,3,-32,18,-32,8,-32,20,-32,22,-32},new int[]{-18,21});
-    states[24] = new State(new int[]{19,53,14,10,16,12,6,71,10,74,17,13,13,78,15,82},new int[]{-1,25,-3,48,-4,49,-17,50,-5,51,-18,52,-6,59,-7,60,-23,8,-24,9,-19,61,-8,69,-9,70,-10,73,-11,75,-12,76,-13,77,-14,79,-15,80,-16,81});
-    states[25] = new State(new int[]{9,3,5,-36,4,-36,11,-36,19,28,3,-36,18,-36,8,-36,20,-36,22,-36},new int[]{-18,21});
-    states[26] = new State(new int[]{19,53,14,10,16,12,6,71,10,74,17,13,13,78,15,82},new int[]{-1,27,-3,48,-4,49,-17,50,-5,51,-18,52,-6,59,-7,60,-23,8,-24,9,-19,61,-8,69,-9,70,-10,73,-11,75,-12,76,-13,77,-14,79,-15,80,-16,81});
-    states[27] = new State(new int[]{9,3,5,22,4,24,11,-46,19,28,3,-46,18,-46,8,-46,20,-46,22,-46},new int[]{-18,21});
-    states[28] = new State(new int[]{12,29,10,37,20,41,7,42},new int[]{-22,39});
-    states[29] = new State(new int[]{20,30,7,31});
-    states[30] = new State(-28);
-    states[31] = new State(new int[]{7,32,12,34,20,-48});
-    states[32] = new State(new int[]{12,33,20,-49});
-    states[33] = new State(-53);
-    states[34] = new State(new int[]{7,35,20,-50});
-    states[35] = new State(new int[]{12,36,20,-51});
-    states[36] = new State(-52);
-    states[37] = new State(new int[]{20,38});
-    states[38] = new State(-29);
-    states[39] = new State(new int[]{20,40});
-    states[40] = new State(-30);
-    states[41] = new State(-31);
-    states[42] = new State(new int[]{12,43,7,46,20,-47});
-    states[43] = new State(new int[]{7,44,20,-54});
-    states[44] = new State(new int[]{12,45,20,-55});
-    states[45] = new State(-56);
-    states[46] = new State(new int[]{12,47,20,-58});
-    states[47] = new State(-57);
-    states[48] = new State(-2);
-    states[49] = new State(-3);
-    states[50] = new State(-16);
-    states[51] = new State(-4);
-    states[52] = new State(-22);
-    states[53] = new State(new int[]{12,29,10,54,20,41,7,42,19,53,14,10,16,12,6,71,17,13,13,78,15,82},new int[]{-22,39,-27,55,-1,84,-3,48,-4,49,-17,50,-5,51,-18,52,-6,59,-7,60,-23,8,-24,9,-19,61,-8,69,-9,70,-10,73,-11,75,-12,76,-13,77,-14,79,-15,80,-16,81});
-    states[54] = new State(new int[]{20,38,9,-38,5,-38,4,-38,11,-38,19,-38,8,-38});
-    states[55] = new State(new int[]{20,56,8,57});
-    states[56] = new State(-43);
-    states[57] = new State(new int[]{19,53,14,10,16,12,6,71,10,74,17,13,13,78,15,82},new int[]{-1,58,-3,48,-4,49,-17,50,-5,51,-18,52,-6,59,-7,60,-23,8,-24,9,-19,61,-8,69,-9,70,-10,73,-11,75,-12,76,-13,77,-14,79,-15,80,-16,81});
-    states[58] = new State(new int[]{9,3,5,22,4,24,11,26,19,28,20,-45,8,-45},new int[]{-18,21});
-    states[59] = new State(-5);
-    states[60] = new State(-6);
-    states[61] = new State(new int[]{21,63,3,-35,9,-35,5,-35,4,-35,11,-35,19,-35,18,-35,8,-35,20,-35,22,-35},new int[]{-20,62});
-    states[62] = new State(-23);
-    states[63] = new State(new int[]{22,64,19,53,14,10,16,12,6,71,10,74,17,13,13,78,15,82},new int[]{-21,65,-1,83,-3,48,-4,49,-17,50,-5,51,-18,52,-6,59,-7,60,-23,8,-24,9,-19,61,-8,69,-9,70,-10,73,-11,75,-12,76,-13,77,-14,79,-15,80,-16,81});
-    states[64] = new State(-24);
-    states[65] = new State(new int[]{22,66,8,67});
-    states[66] = new State(-25);
-    states[67] = new State(new int[]{19,53,14,10,16,12,6,71,10,74,17,13,13,78,15,82},new int[]{-1,68,-3,48,-4,49,-17,50,-5,51,-18,52,-6,59,-7,60,-23,8,-24,9,-19,61,-8,69,-9,70,-10,73,-11,75,-12,76,-13,77,-14,79,-15,80,-16,81});
-    states[68] = new State(new int[]{9,3,5,22,4,24,11,26,19,28,22,-27,8,-27},new int[]{-18,21});
-    states[69] = new State(-7);
-    states[70] = new State(-8);
-    states[71] = new State(new int[]{19,53,14,10,16,12,6,71,10,74,17,13,13,78,15,82},new int[]{-1,72,-3,48,-4,49,-17,50,-5,51,-18,52,-6,59,-7,60,-23,8,-24,9,-19,61,-8,69,-9,70,-10,73,-11,75,-12,76,-13,77,-14,79,-15,80,-16,81});
-    states[72] = new State(new int[]{9,3,5,-37,4,-37,11,-37,19,28,3,-37,18,-37,8,-37,20,-37,22,-37},new int[]{-18,21});
-    states[73] = new State(-9);
-    states[74] = new State(-38);
-    states[75] = new State(-10);
-    states[76] = new State(-11);
-    states[77] = new State(-12);
-    states[78] = new State(-61);
-    states[79] = new State(-13);
-    states[80] = new State(-14);
-    states[81] = new State(-15);
-    states[82] = new State(-62);
-    states[83] = new State(new int[]{9,3,5,22,4,24,11,26,19,28,22,-26,8,-26},new int[]{-18,21});
-    states[84] = new State(new int[]{9,3,5,22,4,24,11,26,19,28,20,-44,8,-44},new int[]{-18,21});
-    states[85] = new State(-40);
-    states[86] = new State(new int[]{19,53,14,10,16,12,6,71,10,74,17,13,13,78,15,82},new int[]{-27,55,-1,84,-3,48,-4,49,-17,50,-5,51,-18,52,-6,59,-7,60,-23,8,-24,9,-19,61,-8,69,-9,70,-10,73,-11,75,-12,76,-13,77,-14,79,-15,80,-16,81});
+    states[19] = new State(new int[]{28,67,20,57,17,58,18,61,23,10,25,12,6,85,19,88,26,13,22,92,24,96},new int[]{-1,20,-3,62,-4,63,-18,64,-5,65,-19,66,-6,72,-7,73,-8,74,-24,8,-25,9,-20,75,-9,83,-10,84,-11,87,-12,89,-13,90,-14,91,-15,93,-16,94,-17,95});
+    states[20] = new State(new int[]{9,3,11,22,13,24,12,26,15,28,14,30,16,32,5,34,4,36,10,38,28,40,20,57,17,58,18,61,27,-50,8,-50},new int[]{-19,21});
+    states[21] = new State(-22);
+    states[22] = new State(new int[]{28,67,20,57,17,58,18,61,23,10,25,12,6,85,19,88,26,13,22,92,24,96},new int[]{-1,23,-3,62,-4,63,-18,64,-5,65,-19,66,-6,72,-7,73,-8,74,-24,8,-25,9,-20,75,-9,83,-10,84,-11,87,-12,89,-13,90,-14,91,-15,93,-16,94,-17,95});
+    states[23] = new State(new int[]{9,3,11,-34,13,24,12,26,15,28,14,30,16,32,5,-34,4,-34,10,-34,28,40,20,57,17,58,18,61,3,-34,27,-34,8,-34,29,-34,31,-34},new int[]{-19,21});
+    states[24] = new State(new int[]{28,67,20,57,17,58,18,61,23,10,25,12,6,85,19,88,26,13,22,92,24,96},new int[]{-1,25,-3,62,-4,63,-18,64,-5,65,-19,66,-6,72,-7,73,-8,74,-24,8,-25,9,-20,75,-9,83,-10,84,-11,87,-12,89,-13,90,-14,91,-15,93,-16,94,-17,95});
+    states[25] = new State(new int[]{9,3,11,-35,13,-35,12,-35,15,28,14,30,16,32,5,-35,4,-35,10,-35,28,40,20,57,17,58,18,61,3,-35,27,-35,8,-35,29,-35,31,-35},new int[]{-19,21});
+    states[26] = new State(new int[]{28,67,20,57,17,58,18,61,23,10,25,12,6,85,19,88,26,13,22,92,24,96},new int[]{-1,27,-3,62,-4,63,-18,64,-5,65,-19,66,-6,72,-7,73,-8,74,-24,8,-25,9,-20,75,-9,83,-10,84,-11,87,-12,89,-13,90,-14,91,-15,93,-16,94,-17,95});
+    states[27] = new State(new int[]{9,3,11,-36,13,24,12,-36,15,28,14,30,16,32,5,-36,4,-36,10,-36,28,40,20,57,17,58,18,61,3,-36,27,-36,8,-36,29,-36,31,-36},new int[]{-19,21});
+    states[28] = new State(new int[]{28,67,20,57,17,58,18,61,23,10,25,12,6,85,19,88,26,13,22,92,24,96},new int[]{-1,29,-3,62,-4,63,-18,64,-5,65,-19,66,-6,72,-7,73,-8,74,-24,8,-25,9,-20,75,-9,83,-10,84,-11,87,-12,89,-13,90,-14,91,-15,93,-16,94,-17,95});
+    states[29] = new State(new int[]{9,3,11,-37,13,-37,12,-37,15,-37,14,-37,16,32,5,-37,4,-37,10,-37,28,40,20,57,17,58,18,61,3,-37,27,-37,8,-37,29,-37,31,-37},new int[]{-19,21});
+    states[30] = new State(new int[]{28,67,20,57,17,58,18,61,23,10,25,12,6,85,19,88,26,13,22,92,24,96},new int[]{-1,31,-3,62,-4,63,-18,64,-5,65,-19,66,-6,72,-7,73,-8,74,-24,8,-25,9,-20,75,-9,83,-10,84,-11,87,-12,89,-13,90,-14,91,-15,93,-16,94,-17,95});
+    states[31] = new State(new int[]{9,3,11,-38,13,-38,12,-38,15,28,14,-38,16,32,5,-38,4,-38,10,-38,28,40,20,57,17,58,18,61,3,-38,27,-38,8,-38,29,-38,31,-38},new int[]{-19,21});
+    states[32] = new State(new int[]{28,67,20,57,17,58,18,61,23,10,25,12,6,85,19,88,26,13,22,92,24,96},new int[]{-1,33,-3,62,-4,63,-18,64,-5,65,-19,66,-6,72,-7,73,-8,74,-24,8,-25,9,-20,75,-9,83,-10,84,-11,87,-12,89,-13,90,-14,91,-15,93,-16,94,-17,95});
+    states[33] = new State(new int[]{9,3,11,-39,13,-39,12,-39,15,-39,14,-39,16,-39,5,-39,4,-39,10,-39,28,40,20,57,17,58,18,61,3,-39,27,-39,8,-39,29,-39,31,-39},new int[]{-19,21});
+    states[34] = new State(new int[]{28,67,20,57,17,58,18,61,23,10,25,12,6,85,19,88,26,13,22,92,24,96},new int[]{-1,35,-3,62,-4,63,-18,64,-5,65,-19,66,-6,72,-7,73,-8,74,-24,8,-25,9,-20,75,-9,83,-10,84,-11,87,-12,89,-13,90,-14,91,-15,93,-16,94,-17,95});
+    states[35] = new State(new int[]{9,3,11,22,13,24,12,26,15,28,14,30,16,32,5,-40,4,36,10,-40,28,40,20,57,17,58,18,61,3,-40,27,-40,8,-40,29,-40,31,-40},new int[]{-19,21});
+    states[36] = new State(new int[]{28,67,20,57,17,58,18,61,23,10,25,12,6,85,19,88,26,13,22,92,24,96},new int[]{-1,37,-3,62,-4,63,-18,64,-5,65,-19,66,-6,72,-7,73,-8,74,-24,8,-25,9,-20,75,-9,83,-10,84,-11,87,-12,89,-13,90,-14,91,-15,93,-16,94,-17,95});
+    states[37] = new State(new int[]{9,3,11,22,13,24,12,26,15,28,14,30,16,32,5,-44,4,-44,10,-44,28,40,20,57,17,58,18,61,3,-44,27,-44,8,-44,29,-44,31,-44},new int[]{-19,21});
+    states[38] = new State(new int[]{28,67,20,57,17,58,18,61,23,10,25,12,6,85,19,88,26,13,22,92,24,96},new int[]{-1,39,-3,62,-4,63,-18,64,-5,65,-19,66,-6,72,-7,73,-8,74,-24,8,-25,9,-20,75,-9,83,-10,84,-11,87,-12,89,-13,90,-14,91,-15,93,-16,94,-17,95});
+    states[39] = new State(new int[]{9,3,11,22,13,24,12,26,15,28,14,30,16,32,5,34,4,36,10,-54,28,40,20,57,17,58,18,61,3,-54,27,-54,8,-54,29,-54,31,-54},new int[]{-19,21});
+    states[40] = new State(new int[]{21,41,7,51},new int[]{-23,49});
+    states[41] = new State(new int[]{29,42,7,43});
+    states[42] = new State(-29);
+    states[43] = new State(new int[]{7,44,21,46,29,-56});
+    states[44] = new State(new int[]{21,45,29,-57});
+    states[45] = new State(-61);
+    states[46] = new State(new int[]{7,47,29,-58});
+    states[47] = new State(new int[]{21,48,29,-59});
+    states[48] = new State(-60);
+    states[49] = new State(new int[]{29,50});
+    states[50] = new State(-31);
+    states[51] = new State(new int[]{21,52,7,55,29,-55});
+    states[52] = new State(new int[]{7,53,29,-62});
+    states[53] = new State(new int[]{21,54,29,-63});
+    states[54] = new State(-64);
+    states[55] = new State(new int[]{21,56,29,-66});
+    states[56] = new State(-65);
+    states[57] = new State(-30);
+    states[58] = new State(new int[]{28,67,20,57,17,58,18,61,23,10,25,12,6,85,19,88,26,13,22,92,24,96},new int[]{-1,59,-3,62,-4,63,-18,64,-5,65,-19,66,-6,72,-7,73,-8,74,-24,8,-25,9,-20,75,-9,83,-10,84,-11,87,-12,89,-13,90,-14,91,-15,93,-16,94,-17,95});
+    states[59] = new State(new int[]{29,60,9,3,11,22,13,24,12,26,15,28,14,30,16,32,5,34,4,36,10,38,28,40,20,57,17,58,18,61},new int[]{-19,21});
+    states[60] = new State(-32);
+    states[61] = new State(-33);
+    states[62] = new State(-2);
+    states[63] = new State(-3);
+    states[64] = new State(-17);
+    states[65] = new State(-4);
+    states[66] = new State(-23);
+    states[67] = new State(new int[]{21,41,7,51,28,67,20,57,17,58,18,61,23,10,25,12,6,85,19,88,26,13,22,92,24,96},new int[]{-23,49,-28,68,-1,98,-3,62,-4,63,-18,64,-5,65,-19,66,-6,72,-7,73,-8,74,-24,8,-25,9,-20,75,-9,83,-10,84,-11,87,-12,89,-13,90,-14,91,-15,93,-16,94,-17,95});
+    states[68] = new State(new int[]{29,69,8,70});
+    states[69] = new State(-51);
+    states[70] = new State(new int[]{28,67,20,57,17,58,18,61,23,10,25,12,6,85,19,88,26,13,22,92,24,96},new int[]{-1,71,-3,62,-4,63,-18,64,-5,65,-19,66,-6,72,-7,73,-8,74,-24,8,-25,9,-20,75,-9,83,-10,84,-11,87,-12,89,-13,90,-14,91,-15,93,-16,94,-17,95});
+    states[71] = new State(new int[]{9,3,11,22,13,24,12,26,15,28,14,30,16,32,5,34,4,36,10,38,28,40,20,57,17,58,18,61,29,-53,8,-53},new int[]{-19,21});
+    states[72] = new State(-5);
+    states[73] = new State(-6);
+    states[74] = new State(-7);
+    states[75] = new State(new int[]{30,77,3,-43,9,-43,11,-43,13,-43,12,-43,15,-43,14,-43,16,-43,5,-43,4,-43,10,-43,28,-43,20,-43,17,-43,18,-43,27,-43,8,-43,29,-43,31,-43},new int[]{-21,76});
+    states[76] = new State(-24);
+    states[77] = new State(new int[]{31,78,28,67,20,57,17,58,18,61,23,10,25,12,6,85,19,88,26,13,22,92,24,96},new int[]{-22,79,-1,97,-3,62,-4,63,-18,64,-5,65,-19,66,-6,72,-7,73,-8,74,-24,8,-25,9,-20,75,-9,83,-10,84,-11,87,-12,89,-13,90,-14,91,-15,93,-16,94,-17,95});
+    states[78] = new State(-25);
+    states[79] = new State(new int[]{31,80,8,81});
+    states[80] = new State(-26);
+    states[81] = new State(new int[]{28,67,20,57,17,58,18,61,23,10,25,12,6,85,19,88,26,13,22,92,24,96},new int[]{-1,82,-3,62,-4,63,-18,64,-5,65,-19,66,-6,72,-7,73,-8,74,-24,8,-25,9,-20,75,-9,83,-10,84,-11,87,-12,89,-13,90,-14,91,-15,93,-16,94,-17,95});
+    states[82] = new State(new int[]{9,3,11,22,13,24,12,26,15,28,14,30,16,32,5,34,4,36,10,38,28,40,20,57,17,58,18,61,31,-28,8,-28},new int[]{-19,21});
+    states[83] = new State(-8);
+    states[84] = new State(-9);
+    states[85] = new State(new int[]{28,67,20,57,17,58,18,61,23,10,25,12,6,85,19,88,26,13,22,92,24,96},new int[]{-1,86,-3,62,-4,63,-18,64,-5,65,-19,66,-6,72,-7,73,-8,74,-24,8,-25,9,-20,75,-9,83,-10,84,-11,87,-12,89,-13,90,-14,91,-15,93,-16,94,-17,95});
+    states[86] = new State(new int[]{9,3,11,-45,13,-45,12,-45,15,-45,14,-45,16,-45,5,-45,4,-45,10,-45,28,40,20,57,17,58,18,61,3,-45,27,-45,8,-45,29,-45,31,-45},new int[]{-19,21});
+    states[87] = new State(-10);
+    states[88] = new State(-46);
+    states[89] = new State(-11);
+    states[90] = new State(-12);
+    states[91] = new State(-13);
+    states[92] = new State(-69);
+    states[93] = new State(-14);
+    states[94] = new State(-15);
+    states[95] = new State(-16);
+    states[96] = new State(-70);
+    states[97] = new State(new int[]{9,3,11,22,13,24,12,26,15,28,14,30,16,32,5,34,4,36,10,38,28,40,20,57,17,58,18,61,31,-27,8,-27},new int[]{-19,21});
+    states[98] = new State(new int[]{9,3,11,22,13,24,12,26,15,28,14,30,16,32,5,34,4,36,10,38,28,40,20,57,17,58,18,61,29,-52,8,-52},new int[]{-19,21});
+    states[99] = new State(-48);
+    states[100] = new State(new int[]{28,67,20,57,17,58,18,61,23,10,25,12,6,85,19,88,26,13,22,92,24,96},new int[]{-28,68,-1,98,-3,62,-4,63,-18,64,-5,65,-19,66,-6,72,-7,73,-8,74,-24,8,-25,9,-20,75,-9,83,-10,84,-11,87,-12,89,-13,90,-14,91,-15,93,-16,94,-17,95});
 
     for (int sNo = 0; sNo < states.Length; sNo++) states[sNo].number = sNo;
 
@@ -171,53 +187,61 @@ internal partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
     rules[13] = new Rule(-3, new int[]{-14});
     rules[14] = new Rule(-3, new int[]{-15});
     rules[15] = new Rule(-3, new int[]{-16});
-    rules[16] = new Rule(-4, new int[]{-17});
-    rules[17] = new Rule(-17, new int[]{-1,9,-7});
-    rules[18] = new Rule(-17, new int[]{-1,9,-12});
-    rules[19] = new Rule(-17, new int[]{-1,9,-11});
-    rules[20] = new Rule(-17, new int[]{-1,9,-10});
-    rules[21] = new Rule(-5, new int[]{-1,-18});
-    rules[22] = new Rule(-5, new int[]{-18});
-    rules[23] = new Rule(-15, new int[]{-19,-20});
-    rules[24] = new Rule(-20, new int[]{21,22});
-    rules[25] = new Rule(-20, new int[]{21,-21,22});
-    rules[26] = new Rule(-21, new int[]{-1});
-    rules[27] = new Rule(-21, new int[]{-21,8,-1});
-    rules[28] = new Rule(-18, new int[]{19,12,20});
-    rules[29] = new Rule(-18, new int[]{19,10,20});
-    rules[30] = new Rule(-18, new int[]{19,-22,20});
-    rules[31] = new Rule(-18, new int[]{19,20});
-    rules[32] = new Rule(-6, new int[]{-1,5,-1});
-    rules[33] = new Rule(-7, new int[]{-23});
-    rules[34] = new Rule(-23, new int[]{-24});
-    rules[35] = new Rule(-23, new int[]{-19});
-    rules[36] = new Rule(-8, new int[]{-1,4,-1});
-    rules[37] = new Rule(-9, new int[]{6,-1});
-    rules[38] = new Rule(-10, new int[]{10});
-    rules[39] = new Rule(-12, new int[]{17,-25,18});
-    rules[40] = new Rule(-25, new int[]{-26});
-    rules[41] = new Rule(-25, new int[]{-25,8,-26});
-    rules[42] = new Rule(-26, new int[]{-7,7,-1});
-    rules[43] = new Rule(-11, new int[]{19,-27,20});
-    rules[44] = new Rule(-27, new int[]{-1});
-    rules[45] = new Rule(-27, new int[]{-27,8,-1});
-    rules[46] = new Rule(-14, new int[]{-1,11,-1});
-    rules[47] = new Rule(-22, new int[]{7});
-    rules[48] = new Rule(-22, new int[]{12,7});
-    rules[49] = new Rule(-22, new int[]{12,7,7});
-    rules[50] = new Rule(-22, new int[]{12,7,12});
-    rules[51] = new Rule(-22, new int[]{12,7,12,7});
-    rules[52] = new Rule(-22, new int[]{12,7,12,7,12});
-    rules[53] = new Rule(-22, new int[]{12,7,7,12});
-    rules[54] = new Rule(-22, new int[]{7,12});
-    rules[55] = new Rule(-22, new int[]{7,12,7});
-    rules[56] = new Rule(-22, new int[]{7,12,7,12});
-    rules[57] = new Rule(-22, new int[]{7,7,12});
-    rules[58] = new Rule(-22, new int[]{7,7});
-    rules[59] = new Rule(-24, new int[]{14});
-    rules[60] = new Rule(-19, new int[]{16});
-    rules[61] = new Rule(-13, new int[]{13});
-    rules[62] = new Rule(-16, new int[]{15});
+    rules[16] = new Rule(-3, new int[]{-17});
+    rules[17] = new Rule(-4, new int[]{-18});
+    rules[18] = new Rule(-18, new int[]{-1,9,-8});
+    rules[19] = new Rule(-18, new int[]{-1,9,-13});
+    rules[20] = new Rule(-18, new int[]{-1,9,-12});
+    rules[21] = new Rule(-18, new int[]{-1,9,-11});
+    rules[22] = new Rule(-5, new int[]{-1,-19});
+    rules[23] = new Rule(-5, new int[]{-19});
+    rules[24] = new Rule(-16, new int[]{-20,-21});
+    rules[25] = new Rule(-21, new int[]{30,31});
+    rules[26] = new Rule(-21, new int[]{30,-22,31});
+    rules[27] = new Rule(-22, new int[]{-1});
+    rules[28] = new Rule(-22, new int[]{-22,8,-1});
+    rules[29] = new Rule(-19, new int[]{28,21,29});
+    rules[30] = new Rule(-19, new int[]{20});
+    rules[31] = new Rule(-19, new int[]{28,-23,29});
+    rules[32] = new Rule(-19, new int[]{17,-1,29});
+    rules[33] = new Rule(-19, new int[]{18});
+    rules[34] = new Rule(-6, new int[]{-1,11,-1});
+    rules[35] = new Rule(-6, new int[]{-1,13,-1});
+    rules[36] = new Rule(-6, new int[]{-1,12,-1});
+    rules[37] = new Rule(-6, new int[]{-1,15,-1});
+    rules[38] = new Rule(-6, new int[]{-1,14,-1});
+    rules[39] = new Rule(-6, new int[]{-1,16,-1});
+    rules[40] = new Rule(-7, new int[]{-1,5,-1});
+    rules[41] = new Rule(-8, new int[]{-24});
+    rules[42] = new Rule(-24, new int[]{-25});
+    rules[43] = new Rule(-24, new int[]{-20});
+    rules[44] = new Rule(-9, new int[]{-1,4,-1});
+    rules[45] = new Rule(-10, new int[]{6,-1});
+    rules[46] = new Rule(-11, new int[]{19});
+    rules[47] = new Rule(-13, new int[]{26,-26,27});
+    rules[48] = new Rule(-26, new int[]{-27});
+    rules[49] = new Rule(-26, new int[]{-26,8,-27});
+    rules[50] = new Rule(-27, new int[]{-8,7,-1});
+    rules[51] = new Rule(-12, new int[]{28,-28,29});
+    rules[52] = new Rule(-28, new int[]{-1});
+    rules[53] = new Rule(-28, new int[]{-28,8,-1});
+    rules[54] = new Rule(-15, new int[]{-1,10,-1});
+    rules[55] = new Rule(-23, new int[]{7});
+    rules[56] = new Rule(-23, new int[]{21,7});
+    rules[57] = new Rule(-23, new int[]{21,7,7});
+    rules[58] = new Rule(-23, new int[]{21,7,21});
+    rules[59] = new Rule(-23, new int[]{21,7,21,7});
+    rules[60] = new Rule(-23, new int[]{21,7,21,7,21});
+    rules[61] = new Rule(-23, new int[]{21,7,7,21});
+    rules[62] = new Rule(-23, new int[]{7,21});
+    rules[63] = new Rule(-23, new int[]{7,21,7});
+    rules[64] = new Rule(-23, new int[]{7,21,7,21});
+    rules[65] = new Rule(-23, new int[]{7,7,21});
+    rules[66] = new Rule(-23, new int[]{7,7});
+    rules[67] = new Rule(-25, new int[]{23});
+    rules[68] = new Rule(-20, new int[]{25});
+    rules[69] = new Rule(-14, new int[]{22});
+    rules[70] = new Rule(-17, new int[]{24});
   }
 
   protected override void Initialize() {
@@ -233,262 +257,304 @@ internal partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
     switch (action)
     {
       case 2: // expression -> expression_impl
-#line 49 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+#line 70 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnExpression();
 					}
 #line default
         break;
-      case 16: // sub_expression -> sub_expression_impl
-#line 70 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 17: // sub_expression -> sub_expression_impl
+#line 92 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSubExpression();
 					}
 #line default
         break;
-      case 21: // index_expression -> expression, bracket_specifier
-#line 83 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 22: // index_expression -> expression, bracket_specifier
+#line 105 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("index expression (expression, bracket_specifier): {0}.", ValueStack[ValueStack.Depth-2].Token);
 						OnIndexExpression();
 					}
 #line default
         break;
-      case 23: // function_expression -> unquoted_string, arguments
-#line 91 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 24: // function_expression -> unquoted_string, arguments
+#line 113 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						PopFunction(ValueStack[ValueStack.Depth-2].Token);
 					}
 #line default
         break;
-      case 24: // arguments -> T_LPAREN, T_RPAREN
-#line 97 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 25: // arguments -> T_LPAREN, T_RPAREN
+#line 119 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						PushFunction();
 					}
 #line default
         break;
-      case 26: // function_arguments -> expression
-#line 104 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 27: // function_arguments -> expression
+#line 126 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						PushFunction();
 						AddFunctionArg();
 					}
 #line default
         break;
-      case 27: // function_arguments -> function_arguments, T_COMMA, expression
-#line 109 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 28: // function_arguments -> function_arguments, T_COMMA, expression
+#line 131 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						AddFunctionArg();
 					}
 #line default
         break;
-      case 28: // bracket_specifier -> T_LBRACKET, T_NUMBER, T_RBRACKET
-#line 115 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 29: // bracket_specifier -> T_LBRACKET, T_NUMBER, T_RBRACKET
+#line 137 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("bracket_specifier (index): {0}.", ValueStack[ValueStack.Depth-2].Token);
 						OnIndex(ValueStack[ValueStack.Depth-2].Token);
 					}
 #line default
         break;
-      case 29: // bracket_specifier -> T_LBRACKET, T_STAR, T_RBRACKET
-#line 120 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 30: // bracket_specifier -> T_LISTWILDCARD
+#line 142 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("bracket_specifier (list wildcard projection).");
 						OnListWildcardProjection();
 					}
 #line default
         break;
-      case 31: // bracket_specifier -> T_LBRACKET, T_RBRACKET
-#line 126 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 33: // bracket_specifier -> T_FLATTEN
+#line 149 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("bracket_specifier (flattening projection).");
 						OnFlattenProjection();
 					}
 #line default
         break;
-      case 32: // or_expression -> expression, T_OR, expression
-#line 133 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 34: // comparator_expression -> expression, T_EQ, expression
+#line 157 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+     {
+						OnComparisonExpression(ValueStack[ValueStack.Depth-2].Token);
+					}
+#line default
+        break;
+      case 35: // comparator_expression -> expression, T_GE, expression
+#line 161 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+     {
+						OnComparisonExpression(ValueStack[ValueStack.Depth-2].Token);
+					}
+#line default
+        break;
+      case 36: // comparator_expression -> expression, T_GT, expression
+#line 165 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+     {
+						OnComparisonExpression(ValueStack[ValueStack.Depth-2].Token);
+					}
+#line default
+        break;
+      case 37: // comparator_expression -> expression, T_LE, expression
+#line 169 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+     {
+						OnComparisonExpression(ValueStack[ValueStack.Depth-2].Token);
+					}
+#line default
+        break;
+      case 38: // comparator_expression -> expression, T_LT, expression
+#line 173 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+     {
+						OnComparisonExpression(ValueStack[ValueStack.Depth-2].Token);
+					}
+#line default
+        break;
+      case 39: // comparator_expression -> expression, T_NE, expression
+#line 177 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
+     {
+						OnComparisonExpression(ValueStack[ValueStack.Depth-2].Token);
+					}
+#line default
+        break;
+      case 40: // or_expression -> expression, T_OR, expression
+#line 183 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnOrExpression();
 					}
 #line default
         break;
-      case 33: // identifier -> identifier_impl
-#line 139 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 41: // identifier -> identifier_impl
+#line 189 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("identifier ({0}): {1}.", ValueStack[ValueStack.Depth-1].Token.Type, ValueStack[ValueStack.Depth-1].Token);
 						OnIdentifier(ValueStack[ValueStack.Depth-1].Token);
 					}
 #line default
         break;
-      case 36: // and_expression -> expression, T_AND, expression
-#line 150 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 44: // and_expression -> expression, T_AND, expression
+#line 200 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnAndExpression();
 					}
 #line default
         break;
-      case 37: // not_expression -> T_NOT, expression
-#line 156 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 45: // not_expression -> T_NOT, expression
+#line 206 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnNotExpression();
 					}
 #line default
         break;
-      case 38: // hash_wildcard -> T_STAR
-#line 162 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 46: // hash_wildcard -> T_HASHWILDCARD
+#line 212 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("wildcard (hash wildcard projection): {0}", ValueStack[ValueStack.Depth-1].Token);
 						OnHashWildcardProjection();
 					}
 #line default
         break;
-      case 39: // multi_select_hash -> T_LBRACE, keyval_expressions, T_RBRACE
-#line 169 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 47: // multi_select_hash -> T_LBRACE, keyval_expressions, T_RBRACE
+#line 219 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						PopMultiSelectHash();
 					}
 #line default
         break;
-      case 40: // keyval_expressions -> keyval_expression
-#line 174 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 48: // keyval_expressions -> keyval_expression
+#line 224 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						PushMultiSelectHash();
 						AddMultiSelectHashExpression();
 					}
 #line default
         break;
-      case 41: // keyval_expressions -> keyval_expressions, T_COMMA, keyval_expression
-#line 179 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 49: // keyval_expressions -> keyval_expressions, T_COMMA, keyval_expression
+#line 229 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						AddMultiSelectHashExpression();
 					}
 #line default
         break;
-      case 43: // multi_select_list -> T_LBRACKET, expressions, T_RBRACKET
-#line 189 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 51: // multi_select_list -> T_LBRACKET, expressions, T_RBRACKET
+#line 239 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						PopMultiSelectList();
 					}
 #line default
         break;
-      case 44: // expressions -> expression
-#line 195 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 52: // expressions -> expression
+#line 245 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						PushMultiSelectList();
 						AddMultiSelectListExpression();
 					}
 #line default
         break;
-      case 45: // expressions -> expressions, T_COMMA, expression
-#line 200 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 53: // expressions -> expressions, T_COMMA, expression
+#line 250 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						AddMultiSelectListExpression();
 					}
 #line default
         break;
-      case 46: // pipe_expression -> expression, T_PIPE, expression
-#line 206 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 54: // pipe_expression -> expression, T_PIPE, expression
+#line 256 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnPipeExpression();
 					}
 #line default
         break;
-      case 47: // slice_expression -> T_COLON
-#line 212 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 55: // slice_expression -> T_COLON
+#line 262 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(null, null, null);
 					}
 #line default
         break;
-      case 48: // slice_expression -> T_NUMBER, T_COLON
-#line 216 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 56: // slice_expression -> T_NUMBER, T_COLON
+#line 266 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(ValueStack[ValueStack.Depth-2].Token, null, null);
 					}
 #line default
         break;
-      case 49: // slice_expression -> T_NUMBER, T_COLON, T_COLON
-#line 220 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 57: // slice_expression -> T_NUMBER, T_COLON, T_COLON
+#line 270 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(ValueStack[ValueStack.Depth-3].Token, null, null);
 					}
 #line default
         break;
-      case 50: // slice_expression -> T_NUMBER, T_COLON, T_NUMBER
-#line 224 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 58: // slice_expression -> T_NUMBER, T_COLON, T_NUMBER
+#line 274 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(ValueStack[ValueStack.Depth-3].Token, ValueStack[ValueStack.Depth-1].Token, null);
 					}
 #line default
         break;
-      case 51: // slice_expression -> T_NUMBER, T_COLON, T_NUMBER, T_COLON
-#line 228 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 59: // slice_expression -> T_NUMBER, T_COLON, T_NUMBER, T_COLON
+#line 278 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(ValueStack[ValueStack.Depth-4].Token, ValueStack[ValueStack.Depth-2].Token, null);
 					}
 #line default
         break;
-      case 52: // slice_expression -> T_NUMBER, T_COLON, T_NUMBER, T_COLON, T_NUMBER
-#line 232 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 60: // slice_expression -> T_NUMBER, T_COLON, T_NUMBER, T_COLON, T_NUMBER
+#line 282 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(ValueStack[ValueStack.Depth-5].Token, ValueStack[ValueStack.Depth-3].Token, ValueStack[ValueStack.Depth-1].Token);
 					}
 #line default
         break;
-      case 53: // slice_expression -> T_NUMBER, T_COLON, T_COLON, T_NUMBER
-#line 236 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 61: // slice_expression -> T_NUMBER, T_COLON, T_COLON, T_NUMBER
+#line 286 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(ValueStack[ValueStack.Depth-4].Token, null, ValueStack[ValueStack.Depth-1].Token);
 					}
 #line default
         break;
-      case 54: // slice_expression -> T_COLON, T_NUMBER
-#line 240 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 62: // slice_expression -> T_COLON, T_NUMBER
+#line 290 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(null, ValueStack[ValueStack.Depth-1].Token, null);
 					}
 #line default
         break;
-      case 55: // slice_expression -> T_COLON, T_NUMBER, T_COLON
-#line 244 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 63: // slice_expression -> T_COLON, T_NUMBER, T_COLON
+#line 294 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(null, ValueStack[ValueStack.Depth-2].Token, null);
 					}
 #line default
         break;
-      case 56: // slice_expression -> T_COLON, T_NUMBER, T_COLON, T_NUMBER
-#line 248 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 64: // slice_expression -> T_COLON, T_NUMBER, T_COLON, T_NUMBER
+#line 298 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(null, ValueStack[ValueStack.Depth-3].Token, ValueStack[ValueStack.Depth-1].Token);
 					}
 #line default
         break;
-      case 57: // slice_expression -> T_COLON, T_COLON, T_NUMBER
-#line 252 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 65: // slice_expression -> T_COLON, T_COLON, T_NUMBER
+#line 302 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(null, null, ValueStack[ValueStack.Depth-1].Token);
 					}
 #line default
         break;
-      case 58: // slice_expression -> T_COLON, T_COLON
-#line 256 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 66: // slice_expression -> T_COLON, T_COLON
+#line 306 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						OnSliceExpression(null, null, null);
 					}
 #line default
         break;
-      case 61: // literal -> T_LSTRING
-#line 268 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 69: // literal -> T_LSTRING
+#line 318 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("literal string : {0}", ValueStack[ValueStack.Depth-1].Token);
 						OnLiteralString(ValueStack[ValueStack.Depth-1].Token);
 					}
 #line default
         break;
-      case 62: // raw_string -> T_RSTRING
-#line 274 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+      case 70: // raw_string -> T_RSTRING
+#line 324 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
      {
 						System.Diagnostics.Debug.WriteLine("raw string : {0}", ValueStack[ValueStack.Depth-1].Token);
 						OnRawString(ValueStack[ValueStack.Depth-1].Token);
@@ -509,7 +575,7 @@ internal partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
         return CharToString((char)terminal);
   }
 
-#line 280 "C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathParser.y"
+#line 330 "C:\Projects\jjme\src\jmespath.net/JmesPathParser.y"
  #line default
 }
 }

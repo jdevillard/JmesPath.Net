@@ -89,6 +89,46 @@ namespace DevLab.JmesPath
             expressions_.Push(expression);
         }
 
+        private void OnComparisonExpression(Token token)
+        {
+            Prolog();
+
+            System.Diagnostics.Debug.Assert(expressions_.Count >= 2);
+
+            var right = expressions_.Pop();
+            var left = expressions_.Pop();
+
+            JmesPathExpression expression;
+
+            switch (token.Type)
+            {
+                case TokenType.T_EQ:
+                    expression = new JmesPathEqualOperator(left, right);
+                    break;
+                case TokenType.T_GE:
+                    expression = new JmesPathGreaterThanOrEqualOperator(left, right);
+                    break;
+                case TokenType.T_GT:
+                    expression = new JmesPathGreaterThanOperator(left, right);
+                    break;
+                case TokenType.T_LE:
+                    expression = new JmesPathLessThanOperator(left, right);
+                    break;
+                case TokenType.T_LT:
+                    expression = new JmesPathLessThanOrEqualOperator(left, right);
+                    break;
+                case TokenType.T_NE:
+                    expression = new JmesPathNotEqualOperator(left, right);
+                    break;
+
+                default:
+                    System.Diagnostics.Debug.Assert(false);
+                    throw new NotSupportedException();
+            }
+
+            expressions_.Push(expression);
+        }
+
         private void OnOrExpression()
         {
             Prolog();
