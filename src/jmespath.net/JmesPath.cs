@@ -3,12 +3,27 @@ using System.IO;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using DevLab.JmesPath.Expressions;
+using DevLab.JmesPath.Functions;
+using DevLab.JmesPath.Interop;
 using DevLab.JmesPath.Utils;
 
 namespace DevLab.JmesPath
 {
     public sealed class JmesPath
     {
+        private readonly JmesPathFunctionFactory repositoryFactory_;
+
+        public JmesPath()
+        {
+            repositoryFactory_ = new JmesPathFunctionFactory();
+            foreach (var name in JmesPathFunctionFactory.Default.Names)
+            {
+                repositoryFactory_.Register(name, JmesPathFunctionFactory.Default[name]);
+            }
+        }
+
+        public IRegisterFunctions FunctionRepository => repositoryFactory_;
+        
         public JToken Transform(JToken token, string expression)
         {
             var jmesPath = Parse(expression);

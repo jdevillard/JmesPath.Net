@@ -29,6 +29,8 @@ T_LBRACE		\{
 T_RBRACE		\}
 T_LBRACKET		\[
 T_RBRACKET		\]
+T_LPAREN		\(
+T_RPAREN		\)
 
 %{
 %}
@@ -55,5 +57,7 @@ T_RBRACKET		\]
 {T_RBRACE}			{ yylval.Token = Token.Create(TokenType.T_RBRACE, yytext); return (int)TokenType.T_RBRACE; }
 {T_LBRACKET}		{ yylval.Token = Token.Create(TokenType.T_LBRACKET, yytext); return (int)TokenType.T_LBRACKET; }
 {T_RBRACKET}		{ yylval.Token = Token.Create(TokenType.T_RBRACKET, yytext); return (int)TokenType.T_RBRACKET; }
+{T_LPAREN}			{ yylval.Token = Token.Create(TokenType.T_LPAREN, yytext); return (int)TokenType.T_LPAREN; }
+{T_RPAREN}			{ yylval.Token = Token.Create(TokenType.T_RPAREN, yytext); return (int)TokenType.T_RPAREN; }
 
 %%

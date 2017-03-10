@@ -29,7 +29,9 @@
 	T_LBRACE,
 	T_RBRACE,
 	T_LBRACKET,
-	T_RBRACKET
+	T_RBRACKET,
+	T_LPAREN,
+	T_RPAREN
 
 %left T_PIPE
 %left T_OR
@@ -46,7 +48,7 @@
 expression			: expression_impl
 					{
 						OnExpression();
-					}
+					}					
 					;
 
 expression_impl		: sub_expression
@@ -60,6 +62,7 @@ expression_impl		: sub_expression
 					| multi_select_hash
 					| literal
 					| pipe_expression
+					| function_expression
 					| raw_string
 					;
 
@@ -84,6 +87,30 @@ index_expression	: expression bracket_specifier
 					| bracket_specifier
 					;
 
+function_expression	: unquoted_string arguments
+					{
+						PopFunction($1.Token);
+					}
+					;
+
+arguments			: T_LPAREN T_RPAREN
+					{
+						PushFunction();
+					}
+					| T_LPAREN function_arguments T_RPAREN
+					;
+		
+function_arguments	: expression
+					{
+						PushFunction();
+						AddFunctionArg();
+					}
+					| function_arguments T_COMMA expression 
+					{
+						AddFunctionArg();
+					}
+					;
+										
 bracket_specifier	: T_LBRACKET T_NUMBER T_RBRACKET
 					{
 						System.Diagnostics.Debug.WriteLine("bracket_specifier (index): {0}.", $2.Token);

@@ -194,6 +194,36 @@ namespace DevLab.JmesPath
 
         #endregion
 
+        #region function
+        private readonly Stack<IList<JmesPathExpression>> functions_
+            = new Stack<IList<JmesPathExpression>>();
+
+        private void PushFunction()
+        {
+            functions_.Push(new List<JmesPathExpression>());
+        }
+        private void PopFunction(Token token)
+        {
+            System.Diagnostics.Debug.Assert(token.Type == TokenType.T_USTRING);
+            System.Diagnostics.Debug.Assert(functions_.Count > 0);
+
+            var args = functions_.Pop();
+            var expression = new JmesPathFunction((string) token.Value, args.ToArray());
+            expressions_.Push(expression);
+        }
+
+        private void AddFunctionArg()
+        {
+            Prolog();
+
+            System.Diagnostics.Debug.Assert(functions_.Count > 0);
+
+            var expression = expressions_.Pop();
+            functions_.Peek().Add(expression);
+        }
+
+        #endregion 
+
         #region multi_select_hash
 
         private void PushMultiSelectHash()

@@ -2646,7 +2646,7 @@
       ]
     },
     "Microsoft.DiaSymReader/1.0.8": {
-      "sha512": "HAhTmRgU+nnDVYxMZFAS1iwqg6CudbsSMZfSY9UJj4AJO4L69xZCtTOPKC5rW8+egNBWjDb0iBZV4ZdNI6dZnA==",
+      "sha512": "ABLULVhCAiyBFLBT5xX6vB4NhZDgwUylGRQK+zW5nZn2rbh1f8LOnFZ9gVSxzL6qOzPNb32Nu3QZ43iZerHOxA==",
       "type": "package",
       "path": "Microsoft.DiaSymReader/1.0.8",
       "files": [
@@ -7480,7 +7480,7 @@
     "": [
       "NETStandard.Library >= 1.6.0",
       "dotnet-test-xunit >= 2.2.0-preview2-build1029",
-      "jmespath.net >= 1.0.0-*",
+      "jmespath.net",
       "xunit >= 2.2.0-beta2-build3300"
     ],
     ".NETCoreApp,Version=v1.0": [
