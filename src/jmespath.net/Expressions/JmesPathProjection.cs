@@ -5,7 +5,7 @@ namespace DevLab.JmesPath.Expressions
 {
     public abstract class JmesPathProjection : JmesPathExpression
     {
-        public abstract JmesPathArgument Project(JmesPathArgument json);
+        public abstract JmesPathArgument Project(JmesPathArgument argument);
 
         protected override JmesPathArgument Transform(JToken json)
         {

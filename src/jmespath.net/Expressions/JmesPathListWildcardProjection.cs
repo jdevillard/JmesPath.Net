@@ -5,12 +5,12 @@ namespace DevLab.JmesPath.Expressions
 {
     public sealed class JmesPathListWildcardProjection : JmesPathProjection
     {
-        public override JmesPathArgument Project(JmesPathArgument json)
+        public override JmesPathArgument Project(JmesPathArgument argument)
         {
-            if (json.Projection != null)
-                return json;
+            if (argument.Projection != null)
+                return argument;
 
-            var array = json.Token as JArray;
+            var array = argument.Token as JArray;
             if (array == null) return JmesPathArgument.Null;
 
             var items = array

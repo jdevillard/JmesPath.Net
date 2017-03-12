@@ -5,12 +5,12 @@ namespace DevLab.JmesPath.Expressions
 {
     public sealed class JmesPathHashWildcardProjection : JmesPathProjection
     {
-        public override JmesPathArgument Project(JmesPathArgument json)
+        public override JmesPathArgument Project(JmesPathArgument argument)
         {
-            if (json.Projection != null)
-                return json;
+            if (argument.Projection != null)
+                return argument;
 
-            var item = json.Token as JObject;
+            var item = argument.Token as JObject;
             if (item == null) return JmesPathArgument.Null;
 
             var hashes =

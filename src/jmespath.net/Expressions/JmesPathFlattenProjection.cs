@@ -8,35 +8,34 @@ namespace DevLab.JmesPath.Expressions
     {
         public override JmesPathArgument Project(JmesPathArgument argument)
         {
-            if (!argument.IsProjection)
+            if (argument.IsProjection)
+                argument = argument.AsJToken();
+
+            var items = new List<JmesPathArgument>();
+
+            var array = argument.Token as JArray;
+            if (array == null)
+                return null;
+
+            foreach (var item in array)
             {
-                var items = new List<JmesPathArgument>();
+                var nested = item as JArray;
+                if (nested == null)
+                    items.Add(item);
 
-                var array = argument.Token as JArray;
-                if (array == null)
-                    return null;
-
-                foreach (var item in array)
-                {
-                    var nested = item as JArray;
-                    if (nested == null)
-                        items.Add(item);
-
-                    else
-                        items.AddRange(nested.Select(i => (JmesPathArgument)i));
-                }
-
-                return new JmesPathArgument(items);
+                else
+                    items.AddRange(nested.Select(i => (JmesPathArgument) i));
             }
 
-            return Project(argument.AsJToken());
+            return new JmesPathArgument(items);
         }
 
         public override JmesPathArgument Transform(JmesPathArgument argument)
         {
-            if (argument.IsProjection)
-                return Project(argument);
-            return base.Transform(argument);
+            return argument.IsProjection 
+                ? Project(argument) 
+                : base.Transform(argument)
+                ;
         }
     }
 }
