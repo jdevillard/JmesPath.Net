@@ -22,7 +22,7 @@ namespace DevLab.JmesPath.Expressions
             foreach (var key in dictionary_.Keys)
             {
                 var expression = dictionary_[key];
-                var result = expression.Transform(json)?.Token;
+                var result = expression.Transform(json).AsJToken();
                 properties.Add(new JProperty(key, result));
             }
 

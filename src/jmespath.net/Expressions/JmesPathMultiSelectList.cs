@@ -26,7 +26,7 @@ namespace DevLab.JmesPath.Expressions
             var items = new List<JToken>();
             foreach (var expression in expressions_)
             {
-                var result = expression.Transform(json)?.Token;
+                var result = expression.Transform(json).AsJToken();
                 items.Add(result);
             }
 

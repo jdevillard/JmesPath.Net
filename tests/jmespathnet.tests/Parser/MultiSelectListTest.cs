@@ -13,5 +13,11 @@ namespace jmespath.net.tests.Parser
 
             Assert(expression, input, expected);
         }
+
+        [Fact]
+        public void ParseMultiSelectList_Compliance()
+        {
+            Assert("[[*]]", "[]", "[[]]");
+        }
     }
 }
