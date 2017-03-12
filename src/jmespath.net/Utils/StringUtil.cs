@@ -47,6 +47,7 @@ namespace DevLab.JmesPath.Utils
                 .Replace("\\t", "\t")
                 ;
         }
+
         public static string UnescapeRaw(string rawText)
         {
             // first, remove the surrounding double-quotes
@@ -57,9 +58,10 @@ namespace DevLab.JmesPath.Utils
 
             return text
                 .Replace("\\'", "'")
-                
+
                 ;
         }
+
         public static string UnescapeLiteral(string rawText)
         {
             // first, remove the surrounding double-quotes
@@ -118,24 +120,12 @@ namespace DevLab.JmesPath.Utils
 
         private static readonly Regex RegexUnicodeEscapes
             = new Regex(
-                @"
+                @"^
                     (?:
-                    \\u(?<high>[Dd][8-9A-Ba-b][0-9A-Fa-f]{2})   # \ud800 to \udbff
-                    \\u(?<low> [Dd][C-Fc-f][0-9A-Fa-f]{2})      # \udc00 to \udfff
+                    \\u(?<code>[0-9A-Fa-f]{4})
                     )
-                    |
-                    (?:
-                    \\u(?<code1>[0-9A-Ca-c][0-9A-Fa-f]{3})      # \u0000 to \ucfff
-                    )
-                    |
-                    (?:
-                    \\u(?<code2>[Dd][0-7][0-9A-Fa-f]{2})        # \ud000 to \ud7ff
-                    )
-                    |
-                    (?:
-                    \\u(?<code3>[EFef][0-9A-Fa-f]{3})           # \ue000 to \uffff
-                    )
-                    ",
+                ",
+
                 RegexOptions.Compiled |
                 RegexOptions.Singleline |
                 RegexOptions.IgnorePatternWhitespace
@@ -143,43 +133,60 @@ namespace DevLab.JmesPath.Utils
 
         private static string UnwrapUnicode(string text)
         {
-            return RegexUnicodeEscapes.Replace(text, UnwrapUnicode);
-        }
+            var builder = new StringBuilder();
 
-        private static string UnwrapUnicode(Match match)
-        {
-            System.Diagnostics.Debug.Assert(match.Success);
+            var high = -1;
 
-            if (
-                match.Groups["code1"].Value != "" ||
-                match.Groups["code2"].Value != "" ||
-                match.Groups["code3"].Value != "")
+            while (text.Length > 0)
             {
-                var escape = match.Groups["code1"].Value;
-                if (escape == "")
-                    escape = match.Groups["code2"].Value;
-                if (escape == "")
-                    escape = match.Groups["code3"].Value;
+                var match = RegexUnicodeEscapes.Match(text);
+                if (match.Success)
+                {
+                    var code = match.Groups["code"].Value;
+                    var hex = ParseHex(code);
+                    if (hex >= 0xd800 && hex <= 0xdbff)
+                    {
+                        if (high != -1)
+                            throw new ArgumentException($"The sequence {text.Substring(0, 6)} does not correspond to the second (low) surrogate value of a unicode supplementary character.");
+                        high = hex;
+                    }
 
-                var codePoint = ParseHex(escape);
+                    else if (hex >= 0xdc00 && hex <= 0xdfff)
+                    {
+                        if (high == -1)
+                            throw new ArgumentException($"The sequence {text.Substring(0, 6)} does not correspond to the first (high) surrogate value of a unicode supplementary character.");
 
-                return FromUnicodeCodePoint(codePoint);
+                        var unicode = FromUnicodeSurrogatePair(high, hex);
+                        builder.Append(unicode);
+                        high = -1;
+                    }
+
+                    else
+                    {
+                        if (high != -1)
+                            throw new ArgumentException($"The sequence {text.Substring(0, 6)} does not correspond to the second (low) surrogate value of a unicode supplementary character.");
+
+                        var unicode = FromUnicodeCodePoint(hex);
+                        builder.Append(unicode);
+                    }
+
+                    text = text.Substring(6);
+                }
+
+                else if (text.StartsWith("\\\\"))
+                {
+                    builder.Append("\\\\");
+                    text = text.Substring(2);
+                }
+
+                else
+                {
+                    builder.Append(text[0]);
+                    text = text.Substring(1);
+                }
             }
-            else if (
-                match.Groups["high"].Value != "" &&
-                match.Groups["low"].Value != "")
-            {
-                var highEscape = match.Groups["high"].Value;
-                var lowEscape = match.Groups["low"].Value;
 
-                var high = ParseHex(highEscape);
-                var low = ParseHex(lowEscape);
-
-                return FromUnicodeSurrogatePair(high, low);
-            }
-
-            System.Diagnostics.Debug.Assert(false);
-            throw new NotSupportedException();
+            return builder.ToString();
         }
 
         private static int ParseHex(string escape)

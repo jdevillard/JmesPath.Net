@@ -13,5 +13,15 @@
 
             Assert(expression, input, expected);
         }
+
+        [Fact]
+        public void ParseIdentifier_Compliance()
+        {
+            // search("\udadd\udfc7\\ueFAc", {"\udadd\udfc7\\ueFAc": true}) -> true
+            // search("\"\\\\\\u4FDc\"", {"\\\u4FDc": true}) -> true
+
+            Assert("\"\\udadd\\udfc7\\\\ueFAc\"", "{\"\\udadd\\udfc7\\\\ueFAc\": true}	", "true");
+            Assert("\"\\\\\\u4FDc\"", "{\"\\\\\\u4FDc\": true}	", "true");
+        }
     }
 }

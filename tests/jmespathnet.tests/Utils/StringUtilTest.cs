@@ -10,6 +10,7 @@ namespace jmespath.net.tests.Utils
         {
             Assert.Equal("\u2713", StringUtil.Unwrap("\"\\u2713\""));
             Assert.Equal("\ud834\udd1e", StringUtil.Unwrap("\"\\ud834\\udd1e\""));
+            Assert.Equal("\udadd\udfc7\\ueFAc", StringUtil.Unwrap("\"\\udadd\\udfc7\\\\ueFAc\""));
         }
 
         [Fact]
