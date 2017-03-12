@@ -79,6 +79,7 @@ expression_impl		: sub_expression
 					| identifier
 					| and_expression
 					| not_expression
+					| paren_expression
 					| hash_wildcard
 					| multi_select_list
 					| multi_select_hash
@@ -206,6 +207,9 @@ not_expression		: T_NOT expression
 					{
 						OnNotExpression();
 					}
+					;
+
+paren_expression	: T_LPAREN expression T_RPAREN
 					;
 
 hash_wildcard		: T_HASHWILDCARD
