@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using DevLab.JmesPath.Utils;
 
 namespace DevLab.JmesPath.Expressions
 {
-    public sealed class JmesPathArgument
+    public struct JmesPathArgument : IEquatable<JmesPathArgument>
     {
         public static JmesPathArgument Null = new JmesPathArgument(JTokens.Null);
         public static JmesPathArgument True = new JmesPathArgument(JTokens.True);
@@ -16,10 +17,12 @@ namespace DevLab.JmesPath.Expressions
         public JmesPathArgument(JToken token)
         {
             Token = token ?? JTokens.Null;
+            Projection = null;
         }
 
         public JmesPathArgument(IEnumerable<JmesPathArgument> projection)
         {
+            Token = null;
             Debug.Assert(projection != null);
             Projection = projection.ToArray();
         }
@@ -33,8 +36,9 @@ namespace DevLab.JmesPath.Expressions
             return new JmesPathArgument(token);
         }
 
-        public JToken Token { get; internal set; }
-        public JmesPathArgument[] Projection { get; internal set; }
+        public JToken Token { get; }
+
+        public JmesPathArgument[] Projection { get; }
 
         public JToken AsJToken()
         {
@@ -54,6 +58,50 @@ namespace DevLab.JmesPath.Expressions
             return JTokens.IsFalse(token);
         }
 
+        public bool Equals(JmesPathArgument other)
+        {
+            return GetHashCode() == other.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is JmesPathArgument))
+                return false;
+            return Equals((JmesPathArgument)obj);
+        }
+
+        public static bool operator ==(JmesPathArgument left, JmesPathArgument right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(JmesPathArgument left, JmesPathArgument right)
+        {
+            return !left.Equals(right);
+        }
+        public override int GetHashCode()
+        {
+            const int seedPrimeNumber = 691;
+            const int fieldPrimeNumber = 397;
+
+            var hashCode = seedPrimeNumber;
+
+            unchecked
+            {
+                if (Token != null)
+                    hashCode *= fieldPrimeNumber + Token.GetHashCode();
+                else
+                {
+                    // a projection does not contain null values
+
+                    foreach (var item in Projection)
+                        hashCode *= fieldPrimeNumber + item.GetHashCode();
+                }
+            }
+
+            return hashCode;
+        }
+
 #if DEBUG
         public override string ToString()
         {
@@ -64,7 +112,7 @@ namespace DevLab.JmesPath.Expressions
                 var builder = new StringBuilder();
                 foreach (var argument in Projection)
                     builder.Append(argument);
-                return $"P:<{builder.ToString()}>";
+                return $"P:<{builder}>";
             }
         }
 #endif

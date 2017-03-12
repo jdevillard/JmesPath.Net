@@ -34,7 +34,7 @@ namespace DevLab.JmesPath.Expressions
                 return new JmesPathArgument(items);
             }
 
-            return Transform(argument.Token) ?? JmesPathArgument.Null;
+            return Transform(argument.Token);
         }
 
         /// <summary>

@@ -23,5 +23,11 @@ namespace jmespath.net.tests.Parser
 
             Assert(expression, input, expected);
         }
+
+        [Fact]
+        public void ParseMultiSelectHash_Compliance()
+        {
+            Assert("missing.{foo: bar}", "[]", "null");
+        }
     }
 }
