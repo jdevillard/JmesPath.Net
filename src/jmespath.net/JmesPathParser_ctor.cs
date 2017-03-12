@@ -112,10 +112,10 @@ namespace DevLab.JmesPath
                     expression = new JmesPathGreaterThanOperator(left, right);
                     break;
                 case TokenType.T_LE:
-                    expression = new JmesPathLessThanOperator(left, right);
+                    expression = new JmesPathLessThanOrEqualOperator(left, right);
                     break;
                 case TokenType.T_LT:
-                    expression = new JmesPathLessThanOrEqualOperator(left, right);
+                    expression = new JmesPathLessThanOperator(left, right);
                     break;
                 case TokenType.T_NE:
                     expression = new JmesPathNotEqualOperator(left, right);
@@ -230,6 +230,18 @@ namespace DevLab.JmesPath
             var sliceExpression = new JmesPathSliceProjection(startIndex, stopIndex, stepIndex);
 
             expressions_.Push(sliceExpression);
+        }
+
+        private void OnFilterExpression()
+        {
+            Prolog();
+
+            System.Diagnostics.Debug.Assert(expressions_.Count >= 1);
+
+            var comparison = expressions_.Pop();
+            var expression = new JmesPathFilterProjection(comparison);
+
+            expressions_.Push(expression);
         }
 
         #endregion

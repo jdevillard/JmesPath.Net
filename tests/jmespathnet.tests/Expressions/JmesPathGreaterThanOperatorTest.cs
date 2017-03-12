@@ -17,7 +17,7 @@ namespace jmespath.net.tests.Expressions
             const string json = "[{\"a\": 1}, {\"a\": 2}, {\"a\": 3}]";
             const string expected = "[{\"a\":2},{\"a\":3}]";
 
-            var expression = new JmesPathFilterExpression(
+            var expression = new JmesPathFilterProjection(
                 new JmesPathGreaterThanOperator(
                     new JmesPathIdentifier("a"),
                     new JmesPathLiteral(1)

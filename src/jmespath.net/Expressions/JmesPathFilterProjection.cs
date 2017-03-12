@@ -1,26 +1,28 @@
 using System;
 using System.Collections.Generic;
-using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
 {
-    public sealed class JmesPathFilterExpression : JmesPathExpression
+    public sealed class JmesPathFilterProjection : JmesPathProjection
     {
         private readonly JmesPathExpression expression_;
 
-        public JmesPathFilterExpression(JmesPathExpression expression)
+        public JmesPathFilterProjection(JmesPathExpression expression)
         {
             expression_ = expression;
         }
 
-        protected override JmesPathArgument Transform(JToken json)
+        public override JmesPathArgument Project(JmesPathArgument argument)
         {
-            var array = json as JArray;
+            if (argument.IsProjection)
+                argument = argument.AsJToken();
+
+            var array = argument.Token as JArray;
             if (array == null)
                 return null;
 
-            var items = new List<JToken>();
+            var items = new List<JmesPathArgument>();
 
             foreach (var item in array)
             {
@@ -29,7 +31,7 @@ namespace DevLab.JmesPath.Expressions
                     items.Add(item);
             }
 
-            return new JArray().AddRange(items);
+            return new JmesPathArgument(items);
         }
     }
 }

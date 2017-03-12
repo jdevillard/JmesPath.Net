@@ -18,7 +18,7 @@ namespace jmespath.net.tests.Expressions
         [Fact]
         public void JmesPathEqualOperator_Evaluate()
         {
-            JmesPathExpression expression = new JmesPathFilterExpression(
+            JmesPathExpression expression = new JmesPathFilterProjection(
                 new JmesPathEqualOperator(
                     new JmesPathIdentifier("bar"),
                     new JmesPathLiteral(10)
@@ -36,7 +36,7 @@ namespace jmespath.net.tests.Expressions
 
             expression = new JmesPathIndexExpression(
                 new JmesPathIdentifier("foo"),
-                new JmesPathFilterExpression(
+                new JmesPathFilterProjection(
                     new JmesPathEqualOperator(
                         new JmesPathIdentifier("a"),
                         new JmesPathIdentifier("b")

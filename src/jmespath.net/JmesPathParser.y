@@ -146,6 +146,9 @@ bracket_specifier	: T_LBRACKET T_NUMBER T_RBRACKET
 					}
 					| T_LBRACKET slice_expression T_RBRACKET
 					| T_FILTER expression T_RBRACKET
+					{
+						OnFilterExpression();
+					}
 					| T_FLATTEN
 					{
 						System.Diagnostics.Debug.WriteLine("bracket_specifier (flattening projection).");
