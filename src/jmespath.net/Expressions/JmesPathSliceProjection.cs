@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
@@ -15,6 +16,8 @@ namespace DevLab.JmesPath.Expressions
 
         public JmesPathSliceProjection(int? start, int? stop, int? step)
         {
+            System.Diagnostics.Debug.Assert(step == null || step.Value != 0);
+
             start_ = start;
             stop_ = stop;
             step_ = step;
@@ -54,7 +57,7 @@ namespace DevLab.JmesPath.Expressions
 
                 // if a negative start position is given, it is calculated as the total length of the array plus the given start position.
 
-                if (start_.GetValueOrDefault() < 0)
+                if (start_.HasValue && start_.Value < 0)
                     start = length + start_.Value;
 
                 // if no stop position is given, it is assumed to be the length of the array if the given step is greater than 0 or 0 if the given step is less than 0.
@@ -63,7 +66,7 @@ namespace DevLab.JmesPath.Expressions
 
                 // if a negative stop position is given, it is calculated as the total length of the array plus the given stop position.
 
-                if (stop_.GetValueOrDefault() < 0)
+                if (stop_.HasValue && stop_.Value < 0)
                     stop = length + stop_.Value;
 
                 // if the element being sliced is an array and yields no results, the result MUST be an empty array.

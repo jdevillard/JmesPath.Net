@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using DevLab.JmesPath;
@@ -60,29 +61,58 @@ namespace jmespath.net.compliance
 
             var result = EvaluateExpression(document, expression);
 
+            var message = new StringBuilder();
+            message.AppendFormat("Evaluation {0} ; ", result.Success ? "succeeded" : "failed");
+
             if (result.Success)
+            {
                 result.Success = CompareJson(expected, result.Result);
+                message.AppendFormat("Comparison {0} ; ", result.Success ? "succeeded" : "failed");
+            }
 
             var succeeded = result.Success;
             var color = succeeded ? ConsoleColor.Green : ConsoleColor.Yellow;
-            var message = succeeded ? "Succeeded" : "Failed";
 
             if (succeeded && error != null)
             {
                 color = ConsoleColor.Yellow;
-                message = $"Expected error: {error}, but completed without errors";
+                message.Append( $"Expected error: {error}, but completed without errors");
             }
 
-            if (!succeeded && result.Error != null)
+            if (!succeeded)
             {
-                color = ConsoleColor.Yellow;
-                message = $"Failed with unexpected error: {result.Error}.";
+                if (error == null)
+                {
+                    color = ConsoleColor.Yellow;
+                    message.Append($"Failed with unexpected error: {result.Error}.");
+                }
+
+                else if (result.Error == null || !IsExpectedError(result.Error, error))
+                {
+                    color = ConsoleColor.Yellow;
+                    message.Append($"Expected error: {error}, but completed without errors");
+                }
+
+                else
+                {
+                    result.Success = true;
+                    color = ConsoleColor.Green;
+                    message.Append($"Error: {error}");
+                }
             }
 
-            ConsoleEx.Out.Write(color, message);
+            ConsoleEx.Out.Write(color, message.ToString());
             ConsoleEx.Out.WriteLine(ConsoleColor.Gray, ".");
 
             return result;
+        }
+
+        private static bool IsExpectedError(string result, string error)
+        {
+            var expected = error.Replace("-", " ").ToLowerInvariant();
+            var actual = result.Replace("-", " ").ToLowerInvariant();
+
+            return actual.Contains(expected);
         }
 
         private static ComplianceResult EvaluateExpression(JToken document, string expression)

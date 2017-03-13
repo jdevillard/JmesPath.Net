@@ -6,6 +6,7 @@ using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Functions;
 using DevLab.JmesPath.Interop;
 using DevLab.JmesPath.Utils;
+using Newtonsoft.Json;
 
 namespace DevLab.JmesPath
 {

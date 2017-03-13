@@ -1,5 +1,6 @@
 ﻿using System;
 using DevLab.JmesPath.Tokens;
+using StarodubOleg.GPPG.Runtime;
 
 namespace DevLab.JmesPath
 {
@@ -14,6 +15,7 @@ namespace DevLab.JmesPath
         public TokenType Type { get; }
         public string RawText { get; }
         public virtual object Value => RawText;
+        public LexLocation Location { get; set; }
 
         public static Token Create(TokenType tokenType, string yytext)
         {
