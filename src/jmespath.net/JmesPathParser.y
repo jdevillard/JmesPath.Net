@@ -28,8 +28,7 @@
 
 	T_FILTER,
 	T_FLATTEN,
-	T_HASHWILDCARD,
-	T_LISTWILDCARD,
+	T_STAR,
 
 	T_NUMBER,
 	T_LSTRING,
@@ -57,7 +56,7 @@
 %left T_NOT
 %left T_DOT
 %left T_LBRACKET
-%left T_HASHWILDCARD
+%left T_STAR
 %left T_FILTER
 %left T_FLATTEN
 %left T_LISTWILDCARD
@@ -139,7 +138,7 @@ bracket_specifier	: T_LBRACKET T_NUMBER T_RBRACKET
 						System.Diagnostics.Debug.WriteLine("bracket_specifier (index): {0}.", $2.Token);
 						OnIndex($2.Token);
 					}
-					| T_LISTWILDCARD
+					| T_LBRACKET T_STAR T_RBRACKET
 					{
 						System.Diagnostics.Debug.WriteLine("bracket_specifier (list wildcard projection).");
 						OnListWildcardProjection();
@@ -215,7 +214,7 @@ not_expression		: T_NOT expression
 paren_expression	: T_LPAREN expression T_RPAREN
 					;
 
-hash_wildcard		: T_HASHWILDCARD
+hash_wildcard		: T_STAR
 					{
 						System.Diagnostics.Debug.WriteLine("wildcard (hash wildcard projection): {0}", $1.Token);
 						OnHashWildcardProjection();

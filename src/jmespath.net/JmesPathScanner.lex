@@ -24,8 +24,7 @@ T_NE			!=
 
 T_FLATTEN		\[\]
 T_FILTER		\[\?
-T_HASHWILDCARD	\*
-T_LISTWILDCARD	\[\*\]
+T_STAR			\*
 
 T_NUMBER		\-?[0-9]+
 
@@ -67,8 +66,7 @@ E_UNRECOGNIZED	.
 
 {T_FILTER}			{ return MakeToken(TokenType.T_FILTER); }
 {T_FLATTEN}			{ return MakeToken(TokenType.T_FLATTEN); }
-{T_HASHWILDCARD}	{ return MakeToken(TokenType.T_HASHWILDCARD); }
-{T_LISTWILDCARD}	{ return MakeToken(TokenType.T_LISTWILDCARD); }
+{T_STAR}			{ return MakeToken(TokenType.T_STAR); }
 
 {T_NUMBER}			{ return MakeToken(TokenType.T_NUMBER); }
 {T_LSTRING}			{ return MakeToken(TokenType.T_LSTRING); }
@@ -88,7 +86,7 @@ E_UNRECOGNIZED	.
 
 %{
 
-	yylloc = new LexLocation(tokLin,tokCol,tokELin,tokECol);
+	yylloc = new LexLocation(tokLin, tokCol, tokELin, tokECol);
 
 %}
 
