@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using DevLab.JmesPath.Expressions;
+using DevLab.JmesPath.Interop;
 using DevLab.JmesPath.Tokens;
 using StarodubOleg.GPPG.Runtime;
 
@@ -10,6 +11,11 @@ namespace DevLab.JmesPath
 {
     internal partial class JmesPathParser
     {
+        /// <summary>
+        /// holds the functions available to the parser
+        /// </summary>
+        private readonly IFunctionRepository repository_;
+
         private readonly Stack<IDictionary<string, JmesPathExpression>> selectHashes_
             = new Stack<IDictionary<string, JmesPathExpression>>()
             ;
@@ -17,6 +23,9 @@ namespace DevLab.JmesPath
         private readonly Stack<IList<JmesPathExpression>> selectLists_
             = new Stack<IList<JmesPathExpression>>()
             ;
+
+        private readonly Stack<IList<JmesPathExpression>> functions_
+            = new Stack<IList<JmesPathExpression>>();
 
         private readonly Stack<JmesPathExpression> expressions_
             = new Stack<JmesPathExpression>()
@@ -26,9 +35,10 @@ namespace DevLab.JmesPath
 
         public JmesPathExpression Expression => expression_;
 
-        public JmesPathParser(AbstractScanner<ValueType, LexLocation> scanner)
+        public JmesPathParser(AbstractScanner<ValueType, LexLocation> scanner, IFunctionRepository repository)
             : base(scanner)
         {
+            repository_ = repository;
         }
 
         private void OnExpression()
@@ -250,8 +260,6 @@ namespace DevLab.JmesPath
         #endregion
 
         #region function
-        private readonly Stack<IList<JmesPathExpression>> functions_
-            = new Stack<IList<JmesPathExpression>>();
 
         private void PushFunction()
         {
@@ -263,7 +271,11 @@ namespace DevLab.JmesPath
             System.Diagnostics.Debug.Assert(functions_.Count > 0);
 
             var args = functions_.Pop();
-            var expression = new JmesPathFunction((string) token.Value, args.ToArray());
+            var name = (string) token.Value;
+            var expressions = args.ToArray();
+
+            var expression = new JmesPathFunction(repository_, name, expressions);
+
             expressions_.Push(expression);
         }
 

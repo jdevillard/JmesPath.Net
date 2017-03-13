@@ -12,18 +12,16 @@ namespace DevLab.JmesPath
 {
     public sealed class JmesPath
     {
-        private readonly JmesPathFunctionFactory repositoryFactory_;
+        private readonly JmesPathFunctionFactory repository_;
 
         public JmesPath()
         {
-            repositoryFactory_ = new JmesPathFunctionFactory();
+            repository_ = new JmesPathFunctionFactory();
             foreach (var name in JmesPathFunctionFactory.Default.Names)
-            {
-                repositoryFactory_.Register(name, JmesPathFunctionFactory.Default[name]);
-            }
+                repository_.Register(name, JmesPathFunctionFactory.Default[name]);
         }
 
-        public IRegisterFunctions FunctionRepository => repositoryFactory_;
+        public IRegisterFunctions FunctionRepository => repository_;
         
         public JToken Transform(JToken token, string expression)
         {
@@ -42,15 +40,15 @@ namespace DevLab.JmesPath
             return result.AsString();
         }
 
-        private static JmesPathExpression Parse(string expression)
+        private JmesPathExpression Parse(string expression)
         {
             return Parse(new MemoryStream(Encoding.UTF8.GetBytes(expression)));
         }
 
-        private static JmesPathExpression Parse(Stream stream)
+        private JmesPathExpression Parse(Stream stream)
         {
             var scanner = new JmesPathScanner(stream);
-            var analyzer = new JmesPathParser(scanner);
+            var analyzer = new JmesPathParser(scanner, repository_);
             if (!analyzer.Parse())
                 return null;
 

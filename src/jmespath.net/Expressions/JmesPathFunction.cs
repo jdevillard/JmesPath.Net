@@ -11,26 +11,38 @@ namespace DevLab.JmesPath.Expressions
 {
     public class JmesPathFunction : JmesPathExpression
     {
-        private readonly IFunctionRepository repository_;
         private readonly string name_;
         private readonly JmesPathExpression[] expressions_;
+        private readonly JFunction function_;
 
         public JmesPathFunction(string name, params JmesPathExpression[] expressions)
-        :this(JmesPathFunctionFactory.Default, name, expressions)
+            : this(JmesPathFunctionFactory.Default, name, expressions)
         {
-            
+
         }
+
         public JmesPathFunction(IFunctionRepository repository, string name, IList<JmesPathExpression> expressions)
-            :this(repository,name, expressions.ToArray())
+            : this(repository, name, expressions.ToArray())
         {
-            
+
         }
-        public JmesPathFunction(IFunctionRepository repository,string name, params JmesPathExpression[] expressions)
+
+        public JmesPathFunction(IFunctionRepository repository, string name, params JmesPathExpression[] expressions)
         {
             if (!repository.Contains(name))
-                throw new Exception("unknown-function");
+                throw new Exception($"Error: unknown-function, no function named {name} has been registered.");
 
-            repository_ = repository;
+            function_ = repository[name];
+
+            var expected = function_.ArgumentCount;
+            var actual = expressions?.Length;
+
+            if (expected > actual)
+            {
+                var report = actual == 0 ? "none" : $"only {actual}";
+                throw new Exception($"Error: invalid-arity, the function {name} expects {expected} arguments or more but {report} were supplied.");
+            }
+
             name_ = name;
             expressions_ = expressions;
         }
@@ -39,9 +51,13 @@ namespace DevLab.JmesPath.Expressions
 
         protected override JmesPathArgument Transform(JToken json)
         {
-            var arguments = expressions_.Select(expression => expression.Transform(json).AsJToken()).ToArray();
-            var f = repository_[name_];
-            return f.Execute(arguments);
+            var arguments = expressions_.Select(
+                expression => expression.Transform(json).AsJToken()
+                )
+                .ToArray()
+                ;
+
+            return function_.Execute(arguments);
         }
     }
 }
