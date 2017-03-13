@@ -47,5 +47,11 @@ namespace DevLab.JmesPath.Expressions
                     : JmesPathArgument.False
                 ;
         }
+
+        public override void Validate()
+        {
+            Left.Validate();
+            Right.Validate();
+        }
     }
 }

@@ -52,6 +52,8 @@ namespace DevLab.JmesPath
             if (!analyzer.Parse())
                 return null;
 
+            analyzer.Expression.Validate();
+
             return analyzer.Expression;
         }
     }

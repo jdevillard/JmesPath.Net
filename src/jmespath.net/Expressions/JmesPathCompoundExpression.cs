@@ -38,5 +38,11 @@ namespace DevLab.JmesPath.Expressions
             var token = left_.Transform(json);
             return token == JmesPathArgument.Null ? token : right_.Transform(token);
         }
+
+        public override void Validate()
+        {
+            Left.Validate();
+            Right.Validate();
+        }
     }
 }

@@ -43,5 +43,18 @@ namespace DevLab.JmesPath.Expressions
         /// <param name="json"></param>
         /// <returns></returns>
         protected abstract JmesPathArgument Transform(JToken json);
+
+        /// <summary>
+        /// Called by the parser to perform post-parsing validation
+        /// when the abstract syntax tree is fully constructed.
+        /// This method supports post-parsing validation as required
+        /// by the following compliance test case:
+        /// https://github.com/jmespath/jmespath.test/blob/master/tests/slice.json
+        /// foo[8:2:0:1] => error: syntax
+        /// </summary>
+        public virtual void Validate()
+        {
+            /* empty stub */
+        }
     }
 }

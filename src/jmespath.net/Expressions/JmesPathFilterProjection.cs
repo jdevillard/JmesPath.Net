@@ -33,5 +33,10 @@ namespace DevLab.JmesPath.Expressions
 
             return new JmesPathArgument(items);
         }
+
+        public override void Validate()
+        {
+            expression_.Validate();
+        }
     }
 }

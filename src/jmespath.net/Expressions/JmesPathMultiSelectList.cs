@@ -32,5 +32,11 @@ namespace DevLab.JmesPath.Expressions
 
             return new JArray().AddRange(items);
         }
+
+        public override void Validate()
+        {
+            foreach (var expression in expressions_)
+                expression.Validate();
+        }
     }
 }

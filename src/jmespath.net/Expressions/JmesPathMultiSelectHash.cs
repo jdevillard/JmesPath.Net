@@ -28,5 +28,11 @@ namespace DevLab.JmesPath.Expressions
 
             return new JObject(properties);
         }
+
+        public override void Validate()
+        {
+            foreach (var key in dictionary_.Keys)
+                dictionary_[key].Validate();
+        }
     }
 }

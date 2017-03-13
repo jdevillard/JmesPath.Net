@@ -16,8 +16,6 @@ namespace DevLab.JmesPath.Expressions
 
         public JmesPathSliceProjection(int? start, int? stop, int? step)
         {
-            System.Diagnostics.Debug.Assert(step == null || step.Value != 0);
-
             start_ = start;
             stop_ = stop;
             step_ = step;
@@ -83,6 +81,14 @@ namespace DevLab.JmesPath.Expressions
             }
 
             return Project(argument.AsJToken());
+        }
+
+        public override void Validate()
+        {
+            if (step_.HasValue && step_.Value == 0)
+                throw new Exception("Error: invalid-value, the step index of a slice expression cannot be 0.");
+
+            base.Validate();
         }
     }
 }

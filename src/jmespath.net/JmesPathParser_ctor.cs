@@ -238,9 +238,6 @@ namespace DevLab.JmesPath
             var stopIndex = (int?)stop?.Value;
             var stepIndex = (int?)step?.Value;
 
-            if (stepIndex.HasValue && stepIndex.Value == 0)
-                throw new ArgumentException("Error: invalid-value. A slice expression step number cannot be 0.");
-
             var sliceExpression = new JmesPathSliceProjection(startIndex, stopIndex, stepIndex);
 
             expressions_.Push(sliceExpression);
