@@ -13,7 +13,7 @@ namespace DevLab.JmesPath.Expressions
     {
         private readonly string name_;
         private readonly JmesPathExpression[] expressions_;
-        private readonly JFunction function_;
+        private readonly Interop.JmesPathFunction function_;
 
         public JmesPathFunction(string name, params JmesPathExpression[] expressions)
             : this(JmesPathFunctionFactory.Default, name, expressions)

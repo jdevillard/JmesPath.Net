@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Functions
 {
-    public class AbsFunction : JFunction
+    public class AbsFunction : JmesPathFunction
     {
         public AbsFunction()
             : base("abs", 1)

@@ -2,9 +2,9 @@
 
 namespace DevLab.JmesPath.Interop
 {
-    public abstract class JFunction
+    public abstract class JmesPathFunction
     {
-        protected JFunction(string name, int count)
+        protected JmesPathFunction(string name, int count)
         {
             Name = name;
             ArgumentCount = count;

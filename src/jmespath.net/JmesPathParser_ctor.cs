@@ -6,6 +6,7 @@ using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Interop;
 using DevLab.JmesPath.Tokens;
 using StarodubOleg.GPPG.Runtime;
+using JmesPathFunction = DevLab.JmesPath.Expressions.JmesPathFunction;
 
 namespace DevLab.JmesPath
 {
@@ -245,18 +246,6 @@ namespace DevLab.JmesPath
             expressions_.Push(sliceExpression);
         }
 
-        private void OnFilterExpression()
-        {
-            Prolog();
-
-            System.Diagnostics.Debug.Assert(expressions_.Count >= 1);
-
-            var comparison = expressions_.Pop();
-            var expression = new JmesPathFilterProjection(comparison);
-
-            expressions_.Push(expression);
-        }
-
         #endregion
 
         #region function
@@ -354,7 +343,19 @@ namespace DevLab.JmesPath
 
         #endregion
 
-        #region projections
+        #region projection
+
+        private void OnFilterProjection()
+        {
+            Prolog();
+
+            System.Diagnostics.Debug.Assert(expressions_.Count >= 1);
+
+            var comparison = expressions_.Pop();
+            var expression = new JmesPathFilterProjection(comparison);
+
+            expressions_.Push(expression);
+        }
 
         private void OnFlattenProjection()
         {

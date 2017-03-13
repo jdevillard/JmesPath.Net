@@ -4,8 +4,8 @@
 
 // GPPG version 0.1.0.0
 // Machine:  DESKTOP-UQ0H65F
-// DateTime: 12/03/2017 15:05:31
-// Input file <C:\Projects\jmespath\jjme\src\jmespath.net/JmesPathParser.y - 12/03/2017 14:39:00>
+// DateTime: 13/03/2017 08:46:29
+// Input file <C:\Projects\jmespath\jjme\src\jmespath.net/JmesPathParser.y - 13/03/2017 08:46:17>
 
 // options: lines gplex
 
@@ -333,7 +333,7 @@ internal partial class JmesPathParser: ShiftReduceParser<ValueType, LexLocation>
       case 33: // bracket_specifier -> T_FILTER, expression, T_RBRACKET
 #line 149 "C:\Projects\jmespath\jjme\src\jmespath.net/JmesPathParser.y"
      {
-						OnFilterExpression();
+						OnFilterProjection();
 					}
 #line default
         break;

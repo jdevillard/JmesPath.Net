@@ -6,7 +6,7 @@ namespace DevLab.JmesPath.Interop
     public interface IFunctionRepository
     {
         IEnumerable<string> Names { get; }
-        JFunction this[string name] { get; }
+        JmesPathFunction this[string name] { get; }
         bool Contains(string name);
     }
 }

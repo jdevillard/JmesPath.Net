@@ -6,7 +6,7 @@ namespace DevLab.JmesPath.Functions
 {
     public  class JmesPathFunctionFactory : IRegisterFunctions, IFunctionRepository
     {
-        private readonly Dictionary<string, JFunction> functions_ = new Dictionary<string, JFunction>();
+        private readonly Dictionary<string, JmesPathFunction> functions_ = new Dictionary<string, JmesPathFunction>();
         private static IFunctionRepository repository_;
 
         public static IFunctionRepository Default {
@@ -25,7 +25,7 @@ namespace DevLab.JmesPath.Functions
             }
         } 
 
-        public IRegisterFunctions Register(string name, JFunction function)
+        public IRegisterFunctions Register(string name, JmesPathFunction function)
         {
             if (!functions_.ContainsKey(name))
                 functions_.Add(name, function);
@@ -35,7 +35,7 @@ namespace DevLab.JmesPath.Functions
             return this;
         }
 
-        public IRegisterFunctions Register<T>() where T : JFunction
+        public IRegisterFunctions Register<T>() where T : JmesPathFunction
         {
             var instance = Activator.CreateInstance<T>();
             Register(instance.Name,instance);
@@ -45,7 +45,7 @@ namespace DevLab.JmesPath.Functions
 
         public IEnumerable<string> Names => functions_.Keys;
         
-        public JFunction this[string name] => functions_[name];
+        public JmesPathFunction this[string name] => functions_[name];
 
         public  bool Contains(string name)
         {

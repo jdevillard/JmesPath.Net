@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Functions
 {
-    public class ToNumberFunction : JFunction
+    public class ToNumberFunction : JmesPathFunction
     {
         public ToNumberFunction()
             : base("to_number", 1)

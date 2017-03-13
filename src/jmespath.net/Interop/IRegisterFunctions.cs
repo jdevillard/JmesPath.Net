@@ -4,7 +4,7 @@ namespace DevLab.JmesPath.Interop
 {
     public interface IRegisterFunctions
     {
-        IRegisterFunctions Register(string name, JFunction function);
-        IRegisterFunctions Register<T>() where T : JFunction;
+        IRegisterFunctions Register(string name, JmesPathFunction function);
+        IRegisterFunctions Register<T>() where T : JmesPathFunction;
     }
 }
