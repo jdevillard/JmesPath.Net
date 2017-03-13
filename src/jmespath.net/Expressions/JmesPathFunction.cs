@@ -34,10 +34,11 @@ namespace DevLab.JmesPath.Expressions
 
             function_ = repository[name];
 
-            var expected = function_.ArgumentCount;
+            var variadic = function_.Variadic;
+            var expected = function_.MinArgumentCount;
             var actual = expressions?.Length;
 
-            if (expected > actual)
+            if (actual < expected || (!variadic && actual > expected))
             {
                 var report = actual == 0 ? "none" : $"only {actual}";
                 throw new Exception($"Error: invalid-arity, the function {name} expects {expected} arguments or more but {report} were supplied.");
@@ -56,6 +57,8 @@ namespace DevLab.JmesPath.Expressions
                 )
                 .ToArray()
                 ;
+
+            function_.Validate(arguments);
 
             return function_.Execute(arguments);
         }
