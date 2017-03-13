@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Interop;
 
 namespace DevLab.JmesPath.Functions
@@ -17,9 +16,9 @@ namespace DevLab.JmesPath.Functions
                     return repository_;
                 var repo = new JmesPathFunctionFactory();
                 repo
+                    .Register<AbsFunction>()
                     .Register<ToNumberFunction>()
                     ;
-                 
 
                 repository_ = repo;
                 return repo;
@@ -47,7 +46,6 @@ namespace DevLab.JmesPath.Functions
         public IEnumerable<string> Names => functions_.Keys;
         
         public JFunction this[string name] => functions_[name];
-
 
         public  bool Contains(string name)
         {
