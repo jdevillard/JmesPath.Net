@@ -49,6 +49,15 @@ E_UNRECOGNIZED	.
 
 %%
 
+	// Code to take tokens from non-empty queue.
+	if (this.pushback_.QueueLength > 0) {
+		ScanObj obj = this.pushback_.DequeueCurrentToken();
+		this.yylloc = obj.yylloc;
+		this.yylval = obj.yylval;
+		return obj.token;
+	}
+
+
 {T_AND}				{ return MakeToken(TokenType.T_AND); }
 {T_OR}				{ return MakeToken(TokenType.T_OR); }
 {T_NOT}				{ return MakeToken(TokenType.T_NOT); }

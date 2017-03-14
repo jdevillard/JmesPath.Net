@@ -69,6 +69,7 @@
 expression			: expression_impl
 					{
 						OnExpression();
+						ResolveParsingState();
 					}					
 					;
 
@@ -134,6 +135,7 @@ function_arguments	: expression
 						AddFunctionArg();
 					}
 					;
+
 current_node		: T_CURRENT
 					{
 						OnCurrentNode();

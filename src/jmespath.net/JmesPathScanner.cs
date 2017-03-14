@@ -5,9 +5,9 @@
 //  See accompanying file GPLEXcopyright.rtf.
 //
 //  GPLEX Version:  0.1.0.0
-//  Machine:  MOSKITOSJEREMIE
-//  DateTime: 14/03/2017 01:33:29
-//  GPLEX input file <C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathScanner.lex - 14/03/2017 01:32:16>
+//  Machine:  DESKTOP-UQ0H65F
+//  DateTime: 15/03/2017 15:59:53
+//  GPLEX input file <C:\Projects\jmespath\jjme\src\jmespath.net/JmesPathScanner.lex - 15/03/2017 09:25:22>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: unicode, verbose, parser, stack, minimize
@@ -660,6 +660,14 @@ int NextState() {
         // ============== The main tokenizer code =================
 
         int Scan() {
+// User-specified prolog to scan()
+if (this.pushback_.QueueLength > 0) {
+		ScanObj obj = this.pushback_.DequeueCurrentToken();
+		this.yylloc = obj.yylloc;
+		this.yylval = obj.yylval;
+		return obj.token;
+	}
+// End, user-specified prolog
             try {
                 for (; ; ) {
                     int next;              // next state to enter

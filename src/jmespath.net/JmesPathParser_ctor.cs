@@ -42,49 +42,124 @@ namespace DevLab.JmesPath
             repository_ = repository;
         }
 
+        #region Implementation
+
         private void OnExpression()
         {
             if (expression_ == null)
                 expression_ = expressions_.Pop();
         }
 
-        #region Implementation
-
-        private void Prolog()
+        private bool Prolog()
         {
             if (expression_ != null)
+            {
                 expressions_.Push(expression_);
-            expression_ = null;
+                expression_ = null;
+                return true;
+            }
+
+            return false;
+        }
+
+        private void ResolveParsingState()
+        {
+            // the grammar does not specify this but the canonical
+            // implementation accepts constructs that consist of
+            // projections immediately followed by a multi_select_list.
+            // these constructs should be separated with a T_DOT
+            // because these really are sub_expressions in disguise.
+
+            // when this method is called, upon each successful
+            // parse of an expression, we need to identify
+            // whether we are in such a case and insert a T_DOT
+            // in the token stream if necessary
+
+            var pop = Prolog();
+
+            try
+            {
+                if (expressions_.Count == 0)
+                    return;
+
+                // only interested in cases where previous construct is a projection
+
+                var expression = expressions_.Peek();
+                if (!(expression is JmesPathProjection))
+                    return;
+
+                var scanner = this.Scanner as JmesPathScanner;
+                System.Diagnostics.Debug.Assert(scanner != null);
+
+                var next = scanner.EnqueueAndReturnInitialToken(NextToken);
+                NextToken = 0;
+
+                if (next == (int)TokenType.T_LBRACKET && IsParsingMultiSelectList())
+                    ResolveSubExpressionToMultiSelectList();
+
+                scanner.AddPushbackBufferToQueue();
+            }
+            finally
+            {
+                if (pop)
+                    OnExpression();
+            }
+        }
+
+        private bool IsParsingMultiSelectList()
+        {
+            var scanner = this.Scanner as JmesPathScanner;
+            System.Diagnostics.Debug.Assert(scanner != null);
+
+            // this method is called upon each successfull parse of an expression
+            //
+            // (T_LBRACKET) T_STAR T_RBRACKET => list_wildcard => bracket_specifier
+            // (T_LBRACKET) T_STAR ... <any>  => hash_wildcard => in the context of a multi_select_list
+            // (T_LBRACKET) T_COLON           => slice_expression => bracket_specifier
+            // (T_LBRACKET) T_NUMBER          => number => bracket_specifier
+            // (T_LBRACKET) <any>             => multi_select_list
+
+            var next = scanner.GetAndEnqueue();
+
+            switch (next)
+            {
+                case (int)TokenType.T_STAR:
+                    {
+                        var lookahead = scanner.GetAndEnqueue();
+                        if (lookahead != (int)TokenType.T_RBRACKET)
+                            return true;
+                    }
+                    break;
+
+                case (int)TokenType.T_COLON:
+                case (int)TokenType.T_NUMBER:
+                    {
+                        // next construct is a bracket specifier
+                        // do nothing
+                    }
+                    break;
+
+                // otherwise, resolve to a multi_select_list
+
+                default:
+                    return true;
+            }
+
+            return false;
+        }
+
+        private void ResolveSubExpressionToMultiSelectList()
+        {
+            // next construct is a multi_select_list
+            // check that the previous construct is a projection
+            // and prepend a "." to parse as a sub_expression
+
+            NextToken = (int)TokenType.T_DOT;
         }
 
         #endregion
 
-        private void OnIdentifier(Token token)
-        {
-            Prolog();
-
-            var @string = (string)token.Value;
-            var expression = new JmesPathIdentifier(@string);
-            expressions_.Push(expression);
-        }
-
-        private void OnLiteralString(Token token)
-        {
-            Prolog();
-
-            var @string = (JToken)token.Value;
-            var expression = new JmesPathLiteral(@string);
-            expressions_.Push(expression);
-        }
-
-        private void OnRawString(Token token)
-        {
-            Prolog();
-
-            var @string = (string)token.Value;
-            var expression = new JmesPathRawString(@string);
-            expressions_.Push(expression);
-        }
+        #region Expressions
 
         private void OnSubExpression()
         {
@@ -99,6 +174,86 @@ namespace DevLab.JmesPath
 
             expressions_.Push(expression);
         }
+
+
+        #region index_expression
+
+        private void OnIndex(Token token)
+        {
+            Prolog();
+
+            var number = token as NumberToken;
+
+            System.Diagnostics.Debug.Assert(token.Type == TokenType.T_NUMBER);
+            System.Diagnostics.Debug.Assert(number != null);
+
+            var index = (int)number.Value;
+
+            var expression = new JmesPathIndex(index);
+
+            expressions_.Push(expression);
+        }
+
+        private void OnFilterProjection()
+        {
+            Prolog();
+
+            System.Diagnostics.Debug.Assert(expressions_.Count >= 1);
+
+            var comparison = expressions_.Pop();
+            var expression = new JmesPathFilterProjection(comparison);
+
+            expressions_.Push(expression);
+        }
+
+        private void OnFlattenProjection()
+        {
+            Prolog();
+
+            expressions_.Push(new JmesPathFlattenProjection());
+        }
+
+        private void OnListWildcardProjection()
+        {
+            Prolog();
+
+            expressions_.Push(new JmesPathListWildcardProjection());
+        }
+
+        private void OnIndexExpression()
+        {
+            Prolog();
+
+            System.Diagnostics.Debug.Assert(expressions_.Count >= 2);
+
+            var right = expressions_.Pop();
+            var left = expressions_.Pop();
+
+            var expression = new JmesPathIndexExpression(left, right);
+
+            expressions_.Push(expression);
+        }
+
+        private void OnSliceExpression(Token start, Token stop, Token step)
+        {
+            Prolog();
+
+            System.Diagnostics.Debug.Assert(start == null || start is NumberToken);
+            System.Diagnostics.Debug.Assert(stop == null || stop is NumberToken);
+            System.Diagnostics.Debug.Assert(step == null || step is NumberToken);
+
+            var startIndex = (int?)start?.Value;
+            var stopIndex = (int?)stop?.Value;
+            var stepIndex = (int?)step?.Value;
+
+            var sliceExpression = new JmesPathSliceProjection(startIndex, stopIndex, stepIndex);
+
+            expressions_.Push(sliceExpression);
+        }
+
+        #endregion
+
+        #region comparator_expression
 
         private void OnComparisonExpression(Token token)
         {
@@ -140,6 +295,8 @@ namespace DevLab.JmesPath
             expressions_.Push(expression);
         }
 
+        #endregion
+
         private void OnOrExpression()
         {
             Prolog();
@@ -180,109 +337,21 @@ namespace DevLab.JmesPath
             expressions_.Push(negated);
         }
 
-        private void OnPipeExpression()
+        private void OnIdentifier(Token token)
         {
             Prolog();
 
-            System.Diagnostics.Debug.Assert(expressions_.Count >= 2);
-
-            var right = expressions_.Pop();
-            var left = expressions_.Pop();
-
-            var expression = new JmesPathPipeExpression(left, right);
-
+            var @string = (string)token.Value;
+            var expression = new JmesPathIdentifier(@string);
             expressions_.Push(expression);
         }
 
-        #region index_expression
-
-        private void OnIndex(Token token)
+        private void OnHashWildcardProjection()
         {
             Prolog();
 
-            var number = token as NumberToken;
-
-            System.Diagnostics.Debug.Assert(token.Type == TokenType.T_NUMBER);
-            System.Diagnostics.Debug.Assert(number != null);
-
-            var index = (int)number.Value;
-
-            var expression = new JmesPathIndex(index);
-
-            expressions_.Push(expression);
+            expressions_.Push(new JmesPathHashWildcardProjection());
         }
-
-        private void OnIndexExpression()
-        {
-            Prolog();
-
-            System.Diagnostics.Debug.Assert(expressions_.Count >= 2);
-
-            var right = expressions_.Pop();
-            var left = expressions_.Pop();
-
-            var expression = new JmesPathIndexExpression(left, right);
-
-            expressions_.Push(expression);
-        }
-
-        private void OnSliceExpression(Token start, Token stop, Token step)
-        {
-            Prolog();
-
-            System.Diagnostics.Debug.Assert(start == null || start is NumberToken);
-            System.Diagnostics.Debug.Assert(stop == null || stop is NumberToken);
-            System.Diagnostics.Debug.Assert(step == null || step is NumberToken);
-
-            var startIndex = (int?)start?.Value;
-            var stopIndex = (int?)stop?.Value;
-            var stepIndex = (int?)step?.Value;
-
-            var sliceExpression = new JmesPathSliceProjection(startIndex, stopIndex, stepIndex);
-
-            expressions_.Push(sliceExpression);
-        }
-
-        #endregion
-
-        #region function
-
-        private void PushFunction()
-        {
-            functions_.Push(new List<JmesPathExpression>());
-        }
-        private void PopFunction(Token token)
-        {
-            System.Diagnostics.Debug.Assert(token.Type == TokenType.T_USTRING);
-            System.Diagnostics.Debug.Assert(functions_.Count > 0);
-
-            var args = functions_.Pop();
-            var name = (string) token.Value;
-            var expressions = args.ToArray();
-
-            var expression = new JmesPathFunction(repository_, name, expressions);
-
-            expressions_.Push(expression);
-        }
-
-        private void AddFunctionArg()
-        {
-            Prolog();
-
-            System.Diagnostics.Debug.Assert(functions_.Count > 0);
-
-            var expression = expressions_.Pop();
-            functions_.Peek().Add(expression);
-        }
-
-        private void OnCurrentNode()
-        {
-            Prolog();
-
-            expressions_.Push(new JmesPathCurrentNodeExpression());
-        }
-
-        #endregion 
 
         #region multi_select_hash
 
@@ -347,41 +416,77 @@ namespace DevLab.JmesPath
 
         #endregion
 
-        #region projection
-
-        private void OnFilterProjection()
+        private void OnLiteralString(Token token)
         {
             Prolog();
 
-            System.Diagnostics.Debug.Assert(expressions_.Count >= 1);
+            var @string = (JToken)token.Value;
+            var expression = new JmesPathLiteral(@string);
+            expressions_.Push(expression);
+        }
 
-            var comparison = expressions_.Pop();
-            var expression = new JmesPathFilterProjection(comparison);
+        private void OnPipeExpression()
+        {
+            Prolog();
+
+            System.Diagnostics.Debug.Assert(expressions_.Count >= 2);
+
+            var right = expressions_.Pop();
+            var left = expressions_.Pop();
+
+            var expression = new JmesPathPipeExpression(left, right);
 
             expressions_.Push(expression);
         }
 
-        private void OnFlattenProjection()
+        #region function_expression
+
+        private void PushFunction()
+        {
+            functions_.Push(new List<JmesPathExpression>());
+        }
+        private void PopFunction(Token token)
+        {
+            System.Diagnostics.Debug.Assert(token.Type == TokenType.T_USTRING);
+            System.Diagnostics.Debug.Assert(functions_.Count > 0);
+
+            var args = functions_.Pop();
+            var name = (string)token.Value;
+            var expressions = args.ToArray();
+
+            var expression = new JmesPathFunction(repository_, name, expressions);
+
+            expressions_.Push(expression);
+        }
+
+        private void AddFunctionArg()
         {
             Prolog();
 
-            expressions_.Push(new JmesPathFlattenProjection());
+            System.Diagnostics.Debug.Assert(functions_.Count > 0);
+
+            var expression = expressions_.Pop();
+            functions_.Peek().Add(expression);
         }
 
-        private void OnHashWildcardProjection()
+        #endregion 
+
+        private void OnRawString(Token token)
         {
             Prolog();
 
-            expressions_.Push(new JmesPathHashWildcardProjection());
+            var @string = (string)token.Value;
+            var expression = new JmesPathRawString(@string);
+            expressions_.Push(expression);
         }
 
-        private void OnListWildcardProjection()
+        private void OnCurrentNode()
         {
             Prolog();
 
-            expressions_.Push(new JmesPathListWildcardProjection());
+            expressions_.Push(new JmesPathCurrentNodeExpression());
         }
 
-        #endregion
+        #endregion // Expressions
     }
 }

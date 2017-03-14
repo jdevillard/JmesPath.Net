@@ -44,6 +44,8 @@ namespace DevLab.JmesPath
         private JmesPathExpression Parse(Stream stream)
         {
             var scanner = new JmesPathScanner(stream);
+            scanner.InitializeLookaheadQueue();
+
             var analyzer = new JmesPathParser(scanner, repository_);
             if (!analyzer.Parse())
             {
