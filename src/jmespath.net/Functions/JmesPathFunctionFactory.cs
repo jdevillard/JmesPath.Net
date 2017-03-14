@@ -19,6 +19,7 @@ namespace DevLab.JmesPath.Functions
                     .Register<AbsFunction>()
                     .Register<ToNumberFunction>()
                     .Register<AvgFunction>()
+                    .Register<ContainsFunction>()
                     ;
 
                 repository_ = repo;
