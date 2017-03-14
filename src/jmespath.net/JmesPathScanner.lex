@@ -25,6 +25,7 @@ T_NE			!=
 T_FLATTEN		\[\]
 T_FILTER		\[\?
 T_STAR			\*
+T_CURRENT		@
 
 T_NUMBER		\-?[0-9]+
 
@@ -67,6 +68,7 @@ E_UNRECOGNIZED	.
 {T_FILTER}			{ return MakeToken(TokenType.T_FILTER); }
 {T_FLATTEN}			{ return MakeToken(TokenType.T_FLATTEN); }
 {T_STAR}			{ return MakeToken(TokenType.T_STAR); }
+{T_CURRENT}			{ return MakeToken(TokenType.T_CURRENT); }
 
 {T_NUMBER}			{ return MakeToken(TokenType.T_NUMBER); }
 {T_LSTRING}			{ return MakeToken(TokenType.T_LSTRING); }
@@ -86,7 +88,7 @@ E_UNRECOGNIZED	.
 
 %{
 
-	yylloc = new LexLocation(tokLin, tokCol, tokELin, tokECol);
+	yylloc = new LexLocation(tokLin,tokCol,tokELin,tokECol);
 
 %}
 
