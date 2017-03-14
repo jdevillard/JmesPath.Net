@@ -275,6 +275,13 @@ namespace DevLab.JmesPath
             functions_.Peek().Add(expression);
         }
 
+        private void OnCurrentNode()
+        {
+            Prolog();
+
+            expressions_.Push(new JmesPathCurrentNodeExpression());
+        }
+
         #endregion 
 
         #region multi_select_hash

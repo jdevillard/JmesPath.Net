@@ -29,6 +29,7 @@
 	T_FILTER,
 	T_FLATTEN,
 	T_STAR,
+	T_CURRENT,
 
 	T_NUMBER,
 	T_LSTRING,
@@ -86,6 +87,7 @@ expression_impl		: sub_expression
 					| pipe_expression
 					| function_expression
 					| raw_string
+					| current_node
 					;
 
 sub_expression		: sub_expression_impl
@@ -130,6 +132,11 @@ function_arguments	: expression
 					| function_arguments T_COMMA expression 
 					{
 						AddFunctionArg();
+					}
+					;
+current_node		: T_CURRENT
+					{
+						OnCurrentNode();
 					}
 					;
 										
