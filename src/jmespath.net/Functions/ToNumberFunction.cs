@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using DevLab.JmesPath.Interop;
 using Newtonsoft.Json.Linq;
 
@@ -18,7 +19,33 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JToken[] args)
         {
-            return new JValue(Convert.ToInt32(args[0].Value<int>()));
+            var arg = args[0];
+            if (args[0] == null)
+                return null;
+            
+            switch (arg.Type)
+            {
+                case JTokenType.Integer:
+                case JTokenType.Float:
+                    return arg;
+
+                case JTokenType.String:
+                    {
+                        var value = args[0].Value<string>();
+
+                        int i =0 ;
+                        double d = 0;
+                        if (int.TryParse(value, out i))
+                            return new JValue(i);
+                        else if (double.TryParse(value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out d))
+                            return new JValue(d);
+
+                        return null;
+                    }
+                    
+                default:
+                    return null;
+            }
         }
     }
 }
