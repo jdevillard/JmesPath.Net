@@ -1,4 +1,5 @@
 ﻿using System;
+using DevLab.JmesPath.Interop;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
@@ -39,10 +40,11 @@ namespace DevLab.JmesPath.Expressions
             return token == JmesPathArgument.Null ? token : right_.Transform(token);
         }
 
-        public override void Validate()
+        public override void Accept(IVisitor visitor)
         {
-            Left.Validate();
-            Right.Validate();
+            base.Accept(visitor);
+            Left.Accept(visitor);
+            Right.Accept(visitor);
         }
     }
 }

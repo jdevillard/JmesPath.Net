@@ -6,7 +6,6 @@ using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Functions;
 using DevLab.JmesPath.Interop;
 using DevLab.JmesPath.Utils;
-using Newtonsoft.Json;
 
 namespace DevLab.JmesPath
 {
@@ -22,13 +21,10 @@ namespace DevLab.JmesPath
         }
 
         public IRegisterFunctions FunctionRepository => repository_;
-        
+
         public JToken Transform(JToken token, string expression)
         {
             var jmesPath = Parse(expression);
-            if (jmesPath == null)
-                return null;
-
             var result = jmesPath.Transform(token);
             return result.AsJToken();
         }
@@ -50,11 +46,26 @@ namespace DevLab.JmesPath
             var scanner = new JmesPathScanner(stream);
             var analyzer = new JmesPathParser(scanner, repository_);
             if (!analyzer.Parse())
-                return null;
+            {
+                System.Diagnostics.Debug.Assert(false);
+                throw new Exception("Error: syntax.");
+            }
 
-            analyzer.Expression.Validate();
+            // perform post-parsing syntax validation
+
+            var syntax = new SyntaxVisitor();
+            analyzer.Expression.Accept(syntax);
 
             return analyzer.Expression;
+        }
+        private sealed class SyntaxVisitor : IVisitor
+        {
+            public void Visit(JmesPathExpression expression)
+            {
+                var projection = expression as JmesPathSliceProjection;
+                if (projection?.Step != null && projection.Step.Value == 0)
+                    throw new Exception("Error: invalid-value, a slice projection step cannot be 0.");
+            }
         }
     }
 }

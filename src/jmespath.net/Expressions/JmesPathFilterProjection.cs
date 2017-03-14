@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DevLab.JmesPath.Interop;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
@@ -34,9 +35,10 @@ namespace DevLab.JmesPath.Expressions
             return new JmesPathArgument(items);
         }
 
-        public override void Validate()
+        public override void Accept(IVisitor visitor)
         {
-            expression_.Validate();
+            base.Accept(visitor);
+            expression_.Accept(visitor);
         }
     }
 }

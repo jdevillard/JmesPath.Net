@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DevLab.JmesPath.Interop;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
@@ -45,16 +46,11 @@ namespace DevLab.JmesPath.Expressions
         protected abstract JmesPathArgument Transform(JToken json);
 
         /// <summary>
-        /// Called by the parser to perform post-parsing validation
-        /// when the abstract syntax tree is fully constructed.
-        /// This method supports post-parsing validation as required
-        /// by the following compliance test case:
-        /// https://github.com/jmespath/jmespath.test/blob/master/tests/slice.json
-        /// foo[8:2:0:1] => error: syntax
+        /// Perform a traversal of the abstract syntax tree.
         /// </summary>
-        public virtual void Validate()
+        public virtual void Accept(IVisitor visitor)
         {
-            /* empty stub */
+            visitor.Visit(this);
         }
     }
 }

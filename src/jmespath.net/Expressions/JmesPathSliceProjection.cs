@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DevLab.JmesPath.Interop;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
@@ -21,74 +22,73 @@ namespace DevLab.JmesPath.Expressions
             step_ = step;
         }
 
+        public int? Start
+            => start_;
+
+        public int? Stop
+            => stop_;
+
+        public int? Step
+            => step_;
+
         public override JmesPathArgument Project(JmesPathArgument argument)
         {
-            if (!argument.IsProjection)
-            {
-                var json = argument.Token;
+            if (argument.IsProjection)
+                argument = argument.AsJToken();
 
-                if (json.Type != JTokenType.Array)
-                    return null;
+            var json = argument.Token;
 
-                // slice expression adhere to the following rule:
-                // if the element being sliced is not an array, the result is null.
+            if (json.Type != JTokenType.Array)
+                return null;
 
-                var array = json as JArray;
-                if (array == null)
-                    return null;
+            // slice expression adhere to the following rule:
+            // if the element being sliced is not an array, the result is null.
 
-                // slice expressions adhere to the following rules:
-                // if the given step is omitted, it it assumed to be 1.
+            var array = json as JArray;
+            if (array == null)
+                return null;
 
-                var step = step_ ?? 1;
+            // slice expressions adhere to the following rules:
+            // if the given step is omitted, it it assumed to be 1.
 
-                // if the given step is 0, an error MUST be raised.
-                // no runtime check here - the parser will ensure that 0 is not a valid value
+            var step = step_ ?? 1;
 
-                System.Diagnostics.Debug.Assert(step != 0);
+            // if the given step is 0, an error MUST be raised.
+            // no runtime check here - the parser will ensure that 0 is not a valid value
 
-                var length = array.Count;
+            System.Diagnostics.Debug.Assert(step != 0);
 
-                // if no start position is given, it is assumed to be 0 if the given step is greater than 0 or the end of the array if the given step is less than 0.
+            var length = array.Count;
 
-                var start = start_ ?? (step > 0 ? 0 : length - 1);
+            // if no start position is given, it is assumed to be 0 if the given step is greater than 0 or the end of the array if the given step is less than 0.
 
-                // if a negative start position is given, it is calculated as the total length of the array plus the given start position.
+            var start = start_ ?? (step > 0 ? 0 : length - 1);
 
-                if (start_.HasValue && start_.Value < 0)
-                    start = length + start_.Value;
+            // if a negative start position is given, it is calculated as the total length of the array plus the given start position.
 
-                // if no stop position is given, it is assumed to be the length of the array if the given step is greater than 0 or 0 if the given step is less than 0.
+            if (start_.HasValue && start_.Value < 0)
+                start = length + start_.Value;
 
-                var stop = stop_ ?? (step > 0 ? length : -1);
+            // if no stop position is given, it is assumed to be the length of the array if the given step is greater than 0 or 0 if the given step is less than 0.
 
-                // if a negative stop position is given, it is calculated as the total length of the array plus the given stop position.
+            var stop = stop_ ?? (step > 0 ? length : -1);
 
-                if (stop_.HasValue && stop_.Value < 0)
-                    stop = length + stop_.Value;
+            // if a negative stop position is given, it is calculated as the total length of the array plus the given stop position.
 
-                // if the element being sliced is an array and yields no results, the result MUST be an empty array.
+            if (stop_.HasValue && stop_.Value < 0)
+                stop = length + stop_.Value;
 
-                var items = new List<JToken>();
+            // if the element being sliced is an array and yields no results, the result MUST be an empty array.
 
-                for (var index = start; (step > 0 ? index < stop : index > stop); index += step)
-                    if (index >= 0 && index < length)
-                        items.Add(array[index]);
+            var items = new List<JToken>();
 
-                var arguments = items.Select(i => (JmesPathArgument) i);
+            for (var index = start; (step > 0 ? index < stop : index > stop); index += step)
+                if (index >= 0 && index < length)
+                    items.Add(array[index]);
 
-                return new JmesPathArgument(arguments);
-            }
+            var arguments = items.Select(i => (JmesPathArgument)i);
 
-            return Project(argument.AsJToken());
-        }
-
-        public override void Validate()
-        {
-            if (step_.HasValue && step_.Value == 0)
-                throw new Exception("Error: invalid-value, the step index of a slice expression cannot be 0.");
-
-            base.Validate();
+            return new JmesPathArgument(arguments);
         }
     }
 }

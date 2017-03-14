@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DevLab.JmesPath.Expressions;
 
 namespace DevLab.JmesPath.Interop
 {

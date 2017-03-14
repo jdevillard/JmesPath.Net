@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DevLab.JmesPath.Interop;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
@@ -29,10 +30,11 @@ namespace DevLab.JmesPath.Expressions
             return new JObject(properties);
         }
 
-        public override void Validate()
+        public override void Accept(IVisitor visitor)
         {
+            base.Accept(visitor);
             foreach (var key in dictionary_.Keys)
-                dictionary_[key].Validate();
+                dictionary_[key].Accept(visitor);
         }
     }
 }
