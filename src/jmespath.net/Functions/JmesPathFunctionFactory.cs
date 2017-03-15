@@ -31,6 +31,7 @@ namespace DevLab.JmesPath.Functions
                     .Register<SumFunction>()
                     .Register<ToArrayFunction>()
                     .Register<ToNumberFunction>()
+                    .Register<ToStringFunction>()
                     .Register<TypeFunction>()
                     ;
 
