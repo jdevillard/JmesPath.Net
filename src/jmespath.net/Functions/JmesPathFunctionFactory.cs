@@ -17,9 +17,10 @@ namespace DevLab.JmesPath.Functions
                 var repo = new JmesPathFunctionFactory();
                 repo
                     .Register<AbsFunction>()
-                    .Register<ToNumberFunction>()
                     .Register<AvgFunction>()
+                    .Register<CeilFunction>()
                     .Register<ContainsFunction>()
+                    .Register<ToNumberFunction>()
                     ;
 
                 repository_ = repo;
