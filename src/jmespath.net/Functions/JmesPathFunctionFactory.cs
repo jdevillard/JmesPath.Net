@@ -28,6 +28,7 @@ namespace DevLab.JmesPath.Functions
                     .Register<StartsWithFunction>()
                     .Register<SumFunction>()
                     .Register<ToNumberFunction>()
+                    .Register<TypeFunction>()
                     ;
 
                 repository_ = repo;
