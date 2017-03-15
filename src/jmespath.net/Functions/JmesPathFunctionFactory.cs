@@ -26,6 +26,7 @@ namespace DevLab.JmesPath.Functions
                     .Register<LengthFunction>()
                     .Register<MaxFunction>()
                     .Register<MinFunction>()
+                    .Register<ReverseFunction>()
                     .Register<StartsWithFunction>()
                     .Register<SumFunction>()
                     .Register<ToNumberFunction>()
