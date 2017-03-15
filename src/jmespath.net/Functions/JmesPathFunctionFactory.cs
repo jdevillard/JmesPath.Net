@@ -20,6 +20,10 @@ namespace DevLab.JmesPath.Functions
                     .Register<AvgFunction>()
                     .Register<CeilFunction>()
                     .Register<ContainsFunction>()
+                    .Register<FloorFunction>()
+                    .Register<MaxFunction>()
+                    .Register<MinFunction>()
+                    .Register<SumFunction>()
                     .Register<ToNumberFunction>()
                     ;
 
