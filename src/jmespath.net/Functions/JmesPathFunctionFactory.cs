@@ -21,6 +21,7 @@ namespace DevLab.JmesPath.Functions
                     .Register<CeilFunction>()
                     .Register<ContainsFunction>()
                     .Register<FloorFunction>()
+                    .Register<LengthFunction>()
                     .Register<MaxFunction>()
                     .Register<MinFunction>()
                     .Register<SumFunction>()
