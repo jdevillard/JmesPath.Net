@@ -28,6 +28,7 @@ namespace DevLab.JmesPath.Functions
                     .Register<MaxByFunction>()
                     .Register<MinFunction>()
                     .Register<MinByFunction>()
+                    .Register<NotNullFunction>()
                     .Register<ReverseFunction>()
                     .Register<StartsWithFunction>()
                     .Register<SortFunction>()
