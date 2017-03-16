@@ -24,6 +24,7 @@ namespace DevLab.JmesPath.Functions
                     .Register<FloorFunction>()
                     .Register<JoinFunction>()
                     .Register<LengthFunction>()
+                    .Register<KeysFunction>()
                     .Register<MaxFunction>()
                     .Register<MaxByFunction>()
                     .Register<MergeFunction>()
@@ -39,6 +40,7 @@ namespace DevLab.JmesPath.Functions
                     .Register<ToNumberFunction>()
                     .Register<ToStringFunction>()
                     .Register<TypeFunction>()
+                    .Register<ValuesFunction>()
                     ;
 
                 repository_ = repo;
