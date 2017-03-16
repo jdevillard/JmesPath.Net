@@ -19,7 +19,10 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathArgument[] args)
         {
-            return new JArray(args[0].AsJToken());
+            var arg = args[0].AsJToken();
+            if (arg.Type == JTokenType.Array)
+                return arg;
+            return new JArray(arg);
         }
     }
 }
