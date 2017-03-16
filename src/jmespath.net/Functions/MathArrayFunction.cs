@@ -23,7 +23,9 @@ namespace DevLab.JmesPath.Functions
                 throw new Exception("invalid-type");
 
             foreach (var item in (JArray)args[0].AsJToken())
-                if (item.Type != JTokenType.Integer && item.Type != JTokenType.Float)
+                if (item.Type != JTokenType.Integer 
+                    && item.Type != JTokenType.Float
+                    && item.Type != JTokenType.String)
                     throw new Exception("invalid-type");
 
             return true;
