@@ -5,9 +5,9 @@
 //  See accompanying file GPLEXcopyright.rtf.
 //
 //  GPLEX Version:  0.1.0.0
-//  Machine:  DESKTOP-UQ0H65F
-//  DateTime: 15/03/2017 15:59:53
-//  GPLEX input file <C:\Projects\jmespath\jjme\src\jmespath.net/JmesPathScanner.lex - 15/03/2017 09:25:22>
+//  Machine:  MOSKITOSJEREMIE
+//  DateTime: 16/03/2017 11:27:55
+//  GPLEX input file <C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathScanner.lex - 16/03/2017 08:55:37>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: unicode, verbose, parser, stack, minimize
@@ -726,14 +726,8 @@ if (this.pushback_.QueueLength > 0) {
         case 1: // Recognized '{T_WHITESPACE}',	Shortest string "\x20"
 { }
             break;
-        case 2: // Recognized '{E_UNRECOGNIZED}',	Shortest string "&"
-        case 8: // Recognized '{E_UNRECOGNIZED}',	Shortest string "="
-        case 12: // Recognized '{E_UNRECOGNIZED}',	Shortest string "?"
-        case 16: // Recognized '{E_UNRECOGNIZED}',	Shortest string "-"
-        case 18: // Recognized '{E_UNRECOGNIZED}',	Shortest string "`"
-        case 19: // Recognized '{E_UNRECOGNIZED}',	Shortest string "\""
-        case 21: // Recognized '{E_UNRECOGNIZED}',	Shortest string "'"
-yyerror(yytext);
+        case 2: // Recognized '{T_ETYPE}',	Shortest string "&"
+return MakeToken(TokenType.T_ETYPE);
             break;
         case 3: // Recognized '{T_PIPE}',	Shortest string "|"
 return MakeToken(TokenType.T_PIPE);
@@ -749,6 +743,14 @@ return MakeToken(TokenType.T_COMMA);
             break;
         case 7: // Recognized '{T_DOT}',	Shortest string "."
 return MakeToken(TokenType.T_DOT);
+            break;
+        case 8: // Recognized '{E_UNRECOGNIZED}',	Shortest string "="
+        case 12: // Recognized '{E_UNRECOGNIZED}',	Shortest string "?"
+        case 16: // Recognized '{E_UNRECOGNIZED}',	Shortest string "-"
+        case 18: // Recognized '{E_UNRECOGNIZED}',	Shortest string "`"
+        case 19: // Recognized '{E_UNRECOGNIZED}',	Shortest string "\""
+        case 21: // Recognized '{E_UNRECOGNIZED}',	Shortest string "'"
+yyerror(yytext);
             break;
         case 9: // Recognized '{T_GT}',	Shortest string ">"
 return MakeToken(TokenType.T_GT);

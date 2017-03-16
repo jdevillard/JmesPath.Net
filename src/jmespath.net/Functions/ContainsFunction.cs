@@ -1,8 +1,9 @@
 using System;
 using System.Linq;
-using DevLab.JmesPath.Interop;
+using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
+using JmesPathFunction = DevLab.JmesPath.Interop.JmesPathFunction;
 
 namespace DevLab.JmesPath.Functions
 {
@@ -13,18 +14,18 @@ namespace DevLab.JmesPath.Functions
         {
 
         }
-        public override bool Validate(params JToken[] args)
+        public override bool Validate(params JmesPathArgument[] args)
         {
-            if (args[0].Type != JTokenType.Array && args[0].Type != JTokenType.String)
+            if (args[0].Token.Type != JTokenType.Array && args[0].Token.Type != JTokenType.String)
                 throw new Exception("invalid-type");
 
             return true;
         }
 
-        public override JToken Execute(params JToken[] args)
+        public override JToken Execute(params JmesPathArgument[] args)
         {
-            var subject = args[0];
-            var search = args[1];
+            var subject = args[0].Token;
+            var search = args[1].Token;
             if (subject.Type == JTokenType.String)
             {
                 var subjectValue = subject.Value<String>();

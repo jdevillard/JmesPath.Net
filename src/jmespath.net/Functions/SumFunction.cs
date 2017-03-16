@@ -1,4 +1,5 @@
 using System.Linq;
+using DevLab.JmesPath.Expressions;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Functions
@@ -11,9 +12,9 @@ namespace DevLab.JmesPath.Functions
 
         }
 
-        public override JToken Execute(params JToken[] args)
+        public override JToken Execute(params JmesPathArgument[] args)
         {
-            var arg = ((JArray)(args[0]));
+            var arg = ((JArray)(args[0].Token));
             if(arg.Count == 0)
                 return new JValue(0);
 

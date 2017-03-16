@@ -174,8 +174,7 @@ namespace DevLab.JmesPath
 
             expressions_.Push(expression);
         }
-
-
+        
         #region index_expression
 
         private void OnIndex(Token token)
@@ -468,7 +467,13 @@ namespace DevLab.JmesPath
             var expression = expressions_.Pop();
             functions_.Peek().Add(expression);
         }
-
+        private void OnExpressionType()
+        {
+            Prolog();
+            var expression = expressions_.Pop();
+            var expression_type = new JmesPathExpressionType(expression);
+            expressions_.Push(expression_type);
+        }
         #endregion 
 
         private void OnRawString(Token token)

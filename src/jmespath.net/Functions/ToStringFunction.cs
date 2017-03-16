@@ -1,7 +1,8 @@
 using System;
-using DevLab.JmesPath.Interop;
+using DevLab.JmesPath.Expressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using JmesPathFunction = DevLab.JmesPath.Interop.JmesPathFunction;
 
 namespace DevLab.JmesPath.Functions
 {
@@ -12,16 +13,16 @@ namespace DevLab.JmesPath.Functions
         {
 
         }
-        public override bool Validate(params JToken[] args)
+        public override bool Validate(params JmesPathArgument[] args)
         {
             return true;
         }
 
-        public override JToken Execute(params JToken[] args)
+        public override JToken Execute(params JmesPathArgument[] args)
         {
-            if (args[0].Type == JTokenType.String)
-                return new JValue(args[0].Value<String>());
-            return new JValue(args[0].ToString(Formatting.None));
+            if (args[0].Token.Type == JTokenType.String)
+                return new JValue(args[0].Token.Value<String>());
+            return new JValue(args[0].Token.ToString(Formatting.None));
         }
     }
 }

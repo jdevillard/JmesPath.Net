@@ -1,4 +1,5 @@
 ﻿using System;
+using DevLab.JmesPath.Expressions;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Interop
@@ -23,7 +24,7 @@ namespace DevLab.JmesPath.Interop
 
         public bool Variadic { get; }
 
-        public abstract bool Validate(params JToken[] args);
-        public abstract JToken Execute(params JToken[] args);
+        public abstract bool Validate(params JmesPathArgument[] args);
+        public abstract JToken Execute(params JmesPathArgument[] args);
     }
 }

@@ -30,6 +30,7 @@
 	T_FLATTEN,
 	T_STAR,
 	T_CURRENT,
+	T_ETYPE,
 
 	T_NUMBER,
 	T_LSTRING,
@@ -130,7 +131,16 @@ function_arguments	: expression
 						PushFunction();
 						AddFunctionArg();
 					}
+					| expression_type
+					{
+						PushFunction();
+						AddFunctionArg();
+					}
 					| function_arguments T_COMMA expression 
+					{
+						AddFunctionArg();
+					}
+					| function_arguments T_COMMA expression_type 
 					{
 						AddFunctionArg();
 					}
@@ -139,6 +149,11 @@ function_arguments	: expression
 current_node		: T_CURRENT
 					{
 						OnCurrentNode();
+					}
+					;
+expression_type		: T_ETYPE expression
+					{
+						OnExpressionType();
 					}
 					;
 										

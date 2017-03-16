@@ -53,7 +53,12 @@ namespace DevLab.JmesPath.Expressions
         protected override JmesPathArgument Transform(JToken json)
         {
             var arguments = expressions_.Select(
-                expression => expression.Transform(json).AsJToken()
+                expression =>
+                {
+                    if(expression.GetType() != typeof(JmesPathExpressionType))
+                        return expression.Transform(json);
+                    return new JmesPathArgument(expression);
+                }
                 )
                 .ToArray()
                 ;
