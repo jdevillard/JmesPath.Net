@@ -26,6 +26,13 @@ namespace jmespath.net.tests.Expressions
             Assert(new[] { "foo", "bar", "baz", "bad" }, "{\"foo\": {\"bar\": {\"baz\": \"correct\"}}}", "null");
         }
 
+        [Fact]
+        public void JmesPathSubExpression_Compliance()
+        {
+            Assert(new[] { "foo", "bar" }, "{\"foo\": -1}", "null");
+        }
+
+
         private void Assert(string[] expressions, string input, string expected)
         {
             JmesPathExpression expression = null;
