@@ -21,14 +21,22 @@ namespace DevLab.JmesPath.Functions
             var list = args[0].AsJToken();
             if(list.Type != JTokenType.Array)
                 throw new Exception("invalid-type");
-
+            var arg = ((JArray) list);
+            if (arg.Count != 0)
+            {
+                var types = arg.Select(u => u.Type).Distinct();
+                if (types.Count() != 1)
+                    throw new Exception("invalid-type");
+            }
             return true;
         }
 
         public override JToken Execute(params JmesPathArgument[] args)
         {
             var list = (JArray)(args[0].AsJToken()).AsJEnumerable();
-            var ordered = list.OrderBy(u => u.Value<String>()).ToArray();
+            var ordered = list
+                .OrderBy(u => u.Value<String>())
+                .ToArray();
             return new JArray(ordered.AsJEnumerable());
         }
     }
