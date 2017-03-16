@@ -14,8 +14,8 @@ namespace DevLab.JmesPath.Functions
         }
         public override bool Validate(params JmesPathArgument[] args)
         {
-            if (args[0].Token.Type != JTokenType.String
-                || args[1].Token.Type != JTokenType.String)
+            if (args[0].AsJToken().Type != JTokenType.String
+                || args[1].AsJToken().Type != JTokenType.String)
                 throw new Exception("invalid-type");
 
             return true;
@@ -23,8 +23,8 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathArgument[] args)
         {
-            var subject = args[0].Token.Value<String>();
-            var prefix = args[1].Token.Value<String>();
+            var subject = args[0].AsJToken().Value<String>();
+            var prefix = args[1].AsJToken().Value<String>();
 
             return subject.StartsWith(prefix);
         }

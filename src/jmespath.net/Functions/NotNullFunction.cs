@@ -20,7 +20,7 @@ namespace DevLab.JmesPath.Functions
         {
             foreach (var jmesPathArgument in args)
             {
-                var token = jmesPathArgument.Token;
+                var token = jmesPathArgument.AsJToken();
                 if (token.Type != JTokenType.Null)
                     return token;
             }

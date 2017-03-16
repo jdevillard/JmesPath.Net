@@ -15,7 +15,7 @@ namespace DevLab.JmesPath.Functions
         }
         public override bool Validate(params JmesPathArgument[] args)
         {
-            var list = args[0].Token;
+            var list = args[0].AsJToken();
             if (list.Type != JTokenType.Array)
                 throw new Exception("invalid-type");
             if (!args[1].IsExpressionType)
@@ -26,15 +26,15 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathArgument[] args)
         {
-            var list = (JArray)(args[0].Token).AsJEnumerable();
+            var list = (JArray)(args[0].AsJToken()).AsJEnumerable();
             var ordered = list.OrderBy(u =>
             {
                 var e = args[1].Expression.Transform(u);
-                if (e.Token.Type != JTokenType.Float
-                        && e.Token.Type != JTokenType.Integer
-                        && e.Token.Type != JTokenType.String)
+                if (e.AsJToken().Type != JTokenType.Float
+                        && e.AsJToken().Type != JTokenType.Integer
+                        && e.AsJToken().Type != JTokenType.String)
                     throw new Exception("invalid-type");
-                return e.Token;
+                return e.AsJToken();
             }).ToArray();
             return new JArray(ordered.AsJEnumerable());
         }

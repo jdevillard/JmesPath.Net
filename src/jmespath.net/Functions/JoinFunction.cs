@@ -15,11 +15,11 @@ namespace DevLab.JmesPath.Functions
         }
         public override bool Validate(params JmesPathArgument[] args)
         {
-            if (args[0].Token.Type != JTokenType.String 
-                || args[1].Token.Type != JTokenType.Array)
+            if (args[0].AsJToken().Type != JTokenType.String 
+                || args[1].AsJToken().Type != JTokenType.Array)
                 throw new Exception("invalid-type");
 
-            foreach (var item in (JArray)(args[1].Token))
+            foreach (var item in (JArray)(args[1].AsJToken()))
                 if (item.Type != JTokenType.String)
                     throw new Exception("invalid-type");
 
@@ -28,8 +28,8 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathArgument[] args)
         {
-            var glue = args[0].Token.Value<String>();
-            var stringsArray = ((JArray)args[1].Token).Select(u => u.Value<String>());
+            var glue = args[0].AsJToken().Value<String>();
+            var stringsArray = ((JArray)args[1].AsJToken()).Select(u => u.Value<String>());
             return new JValue(String.Join(glue,stringsArray));
         }
     }

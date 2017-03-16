@@ -20,9 +20,10 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathArgument[] args)
         {
-            if (args[0].Token.Type == JTokenType.String)
-                return new JValue(args[0].Token.Value<String>());
-            return new JValue(args[0].Token.ToString(Formatting.None));
+            var arg = args[0].AsJToken();
+            if (arg.Type == JTokenType.String)
+                return new JValue(arg.Value<String>());
+            return new JValue(arg.ToString(Formatting.None));
         }
     }
 }

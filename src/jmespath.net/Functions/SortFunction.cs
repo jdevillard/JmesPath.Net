@@ -18,7 +18,7 @@ namespace DevLab.JmesPath.Functions
         }
         public override bool Validate(params JmesPathArgument[] args)
         {
-            var list = args[0].Token;
+            var list = args[0].AsJToken();
             if(list.Type != JTokenType.Array)
                 throw new Exception("invalid-type");
 
@@ -27,7 +27,7 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathArgument[] args)
         {
-            var list = (JArray)(args[0].Token).AsJEnumerable();
+            var list = (JArray)(args[0].AsJToken()).AsJEnumerable();
             var ordered = list.OrderBy(u => u.Value<String>()).ToArray();
             return new JArray(ordered.AsJEnumerable());
         }

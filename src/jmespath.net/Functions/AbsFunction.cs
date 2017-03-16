@@ -14,7 +14,7 @@ namespace DevLab.JmesPath.Functions
         }
         public override bool Validate(params JmesPathArgument[] args)
         {
-            var arg = args[0].Token;
+            var arg = args[0].AsJToken();
             if (arg.Type == JTokenType.Integer || arg.Type == JTokenType.Float)
                 return true;
             else
@@ -23,7 +23,7 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathArgument[] args)
         {
-            var token = args[0].Token;
+            var token = args[0].AsJToken();
 
             return token.Type == JTokenType.Integer
                 ? new JValue(Math.Abs(token.Value<int>()))

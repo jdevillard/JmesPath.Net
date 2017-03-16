@@ -16,7 +16,7 @@ namespace DevLab.JmesPath.Functions
 
         public override bool Validate(params JmesPathArgument[] args)
         {
-            var arg = args[0].Token;
+            var arg = args[0].AsJToken();
             if (arg.Type == JTokenType.String || arg.Type == JTokenType.Array)
                 return true;
             else
@@ -25,7 +25,7 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathArgument[] args)
         {
-            var arg = args[0].Token;
+            var arg = args[0].AsJToken();
             switch (arg.Type)
             {
                 case JTokenType.String:

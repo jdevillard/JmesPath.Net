@@ -15,7 +15,7 @@ namespace DevLab.JmesPath.Functions
         }
         public override bool Validate(params JmesPathArgument[] args)
         {
-            var list = args[0].Token;
+            var list = args[0].AsJToken();
             if (list.Type != JTokenType.Array)
                 throw new Exception("invalid-type");
             if (!args[1].IsExpressionType)
@@ -26,7 +26,7 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathArgument[] args)
         {
-            var list = (JArray)(args[0].Token).AsJEnumerable();
+            var list = (JArray)(args[0].AsJToken()).AsJEnumerable();
             var max = list.Aggregate((i1, i2) =>
             {
                 var e1 = Transform(args[1], i1);

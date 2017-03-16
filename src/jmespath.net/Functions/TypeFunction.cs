@@ -19,7 +19,7 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathArgument[] args)
         {
-            switch (args[0].Token.Type)
+            switch (args[0].AsJToken().Type)
             {
                 
                 case JTokenType.Object:

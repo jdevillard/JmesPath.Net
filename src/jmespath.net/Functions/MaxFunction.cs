@@ -14,7 +14,7 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathArgument[] args)
         {
-            var s = ((JArray)(args[0].Token))
+            var s = ((JArray)(args[0].AsJToken()))
                 .Select(u => Extensions.Value<double>(u));
             return s.Any() ? new JValue(s.Max()) : null;
         }

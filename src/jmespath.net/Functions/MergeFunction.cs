@@ -17,7 +17,7 @@ namespace DevLab.JmesPath.Functions
         public override bool Validate(params JmesPathArgument[] args)
         {
             foreach (var jmesPathArgument in args)
-                if (jmesPathArgument.Token.Type != JTokenType.Object)
+                if (jmesPathArgument.AsJToken().Type != JTokenType.Object)
                     throw new Exception("invalid-type");
 
             return true;
@@ -28,7 +28,7 @@ namespace DevLab.JmesPath.Functions
             JObject last = new JObject();
             foreach (var jmesPathArgument in args)
             {
-                var token = (JObject)jmesPathArgument.Token;
+                var token = (JObject)jmesPathArgument.AsJToken();
                 last.Merge(token);
             }
 
