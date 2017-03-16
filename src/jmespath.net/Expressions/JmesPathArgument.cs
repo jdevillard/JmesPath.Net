@@ -89,7 +89,10 @@ namespace DevLab.JmesPath.Expressions
             unchecked
             {
                 if (Token != null)
-                    hashCode *= fieldPrimeNumber + Token.GetHashCode();
+                {
+                    hashCode *= fieldPrimeNumber + Token.Type.GetHashCode();
+                    hashCode *= fieldPrimeNumber + Token.ToString().GetHashCode();
+                }
                 else
                 {
                     // a projection does not contain null values
