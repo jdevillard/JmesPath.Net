@@ -14,10 +14,13 @@
     "osx.10.10-x64": {},
     "ubuntu.14.04-x64": {}
   },
+  "tools": {
+	"dotnet-make": "1.0.14"
+  },
   "scripts": {
     "precompile": [
-      "dotnet %project:Directory%../../../bin/dotnet-gplex.dll /unicode /out:%project:Directory%/JmesPathScanner.cs %project:Directory%/JmesPathScanner.lex",
-      "dotnet %project:Directory%../../../bin/dotnet-gppg.dll /gplex /out:%project:Directory%/JmesPathParser.cs %project:Directory%/JmesPathParser.y"
+      "dotnet make %project:Directory%../../../bin/dotnet-gplex.dll /unicode /out:%project:Directory%/JmesPathScanner.cs %project:Directory%/JmesPathScanner.lex",
+      "dotnet make %project:Directory%../../../bin/dotnet-gppg.dll /gplex /out:%project:Directory%/JmesPathParser.cs %project:Directory%/JmesPathParser.y"
     ],
     "postcompile": []
   },

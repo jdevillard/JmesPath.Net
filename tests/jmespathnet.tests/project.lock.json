@@ -2487,6 +2487,20 @@
           "NETStandard.Library": "1.6.0",
           "Newtonsoft.Json": "9.0.1"
         }
+      },
+      "jmespath.netstandard/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v1.6",
+        "dependencies": {
+          "NETStandard.Library": "1.6.0",
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "compile": {
+          "netstandard1.6/jmespath.netstandard.dll": {}
+        },
+        "runtime": {
+          "netstandard1.6/jmespath.netstandard.dll": {}
+        }
       }
     }
   },
@@ -2646,7 +2660,7 @@
       ]
     },
     "Microsoft.DiaSymReader/1.0.8": {
-      "sha512": "ABLULVhCAiyBFLBT5xX6vB4NhZDgwUylGRQK+zW5nZn2rbh1f8LOnFZ9gVSxzL6qOzPNb32Nu3QZ43iZerHOxA==",
+      "sha512": "HAhTmRgU+nnDVYxMZFAS1iwqg6CudbsSMZfSY9UJj4AJO4L69xZCtTOPKC5rW8+egNBWjDb0iBZV4ZdNI6dZnA==",
       "type": "package",
       "path": "Microsoft.DiaSymReader/1.0.8",
       "files": [
@@ -7474,6 +7488,11 @@
     "jmespath.net/1.0.0": {
       "type": "project",
       "path": "../../src/jmespath.net/project.json"
+    },
+    "jmespath.netstandard/1.0.0": {
+      "type": "project",
+      "path": "../../src/jmespath.net/project.json",
+      "msbuildProject": "../../src/jmespath.net/jmespath.netstandard.xproj"
     }
   },
   "projectFileDependencyGroups": {
