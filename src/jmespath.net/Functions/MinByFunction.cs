@@ -43,12 +43,22 @@ namespace DevLab.JmesPath.Functions
 
         private static JToken Transform(JmesPathArgument arg, JToken i1)
         {
-            var e = arg.Expression.Transform(i1);
-            if (e.Token.Type != JTokenType.Float
-                && e.Token.Type != JTokenType.Integer
+            var e = arg.Expression.Transform(i1).AsJToken();
+            if (e.Type != JTokenType.Float
+                && e.Type != JTokenType.Integer
+                && e.Type != JTokenType.String
                 )
                 throw new Exception("invalid-type");
-            return e.Token;
+            if (e.Type == JTokenType.String)
+            {
+                double d;
+                if (double.TryParse(e.Value<String>(), out d))
+                    return new JValue(d);
+                else
+                    throw new Exception("invalid-type");
+            }
+
+            return e;
         }
     }
 }

@@ -26,14 +26,26 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathArgument[] args)
         {
+            var init = false;
+            JTokenType type = JTokenType.None;
             var list = (JArray)(args[0].AsJToken()).AsJEnumerable();
             var ordered = list.OrderBy(u =>
             {
                 var e = args[1].Expression.Transform(u);
-                if (e.AsJToken().Type != JTokenType.Float
+
+                if (!init)
+                {
+                    if (e.AsJToken().Type != JTokenType.Float
                         && e.AsJToken().Type != JTokenType.Integer
                         && e.AsJToken().Type != JTokenType.String)
+                        throw new Exception("invalid-type");
+
+                    type = e.AsJToken().Type;
+                    init = true;
+                }
+                if(type != e.AsJToken().Type)
                     throw new Exception("invalid-type");
+                                
                 return e.AsJToken();
             }).ToArray();
             return new JArray(ordered.AsJEnumerable());
