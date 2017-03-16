@@ -25,6 +25,7 @@ namespace DevLab.JmesPath.Functions
                     .Register<JoinFunction>()
                     .Register<LengthFunction>()
                     .Register<KeysFunction>()
+                    .Register<MapFunction>()
                     .Register<MaxFunction>()
                     .Register<MaxByFunction>()
                     .Register<MergeFunction>()
