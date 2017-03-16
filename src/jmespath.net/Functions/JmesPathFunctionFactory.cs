@@ -29,6 +29,7 @@ namespace DevLab.JmesPath.Functions
                     .Register<ReverseFunction>()
                     .Register<StartsWithFunction>()
                     .Register<SortFunction>()
+                    .Register<SortByFunction>()
                     .Register<SumFunction>()
                     .Register<ToArrayFunction>()
                     .Register<ToNumberFunction>()
