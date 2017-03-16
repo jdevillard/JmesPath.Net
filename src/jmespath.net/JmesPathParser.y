@@ -102,6 +102,7 @@ sub_expression_impl	: expression T_DOT identifier
 					| expression T_DOT multi_select_hash
 					| expression T_DOT multi_select_list
 					| expression T_DOT hash_wildcard
+					| expression T_DOT function_expression
 					;
 
 
