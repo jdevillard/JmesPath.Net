@@ -87,4 +87,4 @@ function Decrypt-File($path, $Passphrase, $salt="SaltCrypto", $init="IV_Password
 	$r.Clear()
 }
 
-Decrypt-File "C:\projects\jmespath-net\src\jmespath.net.signed\jmespath.net.snk" -Passphrase $env:SNK_PASSPHRASE -salt $env:SNK_SALT -init $env:SNK_INIT  -outputPath "C:\projects\jmespath-net\src\jmespath.net.signed\jmespath.net.snk"
+Decrypt-File "C:\projects\jmespath-net\src\jmespath.net.signed\jmespath.net.snk.crypted" -Passphrase $env:SNK_PASSPHRASE -salt $env:SNK_SALT -init $env:SNK_INIT  -outputPath "C:\projects\jmespath-net\src\jmespath.net.signed\jmespath.net.snk"
