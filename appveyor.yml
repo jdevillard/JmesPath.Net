@@ -28,7 +28,6 @@ init:
 before_build:
 - appveyor-retry dotnet restore -v Minimal
 - ps: C:\projects\jmespath-net\bin\EncryptDecryptFile.PS1
-- ps: Decrypt-File "C:\projects\jmespath-net\src\jmespath.net.signed\jmespath.net.snk" -Passphrase $env:SNK_PASSPHRASE -salt $env:SNK_SALT -init $env:SNK_INIT  -outputPath "C:\projects\jmespath-net\src\jmespath.net.signed\jmespath.net.snk"
 
 build_script:
 - dotnet build "src\jmespath.net" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
