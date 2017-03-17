@@ -12,7 +12,6 @@ namespace DevLab.JmesPath.Expressions
         /// </summary>
         /// <param name="expression"></param>
         public JmesPathExpressionType(JmesPathExpression expression )
-
         {
             expression_ = expression;
         }

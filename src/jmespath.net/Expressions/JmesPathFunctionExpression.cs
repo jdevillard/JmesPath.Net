@@ -9,25 +9,25 @@ using DevLab.JmesPath.Interop;
 
 namespace DevLab.JmesPath.Expressions
 {
-    public class JmesPathFunction : JmesPathExpression
+    public class JmesPathFunctionExpression : JmesPathExpression
     {
         private readonly string name_;
         private readonly JmesPathExpression[] expressions_;
         private readonly Interop.JmesPathFunction function_;
 
-        public JmesPathFunction(string name, params JmesPathExpression[] expressions)
+        public JmesPathFunctionExpression(string name, params JmesPathExpression[] expressions)
             : this(JmesPathFunctionFactory.Default, name, expressions)
         {
 
         }
 
-        public JmesPathFunction(IFunctionRepository repository, string name, IList<JmesPathExpression> expressions)
+        public JmesPathFunctionExpression(IFunctionRepository repository, string name, IList<JmesPathExpression> expressions)
             : this(repository, name, expressions.ToArray())
         {
 
         }
 
-        public JmesPathFunction(IFunctionRepository repository, string name, params JmesPathExpression[] expressions)
+        public JmesPathFunctionExpression(IFunctionRepository repository, string name, params JmesPathExpression[] expressions)
         {
             if (!repository.Contains(name))
                 throw new Exception($"Error: unknown-function, no function named {name} has been registered.");

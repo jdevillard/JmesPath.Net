@@ -6,7 +6,6 @@ using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Interop;
 using DevLab.JmesPath.Tokens;
 using StarodubOleg.GPPG.Runtime;
-using JmesPathFunction = DevLab.JmesPath.Expressions.JmesPathFunction;
 
 namespace DevLab.JmesPath
 {
@@ -453,7 +452,7 @@ namespace DevLab.JmesPath
             var name = (string)token.Value;
             var expressions = args.ToArray();
 
-            var expression = new JmesPathFunction(repository_, name, expressions);
+            var expression = new JmesPathFunctionExpression(repository_, name, expressions);
 
             expressions_.Push(expression);
         }
@@ -467,14 +466,17 @@ namespace DevLab.JmesPath
             var expression = expressions_.Pop();
             functions_.Peek().Add(expression);
         }
+
         private void OnExpressionType()
         {
             Prolog();
+
             var expression = expressions_.Pop();
-            var expression_type = new JmesPathExpressionType(expression);
-            expressions_.Push(expression_type);
+            var expressionType = new JmesPathExpressionType(expression);
+            expressions_.Push(expressionType);
         }
-        #endregion 
+        
+        #endregion
 
         private void OnRawString(Token token)
         {
