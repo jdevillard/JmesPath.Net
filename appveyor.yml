@@ -13,7 +13,7 @@ platform: Any CPU
 
 environment:
   # Don't report back to the mothership
-    DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
   SNK_PASSPHRASE:
     secure: hAvbiLFI38bO0EdEXv77Xk0P3slfTlGq+jaD5JY0VaE=
   SNK_SALT:
