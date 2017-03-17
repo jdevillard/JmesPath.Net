@@ -4,13 +4,6 @@ branches:
   only:
   - master
   - Development
-environment:
-  SNK_PASSPHRASE:
-    secure: hAvbiLFI38bO0EdEXv77Xk0P3slfTlGq+jaD5JY0VaE=
-  SNK_SALT:
-    secure: F/vXSd1ELO8L1EkLnaFLgoWgayckxYQmtnWqa/CI05M=
-  SNK_INIT:
-    secure: i+0xK/acnRfh2XY8FjUR9LPlbP+HyPadahLxlrQnB58=
 
 configuration:
 - Debug
@@ -21,6 +14,13 @@ platform: Any CPU
 environment:
   # Don't report back to the mothership
     DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  SNK_PASSPHRASE:
+    secure: hAvbiLFI38bO0EdEXv77Xk0P3slfTlGq+jaD5JY0VaE=
+  SNK_SALT:
+    secure: F/vXSd1ELO8L1EkLnaFLgoWgayckxYQmtnWqa/CI05M=
+  SNK_INIT:
+    secure: i+0xK/acnRfh2XY8FjUR9LPlbP+HyPadahLxlrQnB58=
+
 
 init:
 - ps: $Env:LABEL = "CI" + $Env:APPVEYOR_BUILD_NUMBER.PadLeft(5, "0")
@@ -41,8 +41,5 @@ test_script:
 
 cache:
 - '%USERPROFILE%\.nuget\packages'
-
-build:
-  verbosity: minimal
 
 on_finish:
