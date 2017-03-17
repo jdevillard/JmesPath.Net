@@ -14,40 +14,45 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
-            var arg = (JArray)args[0].Token;
+            var array = (JArray) args[0].Token;
 
-            if (arg.Count == 0)
+            if (array.Count == 0)
                 return JTokens.Null;
 
-            var types = arg.Select(u => u.Type).Distinct().ToArray();
-            if (types.Length != 1)
-                throw new Exception("invalid-type");
-
-            var type = types[0];
+            var item = array[0];
+            var type = item.GetTokenType();
 
             switch (type)
             {
-                case JTokenType.Float:
-                    {
-                        var s = ((JArray)args[0].Token)
-                            .Select(u => u.Value<Double>()).ToArray();
-                        return s.Any() ? new JValue(s.Min()) : null;
-                    }
+                case "number":
+                {
+                    if (item.Type == JTokenType.Float)
+                        return GetMin<double>(array);
 
-                case JTokenType.Integer:
-                    {
-                        var s = ((JArray)args[0].Token)
-                            .Select(u => u.Value<Int32>()).ToArray();
-                        return s.Any() ? new JValue(s.Min()) : null;
-                    }
-                    // TODO: default or "string" ?
+                    else /* if (token.Type == JTokenType.Integer) */
+                        return GetMin<int>(array);
+                }
+
+                case "string":
+                    return GetMin<string>(array);
+
                 default:
-                    {
-                        var s = ((JArray)args[0].Token)
-                            .Select(u => u.Value<String>()).ToArray();
-                        return s.Any() ? new JValue(s.Min()) : null;
-                    }
+                    System.Diagnostics.Debug.Assert(false);
+                    throw new NotSupportedException("Error: invalid-type");
             }
+        }
+
+        private static JToken GetMin<T>(JArray array)
+        {
+            var sequence = array
+                .Select(u => u.Value<T>())
+                .ToArray()
+                ;
+
+            return sequence.Length > 0
+                ? new JValue(sequence.Min())
+                : null
+                ;
         }
     }
 }

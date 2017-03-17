@@ -10,8 +10,8 @@ namespace DevLab.JmesPath.Functions
         public JoinFunction()
             : base("join", 2)
         {
-
         }
+
         public override void Validate(params JmesPathFunctionArgument[] args)
         {
             base.Validate();
@@ -27,11 +27,11 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
-            var glue = args[0].Token.Value<String>();
+            var separator = args[0].Token.Value<String>();
             var array = (JArray)args[1].Token;
 
             var strings = array.Select(u => u.Value<String>());
-            var joined = String.Join(glue,strings);
+            var joined = String.Join(separator, strings);
 
             return new JValue(joined);
         }

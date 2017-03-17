@@ -1,27 +1,15 @@
 using System;
-using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Functions
 {
-    public class StartsWithFunction : JmesPathFunction
+    public class StartsWithFunction : StartsEndsWithFunction
     {
         public StartsWithFunction()
-            : base("starts_with", 2)
+            : base("starts_with")
         {
 
         }
-        public override void Validate(params JmesPathFunctionArgument[] args)
-        {
-            base.Validate();
-
-            var text = args[0].Token.GetTokenType();
-            var pattern = args[1].Token.GetTokenType();
-
-            if (text != "string" || (pattern != "string" && pattern != "null"))
-                throw new Exception($"Error: invalid-type, both arguments to function {Name} must be strings.");
-        }
-
         public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
             System.Diagnostics.Debug.Assert(args.Length == 2);

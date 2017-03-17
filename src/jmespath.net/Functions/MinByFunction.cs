@@ -4,21 +4,11 @@ using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Functions
 {
-    public class MinByFunction : JmesPathFunction
+    public class MinByFunction : ByFunction
     {
         public MinByFunction()
-            : base("min_by", 2)
+            : base("min_by")
         {
-        }
-
-        public override void Validate(params JmesPathFunctionArgument[] args)
-        {
-            var array = args[0].Token;
-            if (array.Type != JTokenType.Array)
-                throw new Exception($"Error: invalid-type, function {Name} expects its first argument to be an array.");
-
-            if (!args[1].IsExpressionType)
-                throw new Exception($"Error: invalid-type, function {Name} expects its second argument to be an expression type.");
         }
 
         public override JToken Execute(params JmesPathFunctionArgument[] args)

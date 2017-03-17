@@ -10,7 +10,6 @@ namespace DevLab.JmesPath.Functions
         public AvgFunction()
             : base("avg", 1)
         {
-
         }
 
         public override void Validate(params JmesPathFunctionArgument[] args)

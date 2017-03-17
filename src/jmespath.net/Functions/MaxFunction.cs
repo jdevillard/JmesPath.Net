@@ -14,38 +14,45 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
-            var arg = (JArray)args[0].Token;
+            var array = (JArray)args[0].Token;
 
-            if (arg.Count == 0)
+            if (array.Count == 0)
                 return JTokens.Null;
 
-            var types = arg.Select(u => u.Type).Distinct().ToArray();
-            if (types.Count() != 1)
-                throw new Exception("invalid-type");
+            var item = array[0];
+            var type = item.GetTokenType();
 
-            var type = types[0];
             switch (type)
             {
-                case JTokenType.Float:
+                case "number":
                     {
-                        var s = ((JArray)args[0].Token)
-                            .Select(u => u.Value<Double>()).ToArray();
-                        return s.Any() ? new JValue(s.Max()) : null;
+                        if (item.Type == JTokenType.Float)
+                            return GetMax<double>(array);
+
+                        else /* if (token.Type == JTokenType.Integer) */
+                            return GetMax<int>(array);
                     }
 
-                case JTokenType.Integer:
-                    {
-                        var s = ((JArray)args[0].Token)
-                            .Select(u => u.Value<Int32>()).ToArray();
-                        return s.Any() ? new JValue(s.Max()) : null;
-                    }
+                case "string":
+                    return GetMax<string>(array);
+
                 default:
-                    {
-                        var s = ((JArray)args[0].Token)
-                            .Select(u => u.Value<String>()).ToArray();
-                        return s.Any() ? new JValue(s.Max()) : null;
-                    }
+                    System.Diagnostics.Debug.Assert(false);
+                    throw new NotSupportedException("Error: invalid-type");
             }
+        }
+
+        private static JToken GetMax<T>(JArray array)
+        {
+            var sequence = array
+                .Select(u => u.Value<T>())
+                .ToArray()
+                ;
+
+            return sequence.Length > 0
+                ? new JValue(sequence.Max())
+                : null
+                ;
         }
     }
 }

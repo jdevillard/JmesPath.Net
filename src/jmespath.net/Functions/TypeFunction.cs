@@ -9,7 +9,6 @@ namespace DevLab.JmesPath.Functions
         public TypeFunction()
             : base("type", 1)
         {
-
         }
 
         public override JToken Execute(params JmesPathFunctionArgument[] args)

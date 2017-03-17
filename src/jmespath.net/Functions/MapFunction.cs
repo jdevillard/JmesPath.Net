@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
@@ -11,8 +10,8 @@ namespace DevLab.JmesPath.Functions
         public MapFunction()
             : base("map", 2)
         {
-
         }
+
         public override void Validate(params JmesPathFunctionArgument[] args)
         {
             if (!args[0].IsExpressionType)

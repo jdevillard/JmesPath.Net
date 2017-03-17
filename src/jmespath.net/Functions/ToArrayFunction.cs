@@ -1,5 +1,4 @@
 using System;
-using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
@@ -15,9 +14,10 @@ namespace DevLab.JmesPath.Functions
         public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
             var arg = args[0].Token;
-            if (arg.Type == JTokenType.Array)
-                return arg;
-            return new JArray().AddRange(arg);
+            return arg.Type == JTokenType.Array
+                ? arg
+                : new JArray().AddRange(arg)
+                ;
         }
     }
 }

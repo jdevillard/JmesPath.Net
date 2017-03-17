@@ -34,6 +34,11 @@ namespace DevLab.JmesPath.Functions
 
         public abstract JToken Execute(params JmesPathFunctionArgument[] args);
 
+        protected static bool IsInteger(double sum)
+        {
+            return Math.Abs(sum % 1) <= (Double.Epsilon * 100);
+        }
+
         protected JObject EnsureObject(JmesPathFunctionArgument argument)
         {
             return EnsureOf(argument, "object") as JObject;
@@ -71,7 +76,7 @@ namespace DevLab.JmesPath.Functions
             if (dataTypes.Length > 1)
                 throw new Exception($"Error: invalid-type, all items in the array to the function {Name} must have the same type.");
 
-            if (types.Length > 0 && !types.Contains(dataTypes[0]))
+            if (types.Length > 0 && dataTypes.Length > 0 && !types.Contains(dataTypes[0]))
             {
                 var valid = FormatAllowedDataTypes(types);
                 throw new Exception($"Error: invalid-type, function {Name} expects an array of {valid}.");

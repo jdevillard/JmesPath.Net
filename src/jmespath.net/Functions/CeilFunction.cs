@@ -9,8 +9,8 @@ namespace DevLab.JmesPath.Functions
         public CeilFunction()
             : base("ceil", 1)
         {
-
         }
+
         public override void Validate(params JmesPathFunctionArgument[] args)
         {
             base.Validate();

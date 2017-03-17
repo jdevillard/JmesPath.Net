@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using DevLab.JmesPath.Expressions;
+using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Functions
@@ -10,21 +11,23 @@ namespace DevLab.JmesPath.Functions
         public KeysFunction()
             : base("keys", 1)
         {
-
         }
+
         public override void Validate(params JmesPathFunctionArgument[] args)
         {
             base.Validate();
-
-            var arg = args[0].Token;
-            if (arg.Type != JTokenType.Object)
-                throw new Exception("invalid-type");
+            EnsureObject(args[0]);
         }
 
         public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
             var token = (JObject)args[0].Token;
-            return new JArray(token.Properties().Select(u => u.Name));
+
+            var items = token
+                .Properties()
+                .Select(u => new JValue(u.Name))
+                ;
+            return new JArray().AddRange(items);
         }
     }
 }

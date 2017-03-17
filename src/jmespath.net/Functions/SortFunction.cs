@@ -21,11 +21,26 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
-            var list = (JArray)args[0].Token;
-            var ordered = list
-                .OrderBy(u => u.Value<String>())
+            var array = (JArray)args[0].Token;
+
+            if (array.Count == 0)
+                return new JArray();
+
+            var item = array[0];
+
+            if (item.Type == JTokenType.Float)
+                return new JArray().AddRange(Sort<double>(array));
+            else if (item.Type == JTokenType.Integer)
+                return new JArray().AddRange(Sort<int>(array));
+            else
+                return new JArray().AddRange(Sort<string>(array));
+        }
+
+        private static JToken[] Sort<T>(JArray array)
+        {
+            return array
+                .OrderBy(u => u.Value<T>())
                 .ToArray();
-            return new JArray().AddRange(ordered);
         }
     }
 }

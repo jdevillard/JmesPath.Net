@@ -8,13 +8,13 @@ namespace DevLab.JmesPath.Functions
         public NotNullFunction()
             : base("not_null", 1, true)
         {
-
         }
+
         public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
-            foreach (var jmesPathArgument in args)
+            foreach (var argument in args)
             {
-                var token = jmesPathArgument.Token;
+                var token = argument.Token;
                 if (token.Type != JTokenType.Null)
                     return token;
             }

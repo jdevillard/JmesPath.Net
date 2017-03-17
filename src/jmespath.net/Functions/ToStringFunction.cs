@@ -1,7 +1,5 @@
 using System;
-using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Utils;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Functions
@@ -21,9 +19,10 @@ namespace DevLab.JmesPath.Functions
             var argument = args[0];
             var token = argument.Token;
 
-            if (token.GetTokenType() == "string")
-                return token;
-            return new JValue(token.ToString(Formatting.None));
+            return token.GetTokenType() == "string" 
+                ? token 
+                : new JValue(token.AsString())
+                ;
         }
     }
 }

@@ -1,25 +1,16 @@
 using System;
 using System.Linq;
 using DevLab.JmesPath.Expressions;
+using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Functions
 {
-    public class SortByFunction : JmesPathFunction
+    public class SortByFunction : ByFunction
     {
         public SortByFunction()
-            : base("sort_by", 2)
+            : base("sort_by")
         {
-        }
-
-        public override void Validate(params JmesPathFunctionArgument[] args)
-        {
-            var array = args[0].Token;
-            if (array.Type != JTokenType.Array)
-                throw new Exception($"Error: invalid-type, function {Name} expects its first argument to be an array.");
-
-            if (!args[1].IsExpressionType)
-                throw new Exception($"Error: invalid-type, function {Name} expects its second argument to be an expression type.");
         }
 
         public override JToken Execute(params JmesPathFunctionArgument[] args)
@@ -46,7 +37,7 @@ namespace DevLab.JmesPath.Functions
                                 
                 return e.AsJToken();
             }).ToArray();
-            return new JArray(ordered.AsJEnumerable());
+            return new JArray().AddRange(ordered);
         }
     }
 }

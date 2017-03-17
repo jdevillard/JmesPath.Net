@@ -7,7 +7,7 @@ namespace DevLab.JmesPath.Functions
     public abstract class MathArrayFunction : JmesPathFunction
     {
         protected MathArrayFunction(string name, int count) 
-            : base(name, count)
+            : this(name, count, false)
         {
         }
 
@@ -19,7 +19,7 @@ namespace DevLab.JmesPath.Functions
         public override void Validate(params JmesPathFunctionArgument[] args)
         {
             base.Validate();
-            EnsureArrayOfAny(args[0], "number", "string");
+            EnsureArrayOfSame(args[0], "number", "string");
         }
     }
 }

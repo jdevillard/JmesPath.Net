@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Functions
@@ -10,7 +9,6 @@ namespace DevLab.JmesPath.Functions
         public SumFunction()
             : base("sum", 1)
         {
-
         }
 
         public override void Validate(params JmesPathFunctionArgument[] args)
@@ -21,13 +19,21 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
-            var arg = (JArray)args[0].Token;
+            var array = (JArray)args[0].Token;
 
-            if (arg.Count == 0)
+            if (array.Count == 0)
                 return new JValue(0);
 
-            var s= arg.Select(u => u?.Value<double>() ?? 0);
-            return s.Any() ? new JValue(s.Sum()) : JTokens.Null;
+            var sum = 0.0;
+            foreach (var item in array)
+            {
+                sum += item?.Value<double>() ?? 0.0;
+            }
+
+            return IsInteger(sum) 
+                ? new JValue(Convert.ToInt32(sum))
+                : new JValue(sum)
+                ;
         }
     }
 }

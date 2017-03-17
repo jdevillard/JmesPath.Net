@@ -11,8 +11,8 @@ namespace DevLab.JmesPath.Functions
         public LengthFunction()
             : base("length", 1)
         {
-
         }
+
         public override void Validate(params JmesPathFunctionArgument[] args)
         {
             base.Validate();
@@ -31,7 +31,7 @@ namespace DevLab.JmesPath.Functions
                 case "string":
                     return token.Value<String>().Length;               
                 case "array":
-                    return ((JArray) token).Count();
+                    return ((JArray) token).Count;
                 case "object":
                     return ((JObject) token).Count;
                 default:

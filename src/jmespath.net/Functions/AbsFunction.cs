@@ -10,8 +10,8 @@ namespace DevLab.JmesPath.Functions
         public AbsFunction()
             : base("abs", 1)
         {
-
         }
+
         public override void Validate(params JmesPathFunctionArgument[] args)
         {
             base.Validate();
