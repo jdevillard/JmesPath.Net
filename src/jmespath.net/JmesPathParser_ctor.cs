@@ -472,8 +472,8 @@ namespace DevLab.JmesPath
             Prolog();
 
             var expression = expressions_.Pop();
-            var expressionType = new JmesPathExpressionType(expression);
-            expressions_.Push(expressionType);
+            JmesPathExpression.MakeExpressionType(expression);
+            expressions_.Push(expression);
         }
         
         #endregion

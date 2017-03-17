@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
@@ -11,12 +10,11 @@ namespace DevLab.JmesPath.Functions
         public MaxFunction()
             : base("max", 1)
         {
-
         }
 
-        public override JToken Execute(params JmesPathArgument[] args)
+        public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
-            var arg = ((JArray)(args[0].AsJToken()));
+            var arg = (JArray)args[0].Token;
 
             if (arg.Count == 0)
                 return JTokens.Null;
@@ -30,20 +28,20 @@ namespace DevLab.JmesPath.Functions
             {
                 case JTokenType.Float:
                     {
-                        var s = ((JArray)(args[0].AsJToken()))
+                        var s = ((JArray)args[0].Token)
                             .Select(u => u.Value<Double>()).ToArray();
                         return s.Any() ? new JValue(s.Max()) : null;
                     }
 
                 case JTokenType.Integer:
                     {
-                        var s = ((JArray)(args[0].AsJToken()))
+                        var s = ((JArray)args[0].Token)
                             .Select(u => u.Value<Int32>()).ToArray();
                         return s.Any() ? new JValue(s.Max()) : null;
                     }
                 default:
                     {
-                        var s = ((JArray)(args[0].AsJToken()))
+                        var s = ((JArray)args[0].Token)
                             .Select(u => u.Value<String>()).ToArray();
                         return s.Any() ? new JValue(s.Max()) : null;
                     }

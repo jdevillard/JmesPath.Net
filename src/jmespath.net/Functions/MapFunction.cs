@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
 using DevLab.JmesPath.Expressions;
+using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
-using JmesPathFunction = DevLab.JmesPath.Interop.JmesPathFunction;
 
 namespace DevLab.JmesPath.Functions
 {
@@ -13,27 +13,26 @@ namespace DevLab.JmesPath.Functions
         {
 
         }
-        public override bool Validate(params JmesPathArgument[] args)
+        public override void Validate(params JmesPathFunctionArgument[] args)
         {
             if (!args[0].IsExpressionType)
-                throw new Exception("invalid-type");
-            var list = args[1].AsJToken();
-            if (list.Type != JTokenType.Array)
-                throw new Exception("invalid-type");
-            
-            return true;
+                throw new Exception($"Error: invalid-type, function {Name} expects its first argument to be an expression type.");
+
+            var array = args[1].Token;
+            if (array.Type != JTokenType.Array)
+                throw new Exception($"Error: invalid-type, function {Name} expects its second argument to be an array.");
         }
 
-        public override JToken Execute(params JmesPathArgument[] args)
+        public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
             var expression = args[0].Expression;
-            var elements = (JArray) (args[1].AsJToken());
-            var result = elements.Select(e =>
-                expression.Transform(e).AsJToken()
-                ).ToArray();
-            
+            var elements = (JArray) (args[1].Token);
 
-            return new JArray(result);
+            var items = elements.Select(e =>
+                expression.Transform(e).AsJToken()
+                ).ToArray();          
+
+            return new JArray().AddRange(items);
         }     
     }
 }

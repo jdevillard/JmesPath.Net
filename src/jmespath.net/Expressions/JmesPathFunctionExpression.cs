@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using DevLab.JmesPath.Functions;
 using DevLab.JmesPath.Interop;
-
 
 namespace DevLab.JmesPath.Expressions
 {
@@ -13,7 +11,7 @@ namespace DevLab.JmesPath.Expressions
     {
         private readonly string name_;
         private readonly JmesPathExpression[] expressions_;
-        private readonly Interop.JmesPathFunction function_;
+        private readonly JmesPathFunction function_;
 
         public JmesPathFunctionExpression(string name, params JmesPathExpression[] expressions)
             : this(JmesPathFunctionFactory.Default, name, expressions)
@@ -55,11 +53,11 @@ namespace DevLab.JmesPath.Expressions
             var arguments = expressions_.Select(
                 expression =>
                 {
-                    if(expression.GetType() != typeof(JmesPathExpressionType))
-                        return expression.Transform(json);
-                    return new JmesPathArgument(expression);
-                }
-                )
+                    if (expression.IsExpressionType)
+                        return new JmesPathFunctionArgument(expression);
+                    else
+                        return new JmesPathFunctionArgument(expression.Transform(json).AsJToken());
+                })
                 .ToArray()
                 ;
 

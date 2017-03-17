@@ -18,30 +18,17 @@ namespace DevLab.JmesPath.Expressions
         {
             Token = token ?? JTokens.Null;
             Projection = null;
-            Expression = null;
         }
 
         public JmesPathArgument(IEnumerable<JmesPathArgument> projection)
         {
             Token = null;
-            Expression = null;
             Debug.Assert(projection != null);
             Projection = projection.ToArray();
         }
 
-        public JmesPathArgument(JmesPathExpression expression)
-        {
-            Token = null;
-            Projection = null;
-            Expression = expression;
-        }
-
         public bool IsProjection
             => Projection != null
-            ;
-
-        public bool IsExpressionType
-            => Expression != null
             ;
 
         public static implicit operator JmesPathArgument(JToken token)
@@ -52,8 +39,6 @@ namespace DevLab.JmesPath.Expressions
         public JToken Token { get; }
 
         public JmesPathArgument[] Projection { get; }
-
-        public JmesPathExpression Expression { get; }
 
         public JToken AsJToken()
         {

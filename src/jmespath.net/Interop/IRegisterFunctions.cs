@@ -1,4 +1,4 @@
-using DevLab.JmesPath.Expressions;
+using DevLab.JmesPath.Functions;
 
 namespace DevLab.JmesPath.Interop
 {

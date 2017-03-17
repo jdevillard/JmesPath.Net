@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DevLab.JmesPath.Interop;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions

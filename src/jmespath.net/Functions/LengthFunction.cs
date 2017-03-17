@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
 using DevLab.JmesPath.Expressions;
+using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
-using JmesPathFunction = DevLab.JmesPath.Interop.JmesPathFunction;
 
 namespace DevLab.JmesPath.Functions
 {
@@ -13,27 +13,27 @@ namespace DevLab.JmesPath.Functions
         {
 
         }
-        public override bool Validate(params JmesPathArgument[] args)
+        public override void Validate(params JmesPathFunctionArgument[] args)
         {
-            if (args[0].AsJToken().Type != JTokenType.Object
-                && args[0].AsJToken().Type != JTokenType.Array 
-                && args[0].AsJToken().Type != JTokenType.String)
-                throw new Exception("invalid-type");
+            base.Validate();
 
-            return true;
+            var type = args[0].Token.GetTokenType();
+            if (type != "array" && type != "object" && type != "string")
+                throw new Exception($"Error: invalid-type, function {Name} expects either an object, an array or a string.");
         }
 
-        public override JToken Execute(params JmesPathArgument[] args)
+        public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
-            var subject = args[0].AsJToken();
-            switch (subject.Type)
+            var token = args[0].Token;
+
+            switch (token.GetTokenType())
             {
-                case JTokenType.String:
-                    return subject.Value<String>().Length;               
-                case JTokenType.Array:
-                    return ((JArray) subject).Count();
-                case JTokenType.Object:
-                    return ((JObject) subject).Count;
+                case "string":
+                    return token.Value<String>().Length;               
+                case "array":
+                    return ((JArray) token).Count();
+                case "object":
+                    return ((JObject) token).Count;
                 default:
                     return 0;
             }

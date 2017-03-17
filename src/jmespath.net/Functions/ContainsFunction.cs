@@ -1,9 +1,7 @@
 using System;
 using System.Linq;
-using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
-using JmesPathFunction = DevLab.JmesPath.Interop.JmesPathFunction;
 
 namespace DevLab.JmesPath.Functions
 {
@@ -14,18 +12,20 @@ namespace DevLab.JmesPath.Functions
         {
 
         }
-        public override bool Validate(params JmesPathArgument[] args)
+        public override void Validate(params JmesPathFunctionArgument[] args)
         {
-            if (args[0].AsJToken().Type != JTokenType.Array && args[0].AsJToken().Type != JTokenType.String)
-                throw new Exception("invalid-type");
-
-            return true;
+            base.Validate();
+            EnsureArrayOrString(args[0]);
         }
 
-        public override JToken Execute(params JmesPathArgument[] args)
+        public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
-            var subject = args[0].AsJToken();
-            var search = args[1].AsJToken();
+            System.Diagnostics.Debug.Assert(args.Length == 2);
+            System.Diagnostics.Debug.Assert(args[0].IsToken);
+            System.Diagnostics.Debug.Assert(args[1].IsToken);
+
+            var subject = args[0].Token;
+            var search = args[1].Token;
             if (subject.Type == JTokenType.String)
             {
                 var subjectValue = subject.Value<String>();
@@ -34,7 +34,7 @@ namespace DevLab.JmesPath.Functions
             if (subject.Type == JTokenType.Array)
                 return ((JArray) subject).Any(a=> JToken.DeepEquals(a, search));
 
-            return false;
+            return JTokens.False;
         }
     }
 }

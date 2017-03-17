@@ -1,8 +1,8 @@
 using System;
 using System.Globalization;
 using DevLab.JmesPath.Expressions;
+using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
-using JmesPathFunction = DevLab.JmesPath.Interop.JmesPathFunction;
 
 namespace DevLab.JmesPath.Functions
 {
@@ -11,39 +11,38 @@ namespace DevLab.JmesPath.Functions
         public ToNumberFunction()
             : base("to_number", 1)
         {
-
-        }
-        public override bool Validate(params JmesPathArgument[] args)
-        {
-            return true;
         }
 
-        public override JToken Execute(params JmesPathArgument[] args)
+        public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
-            var arg = args[0].AsJToken();
-            
-            switch (arg.Type)
+            System.Diagnostics.Debug.Assert(args.Length == 1);
+            System.Diagnostics.Debug.Assert(args[0].IsToken);
+
+            var argument = args[0];
+            var token = argument.Token;
+
+            switch (token.GetTokenType())
             {
-                case JTokenType.Integer:
-                case JTokenType.Float:
-                    return arg;
+                case "number":
+                    return token;
 
-                case JTokenType.String:
+                case "string":
                     {
-                        var value = arg.Value<string>();
+                        var value = token.Value<string>();
 
-                        int i =0 ;
+                        int i = 0;
                         double d = 0;
+
                         if (int.TryParse(value, out i))
                             return new JValue(i);
-                        else if (double.TryParse(value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out d))
+                        if (double.TryParse(value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out d))
                             return new JValue(d);
 
-                        return null;
+                        return JTokens.Null;
                     }
-                    
+
                 default:
-                    return null;
+                    return JTokens.Null;
             }
         }
     }

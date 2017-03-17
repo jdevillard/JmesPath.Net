@@ -1,8 +1,4 @@
-
-using System;
-using DevLab.JmesPath.Expressions;
 using Newtonsoft.Json.Linq;
-using JmesPathFunction = DevLab.JmesPath.Interop.JmesPathFunction;
 
 namespace DevLab.JmesPath.Functions
 {
@@ -11,28 +7,25 @@ namespace DevLab.JmesPath.Functions
         public MergeFunction()
             : base("merge", 1, true)
         {
-
         }
 
-        public override bool Validate(params JmesPathArgument[] args)
+        public override void Validate(params JmesPathFunctionArgument[] args)
         {
-            foreach (var jmesPathArgument in args)
-                if (jmesPathArgument.AsJToken().Type != JTokenType.Object)
-                    throw new Exception("invalid-type");
-
-            return true;
+            base.Validate();
+            EnsureObject(args[0]);
         }
 
-        public override JToken Execute(params JmesPathArgument[] args)
+        public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
-            JObject last = new JObject();
-            foreach (var jmesPathArgument in args)
+            var result = new JObject();
+
+            foreach (var argument in args)
             {
-                var token = (JObject)jmesPathArgument.AsJToken();
-                last.Merge(token);
+                var token = (JObject)argument.Token;
+                result.Merge(token);
             }
 
-            return last;
+            return result;
         }
     }
 }

@@ -1,8 +1,7 @@
 using System;
 using System.Linq;
-using DevLab.JmesPath.Expressions;
+using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
-using JmesPathFunction = DevLab.JmesPath.Interop.JmesPathFunction;
 
 namespace DevLab.JmesPath.Functions
 {
@@ -13,24 +12,28 @@ namespace DevLab.JmesPath.Functions
         {
 
         }
-        public override bool Validate(params JmesPathArgument[] args)
+        public override void Validate(params JmesPathFunctionArgument[] args)
         {
-            if (args[0].AsJToken().Type != JTokenType.String 
-                || args[1].AsJToken().Type != JTokenType.Array)
-                throw new Exception("invalid-type");
+            base.Validate();
 
-            foreach (var item in (JArray)(args[1].AsJToken()))
-                if (item.Type != JTokenType.String)
-                    throw new Exception("invalid-type");
+            var separator = args[0].Token.GetTokenType();
+            var array = args[1].Token.GetTokenType();
 
-            return true;
+            if (separator != "string" || array != "array")
+                throw new Exception($"Error: invalid-type, function {Name} expects a string separator and an array of strings.");
+
+            EnsureArrayOf(args[1], "string");
         }
 
-        public override JToken Execute(params JmesPathArgument[] args)
+        public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
-            var glue = args[0].AsJToken().Value<String>();
-            var stringsArray = ((JArray)args[1].AsJToken()).Select(u => u.Value<String>());
-            return new JValue(String.Join(glue,stringsArray));
+            var glue = args[0].Token.Value<String>();
+            var array = (JArray)args[1].Token;
+
+            var strings = array.Select(u => u.Value<String>());
+            var joined = String.Join(glue,strings);
+
+            return new JValue(joined);
         }
     }
 }

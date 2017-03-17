@@ -45,6 +45,13 @@ namespace DevLab.JmesPath.Expressions
         /// <returns></returns>
         protected abstract JmesPathArgument Transform(JToken json);
 
+        public bool IsExpressionType { get; private set; }
+
+        public static void MakeExpressionType(JmesPathExpression expression)
+        {
+            expression.IsExpressionType = true;
+        }
+
         /// <summary>
         /// Perform a traversal of the abstract syntax tree.
         /// </summary>

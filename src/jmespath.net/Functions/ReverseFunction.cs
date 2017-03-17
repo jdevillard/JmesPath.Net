@@ -1,8 +1,7 @@
 using System;
 using System.Linq;
-using DevLab.JmesPath.Expressions;
+using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
-using JmesPathFunction = DevLab.JmesPath.Interop.JmesPathFunction;
 
 namespace DevLab.JmesPath.Functions
 {
@@ -14,24 +13,30 @@ namespace DevLab.JmesPath.Functions
 
         }
 
-        public override bool Validate(params JmesPathArgument[] args)
+        public override void Validate(params JmesPathFunctionArgument[] args)
         {
-            var arg = args[0].AsJToken();
-            if (arg.Type == JTokenType.String || arg.Type == JTokenType.Array)
-                return true;
-            else
-                throw new Exception("invalid-type");
+            base.Validate();
+            var arg = args[0].Token;
+            var tokenType = arg.GetTokenType();
+            if (tokenType != "string" && tokenType != "array")
+                throw new Exception($"Error: invalid-type, function {Name} accepts either an array or a string.");
         }
 
-        public override JToken Execute(params JmesPathArgument[] args)
+        public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
-            var arg = args[0].AsJToken();
-            switch (arg.Type)
+            var token = args[0].Token;
+            switch (token.GetTokenType())
             {
-                case JTokenType.String:
-                    return new JValue(new String(arg.Value<String>().Reverse().ToArray()));
-                case JTokenType.Array:
-                    return new JArray(((JArray) (arg)).AsJEnumerable().Reverse());
+                case "string":
+                {
+                    var characters = token.Value<String>().Reverse().ToArray();
+                    return new JValue(new string(characters));
+                }
+                case "array":
+                {
+                        var items = ((JArray)token).Reverse();
+                    return new JArray().AddRange(items);
+                }
                 default:
                     return null;
             }
