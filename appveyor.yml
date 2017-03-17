@@ -1,5 +1,17 @@
 version: '1.0.{build}'
 
+branches:
+  only:
+  - master
+  - Development
+environment:
+  SNK_PASSPHRASE:
+    secure: hAvbiLFI38bO0EdEXv77Xk0P3slfTlGq+jaD5JY0VaE=
+  SNK_SALT:
+    secure: F/vXSd1ELO8L1EkLnaFLgoWgayckxYQmtnWqa/CI05M=
+  SNK_INIT:
+    secure: i+0xK/acnRfh2XY8FjUR9LPlbP+HyPadahLxlrQnB58=
+
 configuration:
 - Debug
 - Release
@@ -15,6 +27,8 @@ init:
 
 before_build:
 - appveyor-retry dotnet restore -v Minimal
+- ps: C:\projects\jmespath-net\bin\EncryptDecryptFile.PS1
+- ps: Decrypt-File "C:\projects\jmespath-net\src\jmespath.net.signed\jmespath.net.snk" -Passphrase $env:SNK_PASSPHRASE -salt $env:SNK_SALT -init $env:SNK_INIT  -outputPath "C:\projects\jmespath-net\src\jmespath.net.signed\jmespath.net.snk"
 
 build_script:
 - dotnet build "src\jmespath.net" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
@@ -27,5 +41,8 @@ test_script:
 
 cache:
 - '%USERPROFILE%\.nuget\packages'
+
+build:
+  verbosity: minimal
 
 on_finish:
