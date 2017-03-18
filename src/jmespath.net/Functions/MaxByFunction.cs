@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using DevLab.JmesPath.Expressions;
+using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Functions
@@ -13,36 +15,26 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
-            var list = (JArray)args[0].Token;
-            var max = list.Aggregate((i1, i2) =>
-            {
-                var e1 = Transform(args[1], i1);
-                var e2 = Transform(args[1], i2);
+            System.Diagnostics.Debug.Assert(args.Length == 2);
+            System.Diagnostics.Debug.Assert(args[0].IsToken);
+            System.Diagnostics.Debug.Assert(args[1].IsExpressionType);
 
-                var compare = e1.Value<double>() > e2.Value<double>();
-                return compare ? i1 : i2;
-            });
+            var array = (JArray)args[0].Token;
+            var expression = args[1].Expression;
+
+            var max = array.Aggregate(
+                (left, right) =>
+                {
+                    var evalLeft = Evaluate(expression, left);
+                    var evalRight = Evaluate(expression, right);
+
+                    return evalLeft.Value<double>() > evalRight.Value<double>()
+                        ? left
+                        : right
+                        ;
+
+                });
             return max;
-        }
-
-        private static JToken Transform(JmesPathFunctionArgument arg, JToken i1)
-        {
-            var e = arg.Expression.Transform(i1).AsJToken();
-            if (e.Type != JTokenType.Float
-                && e.Type != JTokenType.Integer
-                && e.Type != JTokenType.String
-                )
-                throw new Exception("invalid-type");
-            if (e.Type == JTokenType.String)
-            {
-                double d;
-                if(double.TryParse(e.Value<String>(),out d))
-                    return new JValue(d);
-                else
-                    throw new Exception("invalid-type");
-            }
-                
-            return e;
         }
     }
 }

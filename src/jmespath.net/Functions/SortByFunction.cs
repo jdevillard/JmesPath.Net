@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
@@ -15,29 +14,42 @@ namespace DevLab.JmesPath.Functions
 
         public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
-            var init = false;
-            JTokenType type = JTokenType.None;
-            var list = (JArray)args[0].Token;
-            var ordered = list.OrderBy(u =>
+            System.Diagnostics.Debug.Assert(args.Length == 2);
+            System.Diagnostics.Debug.Assert(args[0].IsToken);
+            System.Diagnostics.Debug.Assert(args[1].IsExpressionType);
+
+            var array = (JArray)args[0].Token;
+            var expression = args[1].Expression;
+
+            var done = false;
+
+            var expectedItemType = "none";
+
+            var ordered = array.OrderBy(u =>
             {
-                var e = args[1].Expression.Transform(u);
+                var e = expression.Transform(u);
 
-                if (!init)
+                var actualItemType = e.AsJToken().GetTokenType();
+
+                if (!done)
                 {
-                    if (e.AsJToken().Type != JTokenType.Float
-                        && e.AsJToken().Type != JTokenType.Integer
-                        && e.AsJToken().Type != JTokenType.String)
-                        throw new Exception("invalid-type");
+                    if (actualItemType != "number" && actualItemType != "string")
+                        throw new Exception($"Error: invalid-type, the expression argument of function {Name} should return a number or a string.");
 
-                    type = e.AsJToken().Type;
-                    init = true;
+                    expectedItemType = actualItemType;
+                    done = true;
                 }
-                if(type != e.AsJToken().Type)
-                    throw new Exception("invalid-type");
+
+                if (expectedItemType != actualItemType)
+                    throw new Exception("Error: invalid-type, all items resulting from the evaluation of the expression argument of function {Name} should have the same type.");
                                 
                 return e.AsJToken();
+
             }).ToArray();
-            return new JArray().AddRange(ordered);
+
+            return new JArray()
+                .AddRange(ordered)
+                ;
         }
     }
 }
