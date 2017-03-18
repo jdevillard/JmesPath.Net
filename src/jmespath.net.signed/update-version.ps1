@@ -1,7 +1,4 @@
 Function Get-ScriptDirectory { Split-Path -parent $PSCommandPath }
 
-$attribute = Get-Content "$(Get-ScriptDirectory)\Properties\AssemblyInfo.cs" |? { $_ -match "AssemblyFileVersion" } | Select-Object -First 1
-$attribute -match '[0-9]+(\.[0-9]+){2,3}'
-$version = $matches[0]
-Write-Host $version
-Set-Content -Path "$(Get-ScriptDirectory)\project.json" -Value (Get-Content "$(Get-ScriptDirectory)\project.json").Replace("`"version`": `"42.43.44`",", "`"version`": `"$($version)`",")
+Write-Host $env:appveyor_build_version
+Set-Content -Path "$(Get-ScriptDirectory)\project.json" -Value (Get-Content "$(Get-ScriptDirectory)\project.json").Replace("`"version`": `"42.43.44`",", "`"version`": `"$($env:appveyor_build_version)`",")
