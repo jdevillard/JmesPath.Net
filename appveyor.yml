@@ -42,6 +42,7 @@ build_script:
 - ps: C:\projects\jmespath-net\\src\jmespath.net.signed\update-version.ps1
 
 after_build:
+- dotnet pack "src\jmespath.net.signed" -c Release
 
 test_script:
 - dotnet test "tests\jmespathnet.tests" -c %CONFIGURATION%
