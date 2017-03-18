@@ -52,6 +52,15 @@ artifacts:
   - path: '**\*.nupkg'
     name: NuGet package
 
+deploy:
+- provider: NuGet
+  api_key:
+    secure: LfwW/Z7ZvyzShZW3cEwdvlg5rcXe//JoIGVXFutLlypl5gcow2l+SnnCrIZBHxm2
+  skip_symbols: true
+  artifact: /.*\.nupkg/
+  on:
+    branch: master
+
 cache:
 - '%USERPROFILE%\.nuget\packages'
 
