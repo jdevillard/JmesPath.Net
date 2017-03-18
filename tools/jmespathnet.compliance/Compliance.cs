@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using DevLab.JmesPath;
+using DevLab.JmesPath.Functions;
 
 namespace jmespath.net.compliance
 {
@@ -120,6 +121,12 @@ namespace jmespath.net.compliance
             try
             {
                 var parser = new JmesPath();
+                parser.FunctionRepository
+                    .Register<ItemsFunction>()
+                    .Register<ToObjectFunction>()
+                    .Register<ZipFunction>()
+                    ;
+
                 var result = parser.Transform(document, expression);
 
                 return new ComplianceResult

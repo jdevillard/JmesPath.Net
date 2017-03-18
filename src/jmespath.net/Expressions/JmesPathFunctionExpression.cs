@@ -38,8 +38,12 @@ namespace DevLab.JmesPath.Expressions
 
             if (actual < expected || (!variadic && actual > expected))
             {
-                var report = actual == 0 ? "none" : $"only {actual}";
-                throw new Exception($"Error: invalid-arity, the function {name} expects {expected} arguments or more but {report} were supplied.");
+                var more = variadic ? "or more " : "";
+                var only = variadic ? "only " : "";
+                var report = actual == 0 ? "none" : $"{only}{actual}";
+                var plural = expected > 1 ? "s" : "";
+
+                throw new Exception($"Error: invalid-arity, the function {name} expects {expected} argument{plural} {more}but {report} were supplied.");
             }
 
             name_ = name;

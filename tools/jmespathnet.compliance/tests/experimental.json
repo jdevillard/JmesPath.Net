@@ -1,0 +1,42 @@
+[
+  {
+    "given": {
+      "a": "first",
+      "b": "second",
+      "c": "third"
+    },
+    "cases": [
+      {
+        "expression": "items(@)",
+        "result": [["a", "first"], ["b", "second"], ["c", "third"]]
+      }
+    ]
+  },
+  {
+    "given": [
+      [
+        "one",
+        1
+      ],
+      [
+        "two",
+        2
+      ]
+    ],
+    "cases": [
+      {
+        "expression": "to_object(@)",
+        "result": {"one": 1, "two": 2}      
+      }
+    ]
+  },
+  {
+    "given": {},
+    "cases": [
+      {
+        "expression": "zip(`[\"a\", \"b\"]`, `[1, 2]`)",
+        "result": [["a", 1], ["b", 2]]
+      }
+    ]
+  }
+]
