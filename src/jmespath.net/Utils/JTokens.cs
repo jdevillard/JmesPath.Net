@@ -35,6 +35,8 @@ namespace DevLab.JmesPath.Utils
                     case JTokenType.Date:
                     case JTokenType.Guid:
                     case JTokenType.String:
+                    case JTokenType.TimeSpan:
+                    case JTokenType.Uri:
                         return token.Value<String>() == "";
 
                     case JTokenType.Boolean:
