@@ -39,7 +39,7 @@ assembly_info:
 build_script:
 - dotnet build "src\jmespath.net" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
 - dotnet build "src\jmespath.net.signed" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
-- ps: C:\projects\jmespath-net\\src\jmespath.net.signed\update-version.ps1
+- ps: C:\projects\jmespath-net\src\jmespath.net.signed\update-version.ps1
 
 after_build:
 - dotnet pack "src\jmespath.net.signed" -c Release
