@@ -1,7 +1,3 @@
-using System;
-using DevLab.JmesPath.Utils;
-using Newtonsoft.Json.Linq;
-
 namespace DevLab.JmesPath.Functions
 {
     public abstract class MathArrayFunction : JmesPathFunction

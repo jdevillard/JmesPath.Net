@@ -1,5 +1,4 @@
 using System;
-using DevLab.JmesPath.Expressions;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Functions

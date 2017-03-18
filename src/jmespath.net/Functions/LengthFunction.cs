@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
