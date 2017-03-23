@@ -21,18 +21,17 @@
   "buildOptions": {
     "compile": {
       "include": [
-        "../jmespath.net/**/*.cs"
-      ],
-      "exclude": [
-        "../jmespath.net/Properties/AssemblyInfo.cs"
+        "../jmespath.net/*.cs",
+        "../jmespath.net/Expressions/*.cs",
+        "../jmespath.net/Functions/*.cs",
+        "../jmespath.net/gppg/*.cs",
+        "../jmespath.net/Interop/*.cs",
+        "../jmespath.net/Tokens/*.cs",
+        "../jmespath.net/Utils/*.cs"
       ]
     },
     "publicSign": true,
     "keyFile": "jmespath.net.snk"
-  },
-  "scripts": {
-    "precompile": [],
-    "postcompile": []
   },
   "packOptions": {
     "summary": "JmesPath.Net is a fully compliant JMESPATH parser.",
