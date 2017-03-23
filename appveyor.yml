@@ -29,18 +29,10 @@ before_build:
 - appveyor-retry dotnet restore -v Minimal
 - ps: C:\projects\jmespath-net\bin\EncryptDecryptFile.PS1
 
-assembly_info:
-  patch: true
-  file: AssemblyInfo.cs
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '{version}'
-
 build_script:
 - dotnet build "src\jmespath.net" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
 - ps: C:\projects\jmespath-net\src\jmespath.net.signed\update-version.ps1
 - dotnet build "src\jmespath.net.signed" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
-
 
 after_build:
 - dotnet pack "src\jmespath.net.signed" -c Release
