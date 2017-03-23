@@ -54,6 +54,6 @@ deploy:
     branch: master
 
 cache:
-- '%USERPROFILE%\.nuget\packages'
+#- '%USERPROFILE%\.nuget\packages'
 
 on_finish:
