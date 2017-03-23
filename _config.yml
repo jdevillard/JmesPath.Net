@@ -1,8 +1,10 @@
 theme: jekyll-theme-cayman
 repository: jdevillard/JmesPath.Net
 
+google_analytics: UA-96122284-1
+
 markdown: kramdown
-highlighter: pygments
+highlighter: rouge
 
 kramdown:
   input: GFM
