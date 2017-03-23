@@ -7,12 +7,11 @@
   "frameworks": {
     "netstandard1.6": {
       "imports": "dnxcore50"
-    }
+    },
+	"net45":{	
+	}
   },
   "runtimes": {
-    "win10-x64": {},
-    "osx.10.10-x64": {},
-    "ubuntu.14.04-x64": {}
   },
   "tools": {
 	"dotnet-make": "1.0.14"
