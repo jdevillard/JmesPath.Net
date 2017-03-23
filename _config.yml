@@ -1,1 +1,8 @@
 theme: jekyll-theme-cayman
+repository: jdevillard/JmesPath.Net
+
+markdown: kramdown
+highlighter: pygments
+
+kramdown:
+  input: GFM
