@@ -36,12 +36,34 @@ namespace DevLab.JmesPath
             return result.AsString();
         }
 
-        private JmesPathExpression Parse(string expression)
+        public sealed class Expression : JmesPathExpression
+        {
+            private readonly JmesPathExpression expression_;
+
+            internal Expression(JmesPathExpression expression)
+            {
+                expression_ = expression;
+            }
+
+            public string Transform(string document)
+            {
+                var token = JToken.Parse(document);
+                var result = Transform(token);
+                return result.AsJToken()?.AsString();
+            }
+
+            protected override JmesPathArgument Transform(JToken json)
+            {
+                return expression_.Transform(json);
+            }
+        }
+
+        public Expression Parse(string expression)
         {
             return Parse(new MemoryStream(Encoding.UTF8.GetBytes(expression)));
         }
 
-        private JmesPathExpression Parse(Stream stream)
+        public Expression Parse(Stream stream)
         {
             var scanner = new JmesPathScanner(stream);
             scanner.InitializeLookaheadQueue();
@@ -58,7 +80,7 @@ namespace DevLab.JmesPath
             var syntax = new SyntaxVisitor();
             analyzer.Expression.Accept(syntax);
 
-            return analyzer.Expression;
+            return new Expression(analyzer.Expression);
         }
         private sealed class SyntaxVisitor : IVisitor
         {
