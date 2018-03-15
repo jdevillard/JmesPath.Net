@@ -29,10 +29,10 @@ namespace DevLab.JmesPath.Functions
                     {
                         var value = token.Value<string>();
 
-                        int i = 0;
+                        Int64 i = 0;
                         double d = 0;
 
-                        if (int.TryParse(value, out i))
+                        if (Int64.TryParse(value, out i))
                             return new JValue(i);
                         if (double.TryParse(value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out d))
                             return new JValue(d);
