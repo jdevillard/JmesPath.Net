@@ -30,7 +30,7 @@ namespace DevLab.JmesPath.Functions
             }
 
             return IsInteger(sum) 
-                ? new JValue(Convert.ToInt32(sum))
+                ? new JValue(Convert.ToInt64(sum))
                 : new JValue(sum)
                 ;
         }

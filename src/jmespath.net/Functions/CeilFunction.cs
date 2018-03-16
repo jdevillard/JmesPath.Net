@@ -24,7 +24,7 @@ namespace DevLab.JmesPath.Functions
             var argument = args[0];
             var token = argument.Token;
 
-            return new JValue(Convert.ToInt32(Math.Ceiling(token.Value<double>())));
+            return new JValue(Convert.ToInt64(Math.Ceiling(token.Value<double>())));
         }
     }
 }
