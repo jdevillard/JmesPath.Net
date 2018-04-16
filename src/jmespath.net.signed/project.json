@@ -30,7 +30,6 @@
         "../jmespath.net/Utils/*.cs"
       ]
     },
-    "publicSign": true,
     "keyFile": "jmespath.net.snk"
   },
   "packOptions": {
