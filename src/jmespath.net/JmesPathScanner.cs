@@ -369,9 +369,16 @@ int NextState() {
             SetSource(file, 0); // unicode option
         }
 
-        public JmesPathScanner(Stream file, string codepage) {
-            SetSource(file, CodePageHandling.GetCodePage(codepage));
-        }   
+        public JmesPathScanner(Stream file, int codepage)
+        {
+            SetSource(file, codepage);
+        }
+
+        public JmesPathScanner(Stream file, string codepage) : this(file, CodePageHandling.GetCodePage(codepage))
+        {
+        }
+
+
 #endif // !NOFILES
 
      internal JmesPathScanner() { }
