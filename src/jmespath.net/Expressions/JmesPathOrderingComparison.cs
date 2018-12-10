@@ -15,27 +15,73 @@ namespace DevLab.JmesPath.Expressions
         {
         }
 
-        protected static double? Evaluate(JToken token)
+        protected static bool FromDouble(JToken token, out double? value)
         {
-            if (token.Type != JTokenType.Float && token.Type != JTokenType.Integer)
-                return null;
+            value = null;
 
-            return token.Value<double>();
+            if (
+                token.Type != JTokenType.Float &&
+                token.Type != JTokenType.Integer
+            )
+                return false;
+
+            value = token.Value<double>();
+            return true;
+        }
+
+        protected static bool FromString(JToken token, out string value)
+        {
+            value = null;
+
+            if (
+                token.Type != JTokenType.Bytes &&
+                token.Type != JTokenType.Date &&
+                token.Type != JTokenType.Guid &&
+                token.Type != JTokenType.String &&
+                token.Type != JTokenType.TimeSpan &&
+                token.Type != JTokenType.Uri &&
+
+                // null is considered a valid string
+
+                token.Type != JTokenType.Null
+            )
+                return false;
+
+            value = token.Value<string>();
+            return true;
         }
 
         protected override bool? Compare(JToken left, JToken right)
         {
-            var lhs = Evaluate(left);
-            var rhs = Evaluate(right);
+            // originally, comparisons was only specified for integers and floating point numbers.
+            // however, a change in the python implementation meant that other implicit comparisons
+            // stopped working. Because this impacts a lot of existing code, comparison for strings
+            // is now legal.
 
-            if (lhs == null)
-                return null;
-            if (rhs == null)
-                return null;
+            // see : https://github.com/jmespath/jmespath.py/issues/124
 
-            return Compare(lhs.Value, rhs.Value);
+            if (FromDouble(left, out var lhd) && FromDouble(right, out var rhd))
+            {
+                if (lhd == null)
+                    return null;
+                if (rhd == null)
+                    return null;
+
+                return Compare(lhd.Value, rhd.Value);
+            }
+
+            else if (FromString(left, out var lhs) && FromString(right, out var rhs))
+            {
+                return Compare(lhs, rhs);
+            }
+
+            // other comparisons are currently not supported
+            // likewise, comparisons between values from different types are not supported.
+
+            return null;
         }
 
         protected abstract bool Compare(double left, double right);
+        protected abstract bool Compare(string left, string right);
     }
 }

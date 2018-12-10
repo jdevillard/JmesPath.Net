@@ -6,6 +6,7 @@ using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Functions;
 using DevLab.JmesPath.Interop;
 using DevLab.JmesPath.Utils;
+using Newtonsoft.Json;
 
 namespace DevLab.JmesPath
 {
@@ -22,8 +23,12 @@ namespace DevLab.JmesPath
 
         public IRegisterFunctions FunctionRepository => repository_;
 
+        [Obsolete("Please, use the Transform(string, string) overload instead.")]
         public JToken Transform(JToken token, string expression)
         {
+            // this method is deprecated because we do not correctly
+            // handle JToken.Date tokens.
+
             var jmesPath = Parse(expression);
             var result = jmesPath.Transform(token);
             return result.AsJToken();
@@ -31,7 +36,7 @@ namespace DevLab.JmesPath
 
         public String Transform(string json, string expression)
         {
-            var token = JToken.Parse(json);
+            var token = ParseJson(json);
             var result = Transform(token, expression);
             return result.AsString();
         }
@@ -47,7 +52,7 @@ namespace DevLab.JmesPath
 
             public string Transform(string document)
             {
-                var token = JToken.Parse(document);
+                var token = ParseJson(document);
                 var result = Transform(token);
                 return result.AsJToken()?.AsString();
             }
@@ -82,6 +87,28 @@ namespace DevLab.JmesPath
 
             return new Expression(analyzer.Expression);
         }
+
+        public static JToken ParseJson(string input)
+        {
+            using (var textReader = new StringReader(input))
+            using (var reader = new JsonTextReader(textReader))
+            {
+                reader.DateParseHandling = DateParseHandling.None;
+
+                if (reader.Read())
+                {
+                    if (reader.TokenType == JsonToken.StartArray)
+                        return JArray.Load(reader);
+                    else if (reader.TokenType == JsonToken.StartObject)
+                        return JObject.Load(reader);
+                    else
+                        return JToken.Load(reader);
+                }
+
+                throw new JsonReaderException("Unable to read the JSON string.");
+            }
+        }
+
         private sealed class SyntaxVisitor : IVisitor
         {
             public void Visit(JmesPathExpression expression)

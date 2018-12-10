@@ -1,3 +1,5 @@
+using System;
+
 namespace DevLab.JmesPath.Expressions
 {
     public sealed class JmesPathGreaterThanOperator : JmesPathOrderingComparison
@@ -16,6 +18,12 @@ namespace DevLab.JmesPath.Expressions
         protected override bool Compare(double left, double right)
         {
             return left > right;
+        }
+
+        protected override bool Compare(string left, string right)
+        {
+            if (left == null) return false;
+            return String.Compare(left, right, StringComparison.Ordinal) > 0;
         }
     }
 }

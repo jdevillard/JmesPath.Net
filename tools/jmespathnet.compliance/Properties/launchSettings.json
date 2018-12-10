@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "jmespathnet.compliance": {
+      "commandName": "Project",
+      "commandLineArgs": "-t regression",
+      "workingDirectory": "E:\\Projects\\JmesPath.Net\\tools\\jmespathnet.compliance"
+    }
+  }
+}
