@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28315.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{65D019ED-1B19-47DD-8C89-4FBABAA860D8}"
 	ProjectSection(SolutionItems) = preProject
@@ -10,19 +10,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "jmespath.netstandard", "src\jmespath.net\jmespath.netstandard.xproj", "{C1B8BA55-2115-406F-944D-39EFA384879D}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "jmespath.netstandard.signed", "src\jmespath.net.signed\jmespath.netstandard.signed.xproj", "{290C0EFC-EADB-4C7A-920A-084276BA803A}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "jmespathnet.compliance", "tools\jmespathnet.compliance\jmespathnet.compliance.xproj", "{63368C99-13F3-49F6-B221-2AD3595486E7}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "jmespathnet.tests", "tests\jmespathnet.tests\jmespathnet.tests.xproj", "{43EC8A0D-27A8-476C-8806-ED18FCC8B2F2}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6D7773F3-76FA-4E25-A85C-7AA1AD5668D8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{CF8C1543-B634-47F5-BF43-4508F64E0554}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{17EC0D83-06FD-45A9-87CE-5A6901204774}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jmespath.net", "src\jmespath.net\jmespath.net.csproj", "{C1B8BA55-2115-406F-944D-39EFA384879D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jmespath.net.signed", "src\jmespath.net.signed\jmespath.net.signed.csproj", "{290C0EFC-EADB-4C7A-920A-084276BA803A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jmespathnet.compliance", "tools\jmespathnet.compliance\jmespathnet.compliance.csproj", "{63368C99-13F3-49F6-B221-2AD3595486E7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jmespathnet.tests", "tests\jmespathnet.tests\jmespathnet.tests.csproj", "{43EC8A0D-27A8-476C-8806-ED18FCC8B2F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,5 +55,8 @@ Global
 		{290C0EFC-EADB-4C7A-920A-084276BA803A} = {6D7773F3-76FA-4E25-A85C-7AA1AD5668D8}
 		{63368C99-13F3-49F6-B221-2AD3595486E7} = {CF8C1543-B634-47F5-BF43-4508F64E0554}
 		{43EC8A0D-27A8-476C-8806-ED18FCC8B2F2} = {17EC0D83-06FD-45A9-87CE-5A6901204774}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {759AACA1-7B3D-4EA9-AAC6-CA9150656A98}
 	EndGlobalSection
 EndGlobal

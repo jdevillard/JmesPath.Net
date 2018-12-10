@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>JmesPath.Net is a fully compliant JMESPATH parser.</Description>
+    <AssemblyTitle>JmesPath.Net</AssemblyTitle>
+    <Authors>Jeremie Devillard;Maxime Labelle</Authors>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <AssemblyName>JmesPath.Net</AssemblyName>
+    <PackageId>jmespath.net</PackageId>
+    <PackageTags>jmespath;json</PackageTags>
+    <PackageProjectUrl>https://github.com/jdevillard/JmesPath.Net</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/jdevillard/JmesPath.Net/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <Target Name="PrecompileScript" BeforeTargets="BeforeBuild" Condition=" '$(IsCrossTargetingBuild)' != 'true' ">
+    <Exec Command="dotnet make $(MSBuildProjectDirectory)../../../bin/dotnet-gplex.dll /unicode /out:$(MSBuildProjectDirectory)/JmesPathScanner.cs $(MSBuildProjectDirectory)/JmesPathScanner.lex" />
+    <Exec Command="dotnet make $(MSBuildProjectDirectory)../../../bin/dotnet-gppg.dll /gplex /out:$(MSBuildProjectDirectory)/JmesPathParser.cs $(MSBuildProjectDirectory)/JmesPathParser.y" />
+  </Target>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="dotnet-make" Version="1.0.27" />
+  </ItemGroup>
+
+</Project>
