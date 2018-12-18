@@ -12,10 +12,16 @@ namespace DevLab.JmesPath
 {
     public sealed class JmesPath
     {
+        private readonly Encoding _encoding;
         private readonly JmesPathFunctionFactory repository_;
 
-        public JmesPath()
+        public JmesPath() : this(Encoding.UTF8)
         {
+        }
+
+        public JmesPath(Encoding encoding)
+        {
+            _encoding = encoding;
             repository_ = new JmesPathFunctionFactory();
             foreach (var name in JmesPathFunctionFactory.Default.Names)
                 repository_.Register(name, JmesPathFunctionFactory.Default[name]);
@@ -65,12 +71,12 @@ namespace DevLab.JmesPath
 
         public Expression Parse(string expression)
         {
-            return Parse(new MemoryStream(Encoding.UTF8.GetBytes(expression)));
+            return Parse(new MemoryStream(_encoding.GetBytes(expression)));
         }
 
         public Expression Parse(Stream stream)
         {
-            var scanner = new JmesPathScanner(stream);
+            var scanner = new JmesPathScanner(stream, _encoding.CodePage.ToString());
             scanner.InitializeLookaheadQueue();
 
             var analyzer = new JmesPathParser(scanner, repository_);
