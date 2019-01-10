@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>JmesPath.Net is a fully compliant JMESPATH parser.</Description>
@@ -10,7 +10,7 @@
     <AssemblyOriginatorKeyFile>jmespath.net.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
-    <PackageId>jmespath.net.signed</PackageId>
+    <PackageId>JmesPath.Net</PackageId>
     <PackageTags>jmespath;json</PackageTags>
     <PackageProjectUrl>https://github.com/jdevillard/JmesPath.Net</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/jdevillard/JmesPath.Net/blob/master/LICENSE</PackageLicenseUrl>
