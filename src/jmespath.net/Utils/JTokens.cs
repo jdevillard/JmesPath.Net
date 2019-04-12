@@ -9,6 +9,11 @@ namespace DevLab.JmesPath.Utils
         public static JToken True = JToken.Parse("true");
         public static JToken False = JToken.Parse("false");
 
+        public static bool IsNull(JToken token)
+        {
+            return token.Type == JTokenType.Null;
+        }
+
         public static bool IsFalse(JToken token)
         {
             // A false value corresponds to any of the following conditions:
