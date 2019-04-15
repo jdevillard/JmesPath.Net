@@ -1,3 +1,5 @@
+image: Visual Studio 2017
+
 version: '1.0.{build}'
 
 branches:
@@ -6,8 +8,7 @@ branches:
   - Development
 
 configuration:
-- Debug
-- Release
+  - Release
 
 platform: Any CPU
 
@@ -50,7 +51,8 @@ after_build:
 - IF DEFINED SNK_PASSPHRASE (dotnet pack "src\jmespath.net.signed" -c Release) ELSE (ECHO don t pack This Is A Pull Request Build)
 
 test_script:
-- dotnet test "tests\jmespathnet.tests" -c %CONFIGURATION%
+  - dotnet test "tests\jmespathnet.tests" -c %CONFIGURATION% --framework netcoreapp2.0
+  - dotnet test "tests\jmespathnet.tests" -c %CONFIGURATION% --framework net452
 
 artifacts:
   - path: '**\*.nupkg'
