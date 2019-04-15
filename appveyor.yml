@@ -34,15 +34,20 @@ assembly_info:
 
 before_build:
 - appveyor-retry dotnet restore -v Minimal
-- ps: C:\projects\jmespath-net\bin\EncryptDecryptFile.PS1
+- ps: |
+    if ($Env:SNK_PASSPHRASE -ne $null)
+    {
+      Write-Host "Creating SNK"
+      C:\projects\jmespath-net\bin\EncryptDecryptFile.PS1
+    }
 
 build_script:
 - dotnet build "src\jmespath.net" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
 - ps: C:\projects\jmespath-net\src\jmespath.net.signed\update-version.ps1
-- dotnet build "src\jmespath.net.signed" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
+- IF DEFINED SNK_PASSPHRASE (dotnet build "src\jmespath.net.signed" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%) ELSE (ECHO This Is A Pull Request Build)
 
 after_build:
-- dotnet pack "src\jmespath.net.signed" -c Release
+- IF DEFINED SNK_PASSPHRASE (dotnet pack "src\jmespath.net.signed" -c Release) ELSE (ECHO don t pack This Is A Pull Request Build)
 
 test_script:
 - dotnet test "tests\jmespathnet.tests" -c %CONFIGURATION%
