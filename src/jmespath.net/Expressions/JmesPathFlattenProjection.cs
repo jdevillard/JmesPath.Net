@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
@@ -19,12 +20,19 @@ namespace DevLab.JmesPath.Expressions
 
             foreach (var item in array)
             {
+                if (JTokens.IsNull(item))
+                    continue;
+
                 var nested = item as JArray;
                 if (nested == null)
                     items.Add(item);
 
                 else
-                    items.AddRange(nested.Select(i => (JmesPathArgument) i));
+                    items.AddRange(
+                        nested
+                            .Where(i => !JTokens.IsNull(i))
+                            .Select(i => (JmesPathArgument) i)
+                    );
             }
 
             return new JmesPathArgument(items);
