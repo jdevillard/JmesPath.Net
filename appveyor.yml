@@ -1,3 +1,5 @@
+image: Visual Studio 2017
+
 version: '1.0.{build}'
 
 branches:
@@ -6,8 +8,7 @@ branches:
   - Development
 
 configuration:
-- Debug
-- Release
+  - Release
 
 platform: Any CPU
 
@@ -42,15 +43,15 @@ before_build:
     }
 
 build_script:
-- dotnet build "src\jmespath.net" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
-- ps: C:\projects\jmespath-net\src\jmespath.net.signed\update-version.ps1
-- IF DEFINED SNK_PASSPHRASE (dotnet build "src\jmespath.net.signed" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%) ELSE (ECHO This Is A Pull Request Build)
+  - dotnet build "src\jmespath.net" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
+  - ps: C:\projects\jmespath-net\src\jmespath.net.signed\update-version.ps1
+  - cmd: IF DEFINED SNK_PASSPHRASE (dotnet build "src\jmespath.net.signed" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%) ELSE (ECHO signed assembly building skipped because this is a pull request build)
 
 after_build:
-- IF DEFINED SNK_PASSPHRASE (dotnet pack "src\jmespath.net.signed" -c Release) ELSE (ECHO don t pack This Is A Pull Request Build)
+  - cmd: IF DEFINED SNK_PASSPHRASE (dotnet pack "src\jmespath.net.signed" -c %CONFIGURATION%) ELSE (ECHO NuGet package creation skipped because this is a pull request build)
 
 test_script:
-- dotnet test "tests\jmespathnet.tests" -c %CONFIGURATION%
+  - dotnet test "tests\jmespathnet.tests" -c %CONFIGURATION%
 
 artifacts:
   - path: '**\*.nupkg'
