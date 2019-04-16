@@ -1,10 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>JmesPath.Net is a fully compliant JMESPATH parser.</Description>
     <AssemblyTitle>JmesPath.Net</AssemblyTitle>
     <Authors>Jeremie Devillard;Maxime Labelle</Authors>
-    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <TargetFrameworks>netstandard1.3;netstandard2.0;net45</TargetFrameworks>
     <AssemblyName>JmesPath.Net</AssemblyName>
     <PackageId>jmespath.net</PackageId>
     <PackageTags>jmespath;json</PackageTags>
