@@ -166,9 +166,9 @@ namespace jmespath.net.tests
 
             const string pattern = @"'(\\?[^'\\])*((\\['\\])+(\\?[^'\\])*)*'";
 
-            Assert.Equal(true,Match("'abcd'", pattern));
-            Assert.Equal(true, Match("'\\a\\b\\c'", pattern));
-            Assert.Equal(true, Match("'\\'Hello\\''", pattern));
+            Assert.True(Match("'abcd'", pattern));
+            Assert.True(Match("'\\a\\b\\c'", pattern));
+            Assert.True(Match("'\\'Hello\\''", pattern));
         }
 
         [Fact]
@@ -186,10 +186,10 @@ namespace jmespath.net.tests
 
             const string pattern = @"`[^`]*((\\`)*[^`]*)*`";
 
-            Assert.Equal(true, Match("`abcd`", pattern));
-            Assert.Equal(true, Match("`\\a\\b\\c`", pattern));
-            Assert.Equal(true, Match("`\\`Hello\\``", pattern));
-            Assert.Equal(false, Match("`\\`Hel`lo\\``", pattern));
+            Assert.True(Match("`abcd`", pattern));
+            Assert.True(Match("`\\a\\b\\c`", pattern));
+            Assert.True(Match("`\\`Hello\\``", pattern));
+            Assert.False(Match("`\\`Hel`lo\\``", pattern));
         }
         private static bool Match(string input, string pattern)
         {
