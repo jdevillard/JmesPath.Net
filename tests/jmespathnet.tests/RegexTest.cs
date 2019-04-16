@@ -21,9 +21,9 @@ namespace jmespath.net.tests
 
             const string pattern = "[A-Za-z_][0-9A-Za-z_]*";
 
-            Assert.Equal(true, Match("foo_42", pattern));
-            Assert.Equal(false, Match("42_should_not_start_with_digit", pattern));
-            Assert.Equal(false, Match("should_not_contain_!_special_chars", pattern));
+            Assert.True(Match("foo_42", pattern));
+            Assert.False(Match("42_should_not_start_with_digit", pattern));
+            Assert.False(Match("should_not_contain_!_special_chars", pattern));
         }
 
         [Fact]
@@ -78,18 +78,18 @@ namespace jmespath.net.tests
 
             const string pattern = @"""[^""\\\b\f\n\r\t]*((\\[""\\/bfnrt]|\\u[0-9a-fA-F]{4})+[^""\\\b\f\n\r\t]*)*""";
 
-            Assert.Equal(true, Match("\"Hello, world!\"", pattern));
-            Assert.Equal(true, Match("\"Enclosing \\\"name\\\" in double quotes\"", pattern));
-            Assert.Equal(true, Match("\"Escaped \\\\ \"", pattern));
-            Assert.Equal(true, Match("\"Escaped \\b \"", pattern));
-            Assert.Equal(true, Match("\"Escaped \\f \"", pattern));
-            Assert.Equal(true, Match("\"Escaped \\n \"", pattern));
-            Assert.Equal(true, Match("\"Escaped \\r \"", pattern));
-            Assert.Equal(true, Match("\"Escaped \\t \"", pattern));
-            Assert.Equal(true, Match("\"Escaped \\u2713 \"", pattern));
+            Assert.True(Match("\"Hello, world!\"", pattern));
+            Assert.True(Match("\"Enclosing \\\"name\\\" in double quotes\"", pattern));
+            Assert.True(Match("\"Escaped \\\\ \"", pattern));
+            Assert.True(Match("\"Escaped \\b \"", pattern));
+            Assert.True(Match("\"Escaped \\f \"", pattern));
+            Assert.True(Match("\"Escaped \\n \"", pattern));
+            Assert.True(Match("\"Escaped \\r \"", pattern));
+            Assert.True(Match("\"Escaped \\t \"", pattern));
+            Assert.True(Match("\"Escaped \\u2713 \"", pattern));
 
-            Assert.Equal(false, Match("\"	tab	character	in	string	\"", pattern));
-            Assert.Equal(false, Match("\"Incomplete \\unicode sequence\"", pattern));
+            Assert.False(Match("\"	tab	character	in	string	\"", pattern));
+            Assert.False(Match("\"Incomplete \\unicode sequence\"", pattern));
         }
 
         [Fact]
@@ -113,40 +113,40 @@ namespace jmespath.net.tests
 
             const string pattern = @"\-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][\+\-]?[0-9]+)?";
 
-            Assert.Equal(true, Match("42", pattern));
-            Assert.Equal(true, Match("42e12", pattern));
-            Assert.Equal(true, Match("42e+12", pattern));
-            Assert.Equal(true, Match("42e-12", pattern));
-            Assert.Equal(true, Match("42E12", pattern));
-            Assert.Equal(true, Match("42E+12", pattern));
-            Assert.Equal(true, Match("42E-12", pattern));
+            Assert.True(Match("42", pattern));
+            Assert.True(Match("42e12", pattern));
+            Assert.True(Match("42e+12", pattern));
+            Assert.True(Match("42e-12", pattern));
+            Assert.True(Match("42E12", pattern));
+            Assert.True(Match("42E+12", pattern));
+            Assert.True(Match("42E-12", pattern));
 
-            Assert.Equal(true, Match("-42", pattern));
-            Assert.Equal(true, Match("-42e12", pattern));
-            Assert.Equal(true, Match("-42e+12", pattern));
-            Assert.Equal(true, Match("-42e-12", pattern));
-            Assert.Equal(true, Match("-42E12", pattern));
-            Assert.Equal(true, Match("-42E+12", pattern));
-            Assert.Equal(true, Match("-42E-12", pattern));
+            Assert.True(Match("-42", pattern));
+            Assert.True(Match("-42e12", pattern));
+            Assert.True(Match("-42e+12", pattern));
+            Assert.True(Match("-42e-12", pattern));
+            Assert.True(Match("-42E12", pattern));
+            Assert.True(Match("-42E+12", pattern));
+            Assert.True(Match("-42E-12", pattern));
 
-            Assert.Equal(true, Match("42.3", pattern));
-            Assert.Equal(true, Match("42.3e12", pattern));
-            Assert.Equal(true, Match("42.3e+12", pattern));
-            Assert.Equal(true, Match("42.3e-12", pattern));
-            Assert.Equal(true, Match("42.3E12", pattern));
-            Assert.Equal(true, Match("42.3E+12", pattern));
-            Assert.Equal(true, Match("42.3E-12", pattern));
+            Assert.True(Match("42.3", pattern));
+            Assert.True(Match("42.3e12", pattern));
+            Assert.True(Match("42.3e+12", pattern));
+            Assert.True(Match("42.3e-12", pattern));
+            Assert.True(Match("42.3E12", pattern));
+            Assert.True(Match("42.3E+12", pattern));
+            Assert.True(Match("42.3E-12", pattern));
 
-            Assert.Equal(true, Match("-42.3", pattern));
-            Assert.Equal(true, Match("-42.3e12", pattern));
-            Assert.Equal(true, Match("-42.3e+12", pattern));
-            Assert.Equal(true, Match("-42.3e-12", pattern));
-            Assert.Equal(true, Match("-42.3E12", pattern));
-            Assert.Equal(true, Match("-42.3E+12", pattern));
-            Assert.Equal(true, Match("-42.3E-12", pattern));
+            Assert.True(Match("-42.3", pattern));
+            Assert.True(Match("-42.3e12", pattern));
+            Assert.True(Match("-42.3e+12", pattern));
+            Assert.True(Match("-42.3e-12", pattern));
+            Assert.True(Match("-42.3E12", pattern));
+            Assert.True(Match("-42.3E+12", pattern));
+            Assert.True(Match("-42.3E-12", pattern));
 
-            Assert.Equal(false, Match("01.50", pattern));
-            Assert.Equal(true, Match("1.05e+03", pattern));
+            Assert.False(Match("01.50", pattern));
+            Assert.True(Match("1.05e+03", pattern));
         }
 
         [Fact]
