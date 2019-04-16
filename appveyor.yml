@@ -51,8 +51,7 @@ after_build:
   - cmd: IF DEFINED SNK_PASSPHRASE (dotnet pack "src\jmespath.net.signed" -c %CONFIGURATION%) ELSE (ECHO NuGet package creation skipped because this is a pull request build)
 
 test_script:
-  - dotnet test "tests\jmespathnet.tests" -c %CONFIGURATION% --framework netcoreapp2.1
-  - dotnet test "tests\jmespathnet.tests" -c %CONFIGURATION% --framework net452
+  - dotnet test "tests\jmespathnet.tests" -c %CONFIGURATION%
 
 artifacts:
   - path: '**\*.nupkg'
