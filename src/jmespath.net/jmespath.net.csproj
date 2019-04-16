@@ -26,12 +26,12 @@
   </ItemGroup>
 
   <Target Name="PrecompileScript" BeforeTargets="BeforeBuild" Condition=" '$(IsCrossTargetingBuild)' != 'true' ">
-    <Exec Command="dotnet make $(MSBuildProjectDirectory)../../../bin/dotnet-gplex.dll /unicode /out:$(MSBuildProjectDirectory)/JmesPathScanner.cs $(MSBuildProjectDirectory)/JmesPathScanner.lex" />
-    <Exec Command="dotnet make $(MSBuildProjectDirectory)../../../bin/dotnet-gppg.dll /gplex /out:$(MSBuildProjectDirectory)/JmesPathParser.cs $(MSBuildProjectDirectory)/JmesPathParser.y" />
+    <Exec Command="dotnet make $(MSBuildProjectDirectory)/../../../bin/dotnet-gplex.dll /unicode /out:$(MSBuildProjectDirectory)/JmesPathScanner.cs $(MSBuildProjectDirectory)/JmesPathScanner.lex" />
+    <Exec Command="dotnet make $(MSBuildProjectDirectory)/../../../bin/dotnet-gppg.dll /gplex /out:$(MSBuildProjectDirectory)/JmesPathParser.cs $(MSBuildProjectDirectory)/JmesPathParser.y" />
   </Target>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-make" Version="1.0.27" />
+    <DotNetCliToolReference Include="dotnet-make" Version="1.0.30" />
   </ItemGroup>
 
 </Project>
