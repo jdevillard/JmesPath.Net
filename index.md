@@ -14,7 +14,7 @@ using Newtonsoft.Json.Linq;
 // JmesPath Expression: "foo"
 // Result: "bar"
 
-const string input = @"{ \"foo\": \"bar\" }";
+const string input = "{ \"foo\": \"bar\" }";
 const string expression = "foo";
 
 var jmes = new JmesPath();
