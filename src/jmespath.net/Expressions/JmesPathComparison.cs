@@ -4,9 +4,6 @@ namespace DevLab.JmesPath.Expressions
 {
     public abstract class JmesPathComparison : JmesPathCompoundExpression
     {
-        private readonly JmesPathExpression left_;
-        private readonly JmesPathExpression right_;
-
         /// <summary>
         /// Initialize a new instance of the <see cref="JmesPathComparison" /> class
         /// that performs a comparison between two specified expressions.
