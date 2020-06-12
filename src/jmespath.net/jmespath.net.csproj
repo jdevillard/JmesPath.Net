@@ -25,13 +25,23 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
-  <Target Name="PrecompileScript" BeforeTargets="BeforeBuild" Condition=" '$(IsCrossTargetingBuild)' != 'true' ">
-    <Exec Command="dotnet make $(MSBuildProjectDirectory)/../../../bin/dotnet-gplex.dll /unicode /out:$(MSBuildProjectDirectory)/JmesPathScanner.cs $(MSBuildProjectDirectory)/JmesPathScanner.lex" />
-    <Exec Command="dotnet make $(MSBuildProjectDirectory)/../../../bin/dotnet-gppg.dll /gplex /out:$(MSBuildProjectDirectory)/JmesPathParser.cs $(MSBuildProjectDirectory)/JmesPathParser.y" />
+  <Target Name="ScannerGenerator" BeforeTargets="BeforeBuild"
+          Condition=" '$(IsCrossTargetingBuild)' != 'true' "
+          Inputs="JmesPathScanner.lex"
+          Outputs="JmesPathScanner.cs">
+    <Exec Command="dotnet gplex /unicode /out:JmesPathScanner.cs JmesPathScanner.lex" WorkingDirectory="$(MSBuildProjectDirectory)" />
+  </Target>
+
+  <Target Name="ParserGenerator" BeforeTargets="BeforeBuild"
+          Condition=" '$(IsCrossTargetingBuild)' != 'true' "
+          Inputs="JmesPathParser.y"
+          Outputs="JmesPathParser.cs">
+    <Exec Command="dotnet gppg /gplex /out:JmesPathParser.cs JmesPathParser.y" WorkingDirectory="$(MSBuildProjectDirectory)" />
   </Target>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-make" Version="1.0.30" />
+    <DotNetCliToolReference Include="StarodubOleg.GPLEX" Version="0.1.0-alpha1-5" />
+    <DotNetCliToolReference Include="StarodubOleg.GPPG" Version="0.1.0-alpha1-5" />
   </ItemGroup>
 
 </Project>
