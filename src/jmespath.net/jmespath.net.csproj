@@ -29,14 +29,14 @@
           Condition=" '$(IsCrossTargetingBuild)' != 'true' "
           Inputs="JmesPathScanner.lex"
           Outputs="JmesPathScanner.cs">
-    <Exec Command="dotnet gplex /unicode /out:JmesPathScanner.cs JmesPathScanner.lex" WorkingDirectory="$(MSBuildProjectDirectory)" />
+    <Exec Command="dotnet gplex /unicode /noinfo /out:JmesPathScanner.cs JmesPathScanner.lex" WorkingDirectory="$(MSBuildProjectDirectory)" />
   </Target>
 
   <Target Name="ParserGenerator" BeforeTargets="BeforeBuild"
           Condition=" '$(IsCrossTargetingBuild)' != 'true' "
           Inputs="JmesPathParser.y"
           Outputs="JmesPathParser.cs">
-    <Exec Command="dotnet gppg /gplex /out:JmesPathParser.cs JmesPathParser.y" WorkingDirectory="$(MSBuildProjectDirectory)" />
+    <Exec Command="dotnet gppg /gplex /no-info /out:JmesPathParser.cs JmesPathParser.y" WorkingDirectory="$(MSBuildProjectDirectory)" />
   </Target>
 
   <ItemGroup>

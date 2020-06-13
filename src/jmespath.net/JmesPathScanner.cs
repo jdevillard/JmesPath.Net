@@ -5,9 +5,7 @@
 //  See accompanying file GPLEXcopyright.rtf.
 //
 //  GPLEX Version:  0.1.0.0
-//  Machine:  MOSKITOSJEREMIE
-//  DateTime: 16/03/2017 22:33:08
-//  GPLEX input file <C:\Data\GitHub\JmesPath.Net\src\jmespath.net/JmesPathScanner.lex - 16/03/2017 08:55:37>
+//  GPLEX input file <JmesPathScanner.lex - 13/06/2020 15:54:58>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: unicode, verbose, parser, stack, minimize
@@ -369,14 +367,12 @@ int NextState() {
             SetSource(file, 0); // unicode option
         }
 
-        public JmesPathScanner(Stream file, string codepage)
-        {
+        public JmesPathScanner(Stream file, string codepage) {
             SetSource(file, CodePageHandling.GetCodePage(codepage));
-        }
-
+        }   
 #endif // !NOFILES
 
-        internal JmesPathScanner() { }
+     internal JmesPathScanner() { }
 
         private int readPos;
 
