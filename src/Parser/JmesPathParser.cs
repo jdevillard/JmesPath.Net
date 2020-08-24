@@ -7,19 +7,12 @@ namespace DevLab.JmesPath
     partial class JmesPathParser
     {
         readonly IJmesPathGenerator generator_;
-        readonly Func<string, object> literalParser_;
 
         public JmesPathParser(AbstractScanner<ValueType, LexLocation> scanner,
                               IJmesPathGenerator generator)
-            : this(scanner, generator, null) {}
-
-        public JmesPathParser(AbstractScanner<ValueType, LexLocation> scanner,
-                              IJmesPathGenerator generator,
-                              Func<string, object> literalParser)
             : base(scanner)
         {
             generator_ = generator;
-            literalParser_ = literalParser;
         }
 
         #region Implementation
