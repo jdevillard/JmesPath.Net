@@ -4,12 +4,18 @@
     <TargetFrameworks>netstandard2.0;netstandard1.3;net45</TargetFrameworks>
   </PropertyGroup>
 
-  <Target Name="ScannerGenerator" BeforeTargets="BeforeBuild" Condition=" '$(IsCrossTargetingBuild)' != 'true' " Inputs="JmesPathScanner.lex" Outputs="JmesPathScanner.g.cs">
-    <Exec Command="dotnet gplex /unicode /out:JmesPathScanner.g.cs JmesPathScanner.lex" WorkingDirectory="$(MSBuildProjectDirectory)" />
+  <Target Name="ScannerGenerator" BeforeTargets="BeforeBuild"
+          Condition=" '$(IsCrossTargetingBuild)' != 'true' "
+          Inputs="JmesPathScanner.lex"
+          Outputs="JmesPathScanner.g.cs">
+    <Exec Command="dotnet gplex /unicode /noinfo /out:JmesPathScanner.g.cs JmesPathScanner.lex" WorkingDirectory="$(MSBuildProjectDirectory)" />
   </Target>
 
-  <Target Name="ParserGenerator" BeforeTargets="BeforeBuild" Condition=" '$(IsCrossTargetingBuild)' != 'true' " Inputs="JmesPathParser.y" Outputs="JmesPathParser.g.cs">
-    <Exec Command="dotnet gppg /gplex /out:JmesPathParser.g.cs JmesPathParser.y" WorkingDirectory="$(MSBuildProjectDirectory)" />
+  <Target Name="ParserGenerator" BeforeTargets="BeforeBuild"
+          Condition=" '$(IsCrossTargetingBuild)' != 'true' "
+          Inputs="JmesPathParser.y"
+          Outputs="JmesPathParser.g.cs">
+    <Exec Command="dotnet gppg /gplex /no-info /out:JmesPathParser.g.cs JmesPathParser.y" WorkingDirectory="$(MSBuildProjectDirectory)" />
   </Target>
 
   <ItemGroup>
