@@ -1,65 +1,9 @@
 ﻿using System;
-using System.IO;
-using System.Text;
 using StarodubOleg.GPPG.Runtime;
 using DevLab.JmesPath.Tokens;
 
 namespace DevLab.JmesPath
 {
-    public interface IJmesPathGenerator
-    {
-        void OnExpression();
-        bool IsProjection();
-        void OnSubExpression();
-        void OnIndex(int index);
-        void OnFilterProjection();
-        void OnFlattenProjection();
-        void OnListWildcardProjection();
-        void OnIndexExpression();
-        void OnSliceExpression(int? start, int? stop, int? step);
-        void OnComparisonEqual();
-        void OnComparisonNotEqual();
-        void OnComparisonGreaterOrEqual();
-        void OnComparisonGreater();
-        void OnComparisonLesserOrEqual();
-        void OnComparisonLesser();
-        void OnOrExpression();
-        void OnAndExpression();
-        void OnNotExpression();
-        void OnIdentifier(string name);
-        void OnHashWildcardProjection();
-        void PushMultiSelectHash();
-        void AddMultiSelectHashExpression();
-        void PopMultiSelectHash();
-        void PushMultiSelectList();
-        void AddMultiSelectListExpression();
-        void PopMultiSelectList();
-        void OnLiteralString(string literal);
-        void OnPipeExpression();
-        void PushFunction();
-        void PopFunction(string name);
-        void AddFunctionArg();
-        void OnExpressionType();
-        void OnRawString(string value);
-        void OnCurrentNode();
-    }
-
-    public static class Parser
-    {
-        public static void Parse(Stream stream, Encoding encoding, IJmesPathGenerator generator)
-        {
-            var scanner = new JmesPathScanner(stream, encoding.CodePage.ToString());
-            scanner.InitializeLookaheadQueue();
-
-            var analyzer = new JmesPathParser(scanner, generator);
-            if (!analyzer.Parse())
-            {
-                System.Diagnostics.Debug.Assert(false);
-                throw new Exception("Error: syntax.");
-            }
-        }
-    }
-
     partial class JmesPathParser
     {
         readonly IJmesPathGenerator generator_;
