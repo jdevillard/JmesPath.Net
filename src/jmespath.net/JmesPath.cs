@@ -76,15 +76,8 @@ namespace DevLab.JmesPath
 
         public Expression Parse(Stream stream)
         {
-            var scanner = new JmesPathScanner(stream, _encoding.CodePage.ToString());
-            scanner.InitializeLookaheadQueue();
-
-            var analyzer = new JmesPathParser(scanner, repository_);
-            if (!analyzer.Parse())
-            {
-                System.Diagnostics.Debug.Assert(false);
-                throw new Exception("Error: syntax.");
-            }
+            var analyzer = new JmesPathGenerator(repository_);
+            Parser.Parse(stream, _encoding, analyzer);
 
             // perform post-parsing syntax validation
 

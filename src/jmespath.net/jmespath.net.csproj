@@ -25,23 +25,8 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
-  <Target Name="ScannerGenerator" BeforeTargets="BeforeBuild"
-          Condition=" '$(IsCrossTargetingBuild)' != 'true' "
-          Inputs="JmesPathScanner.lex"
-          Outputs="JmesPathScanner.cs">
-    <Exec Command="dotnet gplex /unicode /noinfo /out:JmesPathScanner.cs JmesPathScanner.lex" WorkingDirectory="$(MSBuildProjectDirectory)" />
-  </Target>
-
-  <Target Name="ParserGenerator" BeforeTargets="BeforeBuild"
-          Condition=" '$(IsCrossTargetingBuild)' != 'true' "
-          Inputs="JmesPathParser.y"
-          Outputs="JmesPathParser.cs">
-    <Exec Command="dotnet gppg /gplex /no-info /out:JmesPathParser.cs JmesPathParser.y" WorkingDirectory="$(MSBuildProjectDirectory)" />
-  </Target>
-
   <ItemGroup>
-    <DotNetCliToolReference Include="StarodubOleg.GPLEX" Version="0.1.0-alpha1-5" />
-    <DotNetCliToolReference Include="StarodubOleg.GPPG" Version="0.1.0-alpha1-5" />
+    <ProjectReference Include="..\Parser\JmesPath.Parser.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard1.3;net45</TargetFrameworks>
+  </PropertyGroup>
+
+  <Target Name="ScannerGenerator" BeforeTargets="BeforeBuild"
+          Condition=" '$(IsCrossTargetingBuild)' != 'true' "
+          Inputs="JmesPathScanner.lex"
+          Outputs="JmesPathScanner.g.cs">
+    <Exec Command="dotnet gplex /unicode /noinfo /out:JmesPathScanner.g.cs JmesPathScanner.lex" WorkingDirectory="$(MSBuildProjectDirectory)" />
+  </Target>
+
+  <Target Name="ParserGenerator" BeforeTargets="BeforeBuild"
+          Condition=" '$(IsCrossTargetingBuild)' != 'true' "
+          Inputs="JmesPathParser.y"
+          Outputs="JmesPathParser.g.cs">
+    <Exec Command="dotnet gppg /gplex /no-info /out:JmesPathParser.g.cs JmesPathParser.y" WorkingDirectory="$(MSBuildProjectDirectory)" />
+  </Target>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="StarodubOleg.GPLEX" Version="0.1.0-alpha1-5" />
+    <DotNetCliToolReference Include="StarodubOleg.GPPG" Version="0.1.0-alpha1-5" />
+  </ItemGroup>
+
+</Project>
