@@ -2,39 +2,51 @@
 {
     public interface IJmesPathGenerator
     {
-        void OnExpression();
         bool IsProjection();
-        void OnSubExpression();
-        void OnIndex(int index);
-        void OnFilterProjection();
-        void OnFlattenProjection();
-        void OnListWildcardProjection();
-        void OnIndexExpression();
-        void OnSliceExpression(int? start, int? stop, int? step);
-        void OnComparisonEqual();
-        void OnComparisonNotEqual();
-        void OnComparisonGreaterOrEqual();
-        void OnComparisonGreater();
-        void OnComparisonLesserOrEqual();
-        void OnComparisonLesser();
-        void OnOrExpression();
+
+        void OnExpression();
+
+        void OnIdentifier(string name);
+        void OnLiteralString(string literal);
+        void OnRawString(string value);
+
         void OnAndExpression();
         void OnNotExpression();
-        void OnIdentifier(string name);
+        void OnOrExpression();
+
+        void OnComparisonEqual();
+        void OnComparisonGreater();
+        void OnComparisonGreaterOrEqual();
+        void OnComparisonLesser();
+        void OnComparisonLesserOrEqual();
+        void OnComparisonNotEqual();
+
+        void OnCurrentNode();
+
+        void OnSubExpression();
+
+        void OnFilterProjection();
+        void OnFlattenProjection();
         void OnHashWildcardProjection();
+        void OnListWildcardProjection();
+
+        void OnIndex(int index);
+        void OnIndexExpression();
+        void OnSliceExpression(int? start, int? stop, int? step);
+
         void PushMultiSelectHash();
         void AddMultiSelectHashExpression();
         void PopMultiSelectHash();
+
         void PushMultiSelectList();
         void AddMultiSelectListExpression();
         void PopMultiSelectList();
-        void OnLiteralString(string literal);
-        void OnPipeExpression();
+
         void PushFunction();
-        void PopFunction(string name);
         void AddFunctionArg();
+        void PopFunction(string name);
         void OnExpressionType();
-        void OnRawString(string value);
-        void OnCurrentNode();
+
+        void OnPipeExpression();
     }
 }
