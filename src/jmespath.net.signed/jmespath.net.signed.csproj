@@ -33,4 +33,8 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Parser\JmesPath.Parser.csproj" />
+  </ItemGroup>
+
 </Project>
