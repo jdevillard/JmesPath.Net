@@ -43,7 +43,7 @@ before_build:
     }
 
 build_script:
-  - dotnet build "src\jmespath.net" -c %CONFIGURATION% --version-suffix %LABEL%
+  - dotnet build "src\jmespath.net" /p:BuildInParallel=false -c %CONFIGURATION% --version-suffix %LABEL%
   - ps: C:\projects\jmespath-net\src\jmespath.net.signed\update-version.ps1
   - cmd: IF DEFINED SNK_PASSPHRASE (dotnet build "src\jmespath.net.signed" -c %CONFIGURATION% --version-suffix %LABEL%) ELSE (ECHO signed assembly building skipped because this is a pull request build)
 

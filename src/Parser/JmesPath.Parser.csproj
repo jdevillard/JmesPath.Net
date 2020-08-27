@@ -1,8 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" >
-<PropertyGroup>
-    <BuildInParallel Condition="'$(BuildInParallel)' ==
-        ''">false</BuildInParallel>
-</PropertyGroup>
+
   <PropertyGroup >
     <TargetFrameworks>netstandard2.0;netstandard1.3;net45</TargetFrameworks>
   </PropertyGroup>
