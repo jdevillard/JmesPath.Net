@@ -223,5 +223,10 @@ namespace DevLab.JmesPath
         void OnCurrentNode() => generator_.OnCurrentNode();
 
         #endregion // Expressions
+
+        #region block
+        void OnBlock() => generator_.OnBlock();
+        void OnBlockExpression() => generator_.OnBlockExpression();
+        #endregion block
     }
 }

@@ -38,9 +38,10 @@ T_USTRING		[A-Za-z_][0-9A-Za-z_]*
 T_LBRACE		\{
 T_RBRACE		\}
 T_LBRACKET		\[
-T_RBRACKET		\]
+T_RBRACKET		\]s
 T_LPAREN		\(
 T_RPAREN		\)
+T_PERCENT		\%
 
 T_WHITESPACE	[ \b\f\n\r\t]+
 E_UNRECOGNIZED	.
@@ -93,6 +94,7 @@ E_UNRECOGNIZED	.
 {T_RBRACKET}		{ return MakeToken(TokenType.T_RBRACKET); }
 {T_LPAREN}			{ return MakeToken(TokenType.T_LPAREN); }
 {T_RPAREN}			{ return MakeToken(TokenType.T_RPAREN); }
+{T_PERCENT}			{ return MakeToken(TokenType.T_PERCENT); }
 
 {T_WHITESPACE}   	{ }
 {E_UNRECOGNIZED}	{ yyerror(yytext); }

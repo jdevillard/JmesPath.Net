@@ -43,7 +43,8 @@
 	T_LBRACKET,
 	T_RBRACKET,
 	T_LPAREN,
-	T_RPAREN
+	T_RPAREN,
+	T_PERCENT
 
 %left T_PIPE
 %left T_OR
@@ -90,6 +91,7 @@ expression_impl		: sub_expression
 					| function_expression
 					| raw_string
 					| current_node
+					| block
 					;
 
 sub_expression		: sub_expression_impl
@@ -152,6 +154,18 @@ current_node		: T_CURRENT
 						OnCurrentNode();
 					}
 					;
+
+block				: T_LBRACKET T_PERCENT blockexpression T_PERCENT T_RBRACKET
+					{
+						OnBlock();
+					}
+					;
+blockexpression		: unquoted_string
+					{
+						OnBlockExpression();
+					}
+					;
+
 expression_type		: T_ETYPE expression
 					{
 						OnExpressionType();

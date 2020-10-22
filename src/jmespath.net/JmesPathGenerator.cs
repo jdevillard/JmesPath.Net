@@ -367,5 +367,15 @@ namespace DevLab.JmesPath
 
             expressions_.Push(factory(left, right));
         }
+
+        public void OnBlock()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnBlockExpression()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

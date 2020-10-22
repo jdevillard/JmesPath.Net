@@ -48,5 +48,8 @@
         void OnExpressionType();
 
         void OnPipeExpression();
+
+        void OnBlock();
+        void OnBlockExpression();
     }
 }
