@@ -21,6 +21,7 @@ T_GE			>=
 T_LT			<
 T_LE			<=
 T_NE			!=
+T_ASSIGN		=
 
 T_FLATTEN		\[\]
 T_FILTER		\[\?
@@ -30,6 +31,7 @@ T_ETYPE			&
 
 T_NUMBER		\-?[0-9]+
 
+T_LET			[l][e][t]
 T_LSTRING		`[^`]*((\\`)*[^`]*)*`
 T_QSTRING		\"[^\"\\\b\f\n\r\t]*((\\[\"\\/bfnrt]|\\u[0-9a-fA-F]{4})+[^\"\\\b\f\n\r\t]*)*\"
 T_RSTRING		'(\\?[^'\\])*((\\['\\])+(\\?[^'\\])*)*'
@@ -38,10 +40,12 @@ T_USTRING		[A-Za-z_][0-9A-Za-z_]*
 T_LBRACE		\{
 T_RBRACE		\}
 T_LBRACKET		\[
-T_RBRACKET		\]s
+T_RBRACKET		\]
 T_LPAREN		\(
 T_RPAREN		\)
 T_PERCENT		\%
+
+
 
 T_WHITESPACE	[ \b\f\n\r\t]+
 E_UNRECOGNIZED	.
@@ -75,6 +79,9 @@ E_UNRECOGNIZED	.
 {T_LT}				{ return MakeToken(TokenType.T_LT); }
 {T_LE}				{ return MakeToken(TokenType.T_LE); }
 {T_NE}				{ return MakeToken(TokenType.T_NE); }
+{T_ASSIGN}			{ return MakeToken(TokenType.T_ASSIGN);}
+
+{T_LET}				{ return MakeToken(TokenType.T_LET); }
 
 {T_FILTER}			{ return MakeToken(TokenType.T_FILTER); }
 {T_FLATTEN}			{ return MakeToken(TokenType.T_FLATTEN); }
@@ -95,6 +102,7 @@ E_UNRECOGNIZED	.
 {T_LPAREN}			{ return MakeToken(TokenType.T_LPAREN); }
 {T_RPAREN}			{ return MakeToken(TokenType.T_RPAREN); }
 {T_PERCENT}			{ return MakeToken(TokenType.T_PERCENT); }
+
 
 {T_WHITESPACE}   	{ }
 {E_UNRECOGNIZED}	{ yyerror(yytext); }

@@ -368,14 +368,21 @@ namespace DevLab.JmesPath
             expressions_.Push(factory(left, right));
         }
 
-        public void OnBlock()
+        public void OnBlockAssignment(string name, string value)
         {
-            throw new NotImplementedException();
+            Prolog();
+
+            var expression = new JmesPathVariable(name, value );
+            expressions_.Push(expression);
+           
         }
 
-        public void OnBlockExpression()
+        public void OnBlock()
         {
-            throw new NotImplementedException();
+            OnSubExpression();
+            //Prolog();
+            //if (expression_ == null)
+            //    expression_ = expressions_.Pop();
         }
     }
 }

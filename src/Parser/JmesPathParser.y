@@ -25,6 +25,8 @@
 	T_LT,
 	T_LE,
 	T_NE,
+	T_ASSIGN,
+	
 
 	T_FILTER,
 	T_FLATTEN,
@@ -44,7 +46,8 @@
 	T_RBRACKET,
 	T_LPAREN,
 	T_RPAREN,
-	T_PERCENT
+	T_PERCENT,
+	T_LET
 
 %left T_PIPE
 %left T_OR
@@ -64,6 +67,7 @@
 %left T_FLATTEN
 %left T_LISTWILDCARD
 %left T_RBRACKET
+%left T_PERCENT
 
 %start expression
 
@@ -85,13 +89,26 @@ expression_impl		: sub_expression
 					| paren_expression
 					| hash_wildcard
 					| multi_select_list
+					| block
 					| multi_select_hash
 					| literal
 					| pipe_expression
 					| function_expression
 					| raw_string
 					| current_node
-					| block
+					
+					;
+
+block				: T_LBRACE T_PERCENT blockAssignment  T_PERCENT T_RBRACE 
+					| T_LBRACE T_PERCENT blockAssignment  T_PERCENT T_RBRACE expression
+					{
+						OnBlock();
+					}
+					;
+blockAssignment		: T_LET unquoted_string T_ASSIGN expression
+					{
+						OnBlockAssignment($2.Token,$4.Token);
+					}
 					;
 
 sub_expression		: sub_expression_impl
@@ -154,18 +171,6 @@ current_node		: T_CURRENT
 						OnCurrentNode();
 					}
 					;
-
-block				: T_LBRACKET T_PERCENT blockexpression T_PERCENT T_RBRACKET
-					{
-						OnBlock();
-					}
-					;
-blockexpression		: unquoted_string
-					{
-						OnBlockExpression();
-					}
-					;
-
 expression_type		: T_ETYPE expression
 					{
 						OnExpressionType();
@@ -351,6 +356,9 @@ slice_expression	: T_COLON
 					{
 						OnSliceExpression(null, null, null);
 					}
+					;
+block_string		: T_USTRING
+					| T_USTRING block_string
 					;
 
 quoted_string		: T_QSTRING
