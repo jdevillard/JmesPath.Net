@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using DevLab.JmesPath.Interop;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
@@ -58,6 +59,18 @@ namespace DevLab.JmesPath.Expressions
         public virtual void Accept(IVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        public JmesPathContext Context { get; set; }
+    }
+
+    public class JmesPathContext
+    {
+        public IDictionary<string, JToken> Variable { get; private set; }
+
+        public JmesPathContext()
+        {
+            Variable = new Dictionary<string,JToken>();
         }
     }
 }

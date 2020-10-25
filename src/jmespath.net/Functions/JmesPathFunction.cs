@@ -8,6 +8,7 @@ namespace DevLab.JmesPath.Functions
 {
     public abstract class JmesPathFunction
     {
+        public Expressions.JmesPathContext Context { get; set; }
         protected JmesPathFunction(string name, int count)
             : this(name, count, false)
         {

@@ -19,6 +19,7 @@ namespace DevLab.JmesPath.Expressions
         {
             var jsonObject = json as JObject;
             var variableContent = new JmesPath().Transform(json, this.expressionJmespath);
+            this.Context.Variable.Add(name_, variableContent);
             return new JmesPathArgument(json);
         }
     }

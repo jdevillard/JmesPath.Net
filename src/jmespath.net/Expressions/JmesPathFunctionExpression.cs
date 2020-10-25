@@ -66,7 +66,7 @@ namespace DevLab.JmesPath.Expressions
                 ;
 
             function_.Validate(arguments);
-
+            function_.Context = this.Context;
             return function_.Execute(arguments);
         }
     }

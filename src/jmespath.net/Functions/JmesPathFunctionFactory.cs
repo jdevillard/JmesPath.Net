@@ -42,6 +42,7 @@ namespace DevLab.JmesPath.Functions
                     .Register<ToStringFunction>()
                     .Register<TypeFunction>()
                     .Register<ValuesFunction>()
+                    .Register<VariableFunction>()
                     ;
 
                 repository_ = repo;
