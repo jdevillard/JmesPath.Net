@@ -226,7 +226,7 @@ namespace DevLab.JmesPath
 
         #region Block
         void OnBlock() { generator_.OnBlock(); }
-        void OnBlockAssignment(Token name, Token expression) { generator_.OnBlockAssignment((string)name.Value, (string)expression.Value); }
+        void OnBlockAssignment(Token name) { generator_.OnBlockAssignment((string)name.Value); }
         #endregion
     }
 }

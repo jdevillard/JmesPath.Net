@@ -100,14 +100,15 @@ expression_impl		: sub_expression
 					;
 
 block				: T_LBRACE T_PERCENT blockAssignment  T_PERCENT T_RBRACE 
-					| T_LBRACE T_PERCENT blockAssignment  T_PERCENT T_RBRACE expression
 					{
 						OnBlock();
 					}
+					| T_LBRACE T_PERCENT blockAssignment  T_PERCENT T_RBRACE expression
+					
 					;
 blockAssignment		: T_LET unquoted_string T_ASSIGN expression
 					{
-						OnBlockAssignment($2.Token,$4.Token);
+						OnBlockAssignment($2.Token);
 					}
 					;
 
@@ -122,6 +123,7 @@ sub_expression_impl	: expression T_DOT identifier
 					| expression T_DOT multi_select_list
 					| expression T_DOT function_expression
 					| expression T_DOT hash_wildcard
+					| expression T_DOT block
 					;
 
 

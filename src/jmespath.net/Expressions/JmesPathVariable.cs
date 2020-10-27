@@ -2,12 +2,12 @@
 
 namespace DevLab.JmesPath.Expressions
 {
-    public class JmesPathVariable : JmesPathExpression
+    public class JmesPathVariableExpression : JmesPathExpression
     {
           private readonly string name_;
-        private readonly string expressionJmespath;
+        private readonly JmesPathExpression expressionJmespath;
 
-        public JmesPathVariable(string name, string expressionJmespath)
+        public JmesPathVariableExpression(string name, JmesPathExpression expressionJmespath)
         {
             name_ = name;
             this.expressionJmespath = expressionJmespath;
@@ -17,10 +17,9 @@ namespace DevLab.JmesPath.Expressions
 
         protected override JmesPathArgument Transform(JToken json)
         {
-            var jsonObject = json as JObject;
-            var variableContent = new JmesPath().Transform(json, this.expressionJmespath);
-            this.Context.Variable.Add(name_, variableContent);
-            return new JmesPathArgument(json);
+            var variableContent = expressionJmespath.Transform(json);
+            this.Context.Variable.Add(name_, variableContent.Token);
+            return json;
         }
     }
 }

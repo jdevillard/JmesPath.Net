@@ -48,7 +48,7 @@
         void OnExpressionType();
 
         void OnPipeExpression();
-        void OnBlockAssignment(string name, string value);
+        void OnBlockAssignment(string name);
         void OnBlock();
     }
 }
