@@ -57,6 +57,7 @@ namespace DevLab.JmesPath.Expressions
             var arguments = expressions_.Select(
                 expression =>
                 {
+                    expression.Context = this.Context;
                     if (expression.IsExpressionType)
                         return new JmesPathFunctionArgument(expression);
                     else
