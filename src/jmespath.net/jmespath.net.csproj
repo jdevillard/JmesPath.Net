@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\jmespath.net.parser\JmesPath.Parser.csproj" />
+    <ProjectReference Include="..\jmespath.net.parser\jmespath.net.parser.csproj" />
   </ItemGroup>
 
 </Project>

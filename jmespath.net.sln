@@ -22,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jmespathnet.compliance", "t
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jmespathnet.tests", "tests\jmespathnet.tests\jmespathnet.tests.csproj", "{43EC8A0D-27A8-476C-8806-ED18FCC8B2F2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JmesPath.net.parser", "src\jmespath.net.parser\JmesPath.Parser.csproj", "{A3301284-F70F-45E2-ABC9-A19D66A10712}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JmesPath.net.parser", "src\jmespath.net.parser\jmespath.net.parser.csproj", "{A3301284-F70F-45E2-ABC9-A19D66A10712}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{7D92C6D8-FB53-48C0-80F4-9120675714CC}"
 	ProjectSection(SolutionItems) = preProject

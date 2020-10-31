@@ -4,6 +4,7 @@
     <Description>JmesPath.Net core language parser</Description>
     <AssemblyTitle>JmesPath.Net.Parser</AssemblyTitle>
     <Authors>Jeremie Devillard;Maxime Labelle;Atif Aziz</Authors>
+    <VersionPrefix>42.43.44</VersionPrefix>
     <TargetFrameworks>netstandard2.0;netstandard1.3;net45</TargetFrameworks>
     <AssemblyName>JmePath.Net.Parser</AssemblyName>
     <AssemblyOriginatorKeyFile>../jmespath.net.snk</AssemblyOriginatorKeyFile>
