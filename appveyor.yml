@@ -44,6 +44,7 @@ before_build:
 
 build_script:
   - ps: C:\projects\jmespath-net\bin\update-version.ps1 -Version $Env:APPVEYOR_BUILD_VERSION
+  - dotnet build "src\jmespath.net.parser" /p:BuildInParallel=false -c %CONFIGURATION% --version-suffix %LABEL%
   - dotnet build "src\jmespath.net" /p:BuildInParallel=false -c %CONFIGURATION% --version-suffix %LABEL%
 
 test_script:
