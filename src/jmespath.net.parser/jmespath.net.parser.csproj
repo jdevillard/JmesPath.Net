@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>JmesPath.Net core language parser</Description>
+    <AssemblyTitle>JmesPath.Net.Parser</AssemblyTitle>
+    <Authors>Jeremie Devillard;Maxime Labelle;Atif Aziz</Authors>
+    <VersionPrefix>42.43.44</VersionPrefix>
+    <TargetFrameworks>netstandard2.0;netstandard1.3;net45</TargetFrameworks>
+    <AssemblyName>JmePath.Net.Parser</AssemblyName>
+    <AssemblyOriginatorKeyFile>../jmespath.net.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
+    <PackageId>JmesPath.Net.Parser</PackageId>
+    <PackageTags>jmespath;json</PackageTags>
+    <PackageProjectUrl>https://github.com/jdevillard/JmesPath.Net</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/jdevillard/JmesPath.Net/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="JmesPathScanner.g.cs" Condition="!Exists( 'JmesPathScanner.g.cs' )" />
+    <Compile Include="JmesPathParser.g.cs" Condition="!Exists( 'JmesPathParser.g.cs' )" />
+  </ItemGroup>
+
+  <Target Name="_RestoreDotnetCliTool" Inputs="JmesPathScanner.lex;JmesPathParser.y" Outputs="JmesPathScanner.g.cs;JmesPathParser.g.cs">
+    <Exec Command="dotnet tool restore" />
+  </Target>
+
+  <Target Name="ScannerGenerator" BeforeTargets="BeforeBuild" DependsOnTargets="_RestoreDotnetCliTool" Condition=" '$(IsCrossTargetingBuild)' != 'true' " Inputs="JmesPathScanner.lex" Outputs="JmesPathScanner.g.cs">
+    <Exec Command="dotnet dotnet-gplex /unicode /noinfo /out:JmesPathScanner.g.cs JmesPathScanner.lex" WorkingDirectory="$(MSBuildProjectDirectory)" />
+  </Target>
+
+  <Target Name="ParserGenerator" BeforeTargets="BeforeBuild" DependsOnTargets="_RestoreDotnetCliTool" Condition=" '$(IsCrossTargetingBuild)' != 'true' " Inputs="JmesPathParser.y" Outputs="JmesPathParser.g.cs">
+    <Exec Command="dotnet dotnet-gppg /gplex /no-info /out:JmesPathParser.g.cs JmesPathParser.y" WorkingDirectory="$(MSBuildProjectDirectory)" />
+  </Target>
+
+</Project>
