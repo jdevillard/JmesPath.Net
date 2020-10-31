@@ -3,10 +3,14 @@
   <PropertyGroup>
     <Description>JmesPath.Net is a fully compliant JMESPATH parser.</Description>
     <AssemblyTitle>JmesPath.Net</AssemblyTitle>
+    <VersionPrefix>42.43.44</VersionPrefix>
     <Authors>Jeremie Devillard;Maxime Labelle</Authors>
     <TargetFrameworks>netstandard1.3;netstandard2.0;net45</TargetFrameworks>
     <AssemblyName>JmesPath.Net</AssemblyName>
-    <PackageId>jmespath.net</PackageId>
+    <AssemblyOriginatorKeyFile>../jmespath.net.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
+    <PackageId>JmesPath.Net</PackageId>
     <PackageTags>jmespath;json</PackageTags>
     <PackageProjectUrl>https://github.com/jdevillard/JmesPath.Net</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/jdevillard/JmesPath.Net/blob/master/LICENSE</PackageLicenseUrl>
@@ -26,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Parser\JmesPath.Parser.csproj" />
+    <ProjectReference Include="..\jmespath.net.parser\JmesPath.Parser.csproj" />
   </ItemGroup>
 
 </Project>
