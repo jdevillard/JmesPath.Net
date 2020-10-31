@@ -74,7 +74,7 @@ function Decrypt-File($path, $Passphrase, $salt="SaltCrypto", $init="IV_Password
 
 	# Return from the function the stream
 	
-    $os = [IO.File]::OpenWrite($outputPath);
+    $os = [IO.File]::Open($outputPath, [IO.FileMode]::Truncate, [IO.FileAccess]::Write);
     $cs.CopyTo($os);
 
     $os.Close();
@@ -87,4 +87,9 @@ function Decrypt-File($path, $Passphrase, $salt="SaltCrypto", $init="IV_Password
 	$r.Clear()
 }
 
-Decrypt-File "C:\projects\jmespath-net\src\jmespath.net.signed\jmespath.net.snk.crypted" -Passphrase $env:SNK_PASSPHRASE -salt $env:SNK_SALT -init $env:SNK_INIT  -outputPath "C:\projects\jmespath-net\src\jmespath.net.signed\jmespath.net.snk"
+Decrypt-File `
+	-path "C:\projects\jmespath-net\src\jmespath.net.snk.crypted" `
+	-Passphrase $env:SNK_PASSPHRASE `
+	-salt $env:SNK_SALT `
+	-init $env:SNK_INIT `
+	-outputPath "C:\projects\jmespath-net\src\jmespath.net.snk"
