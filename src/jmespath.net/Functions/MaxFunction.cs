@@ -30,7 +30,7 @@ namespace DevLab.JmesPath.Functions
                             return GetMax<double>(array);
 
                         else /* if (token.Type == JTokenType.Integer) */
-                            return GetMax<int>(array);
+                            return GetMax<long>(array);
                     }
 
                 case "string":

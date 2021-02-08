@@ -30,7 +30,7 @@ namespace DevLab.JmesPath.Functions
                         return GetMin<double>(array);
 
                     else /* if (token.Type == JTokenType.Integer) */
-                        return GetMin<int>(array);
+                        return GetMin<long>(array);
                 }
 
                 case "string":
