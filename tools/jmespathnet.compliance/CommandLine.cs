@@ -7,6 +7,7 @@ namespace jmespath.net.compliance
     public class CommandLine
     {
         public string TestSuitesFolder { get; set; }
+        public IList<string> Registrations { get; } = new List<string>();
 
         private CommandLine()
         {
@@ -19,6 +20,7 @@ namespace jmespath.net.compliance
             var options = new OptionSet
             {
                 { "t|tests|test-suites=", v => commandLine.TestSuitesFolder = v },
+                { "r|reg|register|register-functions=", v => commandLine.Registrations.Add(v) },
             };
 
             try

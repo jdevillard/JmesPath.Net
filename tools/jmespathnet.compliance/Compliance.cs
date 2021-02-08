@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using DevLab.JmesPath;
 using DevLab.JmesPath.Functions;
+using DevLab.JmesPath.Interop;
 
 namespace jmespath.net.compliance
 {
+    using Registrations = Func<IRegisterFunctions, IRegisterFunctions>;
+
     public sealed class Compliance
     {
         public Compliance()
@@ -18,7 +21,7 @@ namespace jmespath.net.compliance
 
         public List<ComplianceResult> TestResults { get; private set; }
 
-        public void RunTestSuite(string input)
+        public void RunTestSuite(string input, Func<IRegisterFunctions, IRegisterFunctions>[] functions)
         {
             var json = JToken.Parse(input);
             var testsuites = json as JArray;
@@ -50,17 +53,17 @@ namespace jmespath.net.compliance
 
                     var expected = testcase["result"];
 
-                    var result = RunTestCase(document, expression, expected, error);
+                    var result = RunTestCase(functions, document, expression, expected, error);
                     TestResults.Add(result);
                 }
             }
         }
 
-        private static ComplianceResult RunTestCase(JToken document, string expression, JToken expected, string error)
+        private static ComplianceResult RunTestCase(Registrations[] registrationFactories, JToken document, string expression, JToken expected, string error)
         {
             ConsoleEx.Out.Write(ConsoleColor.Gray, $"{expression}...");
 
-            var result = EvaluateExpression(document, expression);
+            var result = EvaluateExpression(registrationFactories, document, expression);
 
             var message = new StringBuilder();
             message.AppendFormat("Evaluation {0} ; ", result.Success ? "succeeded" : "failed");
@@ -116,16 +119,21 @@ namespace jmespath.net.compliance
             return actual.Contains(expected);
         }
 
-        private static ComplianceResult EvaluateExpression(JToken document, string expression)
+        private static ComplianceResult EvaluateExpression(Registrations[] registrationFactories, JToken document, string expression)
         {
             try
             {
                 var parser = new JmesPath();
+
                 parser.FunctionRepository
                     .Register<ItemsFunction>()
                     .Register<ToObjectFunction>()
                     .Register<ZipFunction>()
                     ;
+
+                foreach (var registrationFactory in registrationFactories)
+                    registrationFactory(parser.FunctionRepository)
+                        ;
 
                 var result = parser.Transform(document, expression);
 
