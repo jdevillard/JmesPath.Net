@@ -34,7 +34,7 @@ namespace DevLab.JmesPath.Functions
 
                         if (Int64.TryParse(value, out i))
                             return new JValue(i);
-                        if (double.TryParse(value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out d))
+                        if (double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out d))
                             return new JValue(d);
 
                         return JTokens.Null;
