@@ -13,12 +13,6 @@ namespace DevLab.JmesPath.Expressions
         private readonly JmesPathExpression[] expressions_;
         private readonly JmesPathFunction function_;
 
-        public JmesPathFunctionExpression(string name, params JmesPathExpression[] expressions)
-            : this(JmesPathFunctionFactory.Default, name, expressions)
-        {
-
-        }
-
         public JmesPathFunctionExpression(IFunctionRepository repository, string name, IList<JmesPathExpression> expressions)
             : this(repository, name, expressions.ToArray())
         {
@@ -66,8 +60,16 @@ namespace DevLab.JmesPath.Expressions
                 ;
 
             function_.Validate(arguments);
+            function_.SetContext(json);
 
             return function_.Execute(arguments);
+        }
+
+        public override void Accept(IVisitor visitor)
+        {
+            base.Accept(visitor);
+            foreach (var expression in expressions_)
+                expression.Accept(visitor);
         }
     }
 }

@@ -4,50 +4,50 @@ using DevLab.JmesPath.Interop;
 
 namespace DevLab.JmesPath.Functions
 {
-    public  class JmesPathFunctionFactory : IRegisterFunctions, IFunctionRepository
+    public class JmesPathFunctionFactory : IRegisterFunctions, IFunctionRepository
     {
-        private readonly Dictionary<string, JmesPathFunction> functions_ = new Dictionary<string, JmesPathFunction>();
-        private static IFunctionRepository repository_;
+        private readonly IScopeParticipant scopes_;
 
-        public static IFunctionRepository Default {
-            get
-            {
-                if (repository_ != null)
-                    return repository_;
-                var repo = new JmesPathFunctionFactory();
-                repo
-                    .Register<AbsFunction>()
-                    .Register<AvgFunction>()
-                    .Register<CeilFunction>()
-                    .Register<ContainsFunction>()
-                    .Register<EndsWithFunction>()
-                    .Register<FloorFunction>()
-                    .Register<JoinFunction>()
-                    .Register<LengthFunction>()
-                    .Register<KeysFunction>()
-                    .Register<MapFunction>()
-                    .Register<MaxFunction>()
-                    .Register<MaxByFunction>()
-                    .Register<MergeFunction>()
-                    .Register<MinFunction>()
-                    .Register<MinByFunction>()
-                    .Register<NotNullFunction>()
-                    .Register<ReverseFunction>()
-                    .Register<StartsWithFunction>()
-                    .Register<SortFunction>()
-                    .Register<SortByFunction>()
-                    .Register<SumFunction>()
-                    .Register<ToArrayFunction>()
-                    .Register<ToNumberFunction>()
-                    .Register<ToStringFunction>()
-                    .Register<TypeFunction>()
-                    .Register<ValuesFunction>()
-                    ;
+        private readonly Dictionary<string, JmesPathFunction> functions_
+            = new Dictionary<string, JmesPathFunction>()
+            ;
 
-                repository_ = repo;
-                return repo;
-            }
-        } 
+        private JmesPathFunctionFactory(IScopeParticipant scopes)
+        {
+            scopes_ = scopes;
+
+            this
+                .Register<AbsFunction>()
+                .Register<AvgFunction>()
+                .Register<CeilFunction>()
+                .Register<ContainsFunction>()
+                .Register<EndsWithFunction>()
+                .Register<FloorFunction>()
+                .Register<JoinFunction>()
+                .Register<LengthFunction>()
+                .Register<KeysFunction>()
+                .Register<MapFunction>()
+                .Register<MaxFunction>()
+                .Register<MaxByFunction>()
+                .Register<MergeFunction>()
+                .Register<MinFunction>()
+                .Register<MinByFunction>()
+                .Register<NotNullFunction>()
+                .Register<ReverseFunction>()
+                .Register<StartsWithFunction>()
+                .Register<SortFunction>()
+                .Register<SortByFunction>()
+                .Register<SumFunction>()
+                .Register<ToArrayFunction>()
+                .Register<ToNumberFunction>()
+                .Register<ToStringFunction>()
+                .Register<TypeFunction>()
+                .Register<ValuesFunction>()
+                ;
+        }
+
+        public static JmesPathFunctionFactory Create(IScopeParticipant scopes)
+            => new JmesPathFunctionFactory(scopes);
 
         public IRegisterFunctions Register(string name, JmesPathFunction function)
         {
@@ -61,17 +61,24 @@ namespace DevLab.JmesPath.Functions
 
         public IRegisterFunctions Register<T>() where T : JmesPathFunction
         {
-            var instance = Activator.CreateInstance<T>();
-            Register(instance.Name,instance);
+            var ctor = typeof(T).GetConstructor(new Type[] { typeof(IScopeParticipant), });
+            var instance = (T)(
+                (ctor != null)
+                    ? ctor.Invoke(new object[] { scopes_, })
+                    : Activator.CreateInstance<T>()
+                )
+                ;
+
+            Register(instance.Name, instance);
 
             return this;
         }
 
         public IEnumerable<string> Names => functions_.Keys;
-        
+
         public JmesPathFunction this[string name] => functions_[name];
 
-        public  bool Contains(string name)
+        public bool Contains(string name)
         {
             return functions_.ContainsKey(name);
         }
