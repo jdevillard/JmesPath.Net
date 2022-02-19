@@ -1,0 +1,3 @@
+[submodule "tools/jmespathnet.compliance/jmespath.test"]
+	path = tools/jmespathnet.compliance/jmespath.test
+	url = https://github.com/jmespath-unofficial/jmespath.test.git
