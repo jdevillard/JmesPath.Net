@@ -53,6 +53,13 @@ after_build:
 test_script:
   - dotnet test "tests\jmespathnet.tests" -c %CONFIGURATION%
 
+compliance_script:
+  - ps: |
+      dotnet run --project tools\jmespathnet.compliance\ -- -t tools\jmespathnet.compliance\jmespath.test\tests
+      if ($LastExitCode -ne 100) { throw "Compliance tests failed." }
+      dotnet run --project tools\jmespathnet.compliance\ -- -t tools\jmespathnet.compliance\regression
+      if ($LastExitCode -ne 100) { throw "Regression tests failed." }
+
 artifacts:
   - path: '**\*.nupkg'
     name: NuGet package
