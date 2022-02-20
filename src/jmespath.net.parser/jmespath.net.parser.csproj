@@ -5,7 +5,7 @@
     <AssemblyTitle>JmesPath.Net.Parser</AssemblyTitle>
     <Authors>Jeremie Devillard;Maxime Labelle;Atif Aziz</Authors>
     <VersionPrefix>42.43.44</VersionPrefix>
-    <TargetFrameworks>netstandard1.3;netstandard2.1;net45</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <AssemblyName>JmePath.Net.Parser</AssemblyName>
     <AssemblyOriginatorKeyFile>../jmespath.net.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
