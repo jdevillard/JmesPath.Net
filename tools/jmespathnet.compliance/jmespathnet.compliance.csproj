@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>jmespathnet.compliance</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>jmespathnet.compliance</PackageId>
