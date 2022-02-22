@@ -39,8 +39,7 @@ namespace jmespath.net.compliance
             ConsoleEx.WriteLine(ConsoleColor.White, $"Compliance summary:");
             ConsoleEx.WriteLine(ConsoleColor.White, $"Success rate: {success:P}, {succeeded}/{total} succeeded, {failed}/{total} failed.");
 
-            var percent = 100.0 * ((double) succeeded )/ total;
-            var exitCode = (int)Math.Floor(percent);
+            var exitCode = succeeded == total ? 0 : 1;
             Environment.Exit(exitCode);
         }
     }
