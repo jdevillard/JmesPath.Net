@@ -7,7 +7,7 @@ namespace DevLab.JmesPath.Expressions
     {
         public override JmesPathArgument Project(JmesPathArgument argument)
         {
-            if (argument.Projection != null)
+            if (argument.IsProjection)
                 return argument;
 
             var item = argument.Token as JObject;
