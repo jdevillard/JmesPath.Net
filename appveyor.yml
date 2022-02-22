@@ -70,4 +70,4 @@ deploy:
 cache:
 - '%USERPROFILE%\.nuget\packages'
 
-on_finish:
+on_finish: []
