@@ -33,6 +33,10 @@ assembly_info:
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
 
+install:
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - git submodule update --init --recursive
+
 before_build:
 - appveyor-retry dotnet restore -v Minimal
 - ps: |
@@ -44,7 +48,10 @@ before_build:
 
 build_script:
   - ps: C:\projects\jmespath-net\bin\update-version.ps1 -Version $Env:APPVEYOR_BUILD_VERSION
-  - dotnet build "src\jmespath.net" /p:BuildInParallel=false -c %CONFIGURATION% --version-suffix %LABEL%
+  - ps: dotnet build "src\jmespath.net" /p:BuildInParallel=false -c %CONFIGURATION% --version-suffix $Env:LABEL
+  - ps: |
+      dotnet run --project tools\jmespathnet.compliance\ -- -t tools\jmespathnet.compliance\jmespath.test\tests
+      dotnet run --project tools\jmespathnet.compliance\ -- -t tools\jmespathnet.compliance\regression
 
 after_build:
   - dotnet pack "src\jmespath.net.parser" -c %CONFIGURATION%

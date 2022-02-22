@@ -38,6 +38,9 @@ namespace jmespath.net.compliance
 
             ConsoleEx.WriteLine(ConsoleColor.White, $"Compliance summary:");
             ConsoleEx.WriteLine(ConsoleColor.White, $"Success rate: {success:P}, {succeeded}/{total} succeeded, {failed}/{total} failed.");
+
+            var exitCode = succeeded == total ? 0 : 1;
+            Environment.Exit(exitCode);
         }
     }
 }
