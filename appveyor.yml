@@ -51,9 +51,7 @@ build_script:
   - ps: dotnet build "src\jmespath.net" /p:BuildInParallel=false -c %CONFIGURATION% --version-suffix $Env:LABEL
   - ps: |
       dotnet run --project tools\jmespathnet.compliance\ -- -t tools\jmespathnet.compliance\jmespath.test\tests
-      if ($LastExitCode -ne 100) { throw "Compliance tests failed." }
       dotnet run --project tools\jmespathnet.compliance\ -- -t tools\jmespathnet.compliance\regression
-      if ($LastExitCode -ne 100) { throw "Regression tests failed." }
 
 after_build:
   - dotnet pack "src\jmespath.net.parser" -c %CONFIGURATION%
