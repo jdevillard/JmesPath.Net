@@ -18,7 +18,7 @@ namespace jmespath.net.compliance
 
         public List<ComplianceResult> TestResults { get; private set; }
 
-        public void RunTestSuite(string input)
+        public void RunTestSuite(string input, bool logTextOut = false)
         {
             var json = JToken.Parse(input);
             var testsuites = json as JArray;
@@ -50,15 +50,18 @@ namespace jmespath.net.compliance
 
                     var expected = testcase["result"];
 
-                    var result = RunTestCase(document, expression, expected, error);
+                    var result = RunTestCase(document, expression, expected, error, logTextOut);
                     TestResults.Add(result);
                 }
             }
         }
 
-        private static ComplianceResult RunTestCase(JToken document, string expression, JToken expected, string error)
+        private static ComplianceResult RunTestCase(JToken document, string expression, JToken expected, string error, bool logTextOut = false)
         {
-            ConsoleEx.Out.Write(ConsoleColor.Gray, $"{expression}...");
+            if (logTextOut)
+            {
+                ConsoleEx.Out.Write(ConsoleColor.Gray, $"{expression}...");
+            }
 
             var result = EvaluateExpression(document, expression);
 
@@ -102,8 +105,11 @@ namespace jmespath.net.compliance
                 }
             }
 
-            ConsoleEx.Out.Write(color, message.ToString());
-            ConsoleEx.Out.WriteLine(ConsoleColor.Gray, ".");
+            if (logTextOut)
+            {
+                ConsoleEx.Out.Write(color, message.ToString());
+                ConsoleEx.Out.WriteLine(ConsoleColor.Gray, ".");
+            }
 
             return result;
         }
