@@ -1,0 +1,17 @@
+[
+  {
+    "given": {
+      "numbers_float": [ -12345, -12345.67, -1234e56, 0e-18, 0.1233, 0.123E+45 ]
+    },
+    "cases": [
+      {
+        "expression": "min(numbers_float)",
+        "result": -1.234e59
+      },
+      {
+        "expression": "max(numbers_float)",
+        "result": 1.23e44
+      }
+    ]
+  }
+]
