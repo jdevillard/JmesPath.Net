@@ -4,12 +4,20 @@ using NDesk.Options;
 
 namespace jmespath.net.compliance
 {
+    public enum OutputFormats
+    {
+        Text,
+        Json,
+    }
+
     public class CommandLine
     {
         public string TestSuitesFolder { get; set; }
+        public OutputFormats OutputFormat { get; set; }
 
         private CommandLine()
         {
+            OutputFormat = OutputFormats.Text;
         }
 
         public static CommandLine Parse(string[] args)
@@ -19,6 +27,7 @@ namespace jmespath.net.compliance
             var options = new OptionSet
             {
                 { "t|tests|test-suites=", v => commandLine.TestSuitesFolder = v },
+                { "o|output=", v => commandLine.OutputFormat = ParseOutputFormat(v) },
             };
 
             try
@@ -33,6 +42,15 @@ namespace jmespath.net.compliance
             }
 
             return commandLine;
+        }
+
+        private static OutputFormats ParseOutputFormat(string v)
+        {
+            var outputFormat = OutputFormats.Text;
+            if (Enum.TryParse<OutputFormats>(v, true, out var _outputFormat))
+                outputFormat = _outputFormat;
+
+            return outputFormat;
         }
 
         private static void ParseRemainingArguments(List<string> remaining)
