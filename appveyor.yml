@@ -64,6 +64,8 @@ test_script:
 artifacts:
   - path: '**\*.nupkg'
     name: NuGet package
+  - path: compliance-2016-09-05-9e8d0e3.json
+    name: Compliance report
 
 deploy:
 - provider: NuGet
@@ -71,6 +73,16 @@ deploy:
     secure: NUykko/xwx/zDkgdPiU1x9M7jZgQkEliYrzZqokPz1NGYTlTUDMcM9z/zeJuRvSz
   skip_symbols: true
   artifact: /.*\.nupkg/
+  on:
+    branch: master # only release from master branch
+    APPVEYOR_REPO_TAG: true # only release on new tag
+
+- provider: GitHub
+  release:
+  auth_token:
+    secure: 4EqY0faEx5btIl1CpQpFTG1xyD/8CtYxFnEZkX0MG/AlE28nb5WfyTXIQJ1dTwLw
+  draft: true
+  artifact: /.*\.(nupkg|json)/
   on:
     branch: master # only release from master branch
     APPVEYOR_REPO_TAG: true # only release on new tag
