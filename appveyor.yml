@@ -78,7 +78,7 @@ deploy:
     APPVEYOR_REPO_TAG: true # only release on new tag
 
 - provider: GitHub
-  release:
+  release: v$(APPVEYOR_BUILD_VERSION)
   auth_token:
     secure: 4EqY0faEx5btIl1CpQpFTG1xyD/8CtYxFnEZkX0MG/AlE28nb5WfyTXIQJ1dTwLw
   draft: true
