@@ -1,4 +1,5 @@
-# JmesPath.Net
+# JMESPath.Net
+
 A fully compliant implementation of [JMESPath](http://jmespath.org/specification.html) for .Net Core.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/va3p48ufrj0pxl1t/branch/master?svg=true)](https://ci.appveyor.com/project/jdevillard/jmespath-net/branch/master)
@@ -7,7 +8,7 @@ A fully compliant implementation of [JMESPath](http://jmespath.org/specification
 
 ## Using the parser
 
-`JmesPath.Net` uses [Newtonsoft.Json](http://www.newtonsoft.com/json) to handle [JSON](http://json.org/)
+`JMESPath.Net` uses [Newtonsoft.Json](http://www.newtonsoft.com/json) to handle [JSON](http://json.org/)
 and comes with a simple to use parser:
 
 ```c#
