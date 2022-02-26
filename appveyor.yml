@@ -52,7 +52,10 @@ build_script:
   - ps: |
       dotnet run --project tools\jmespathnet.compliance\ -- -t tools\jmespathnet.compliance\regression
       dotnet run --project tools\jmespathnet.compliance\ -- -t tools\jmespathnet.compliance\jmespath.test\tests
-      dotnet run --project tools\jmespathnet.compliance\ -- -t tools\jmespathnet.compliance\jmespath.test\tests -o json >compliance-2016-09-05-9e8d0e3.json
+      Set-Content `
+        -Path compliance-2016-09-05-9e8d0e3.json
+        -Value ( dotnet run --project tools\jmespathnet.compliance\ -- -t tools\jmespathnet.compliance\jmespath.test\tests -o json ) `
+        -Encoding UTF8
 
 after_build:
   - dotnet pack "src\jmespath.net.parser" -c %CONFIGURATION%
