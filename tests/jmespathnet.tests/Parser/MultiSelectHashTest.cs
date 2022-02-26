@@ -29,5 +29,11 @@ namespace jmespath.net.tests.Parser
         {
             Assert("missing.{foo: bar}", "[]", "null");
         }
+        [Fact]
+        public void ParseMultiSelectHash_Compact()
+        {
+            Assert("{foo: foo, baz: baz}", "{\"foo\": \"bar\", \"baz\": \"qux\"}", "{\"foo\":\"bar\",\"baz\":\"qux\"}");
+            Assert("{foo, baz}", "{\"foo\": \"bar\", \"baz\": \"qux\"}", "{\"foo\":\"bar\",\"baz\":\"qux\"}");
+        }
     }
 }
