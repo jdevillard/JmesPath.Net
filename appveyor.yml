@@ -53,7 +53,7 @@ build_script:
       dotnet run --project tools\jmespathnet.compliance\ -- -t tools\jmespathnet.compliance\regression
       dotnet run --project tools\jmespathnet.compliance\ -- -t tools\jmespathnet.compliance\jmespath.test\tests
       Set-Content `
-        -Path compliance-2016-09-05-9e8d0e3.json
+        -Path compliance-2016-09-05-9e8d0e3.json `
         -Value ( dotnet run --project tools\jmespathnet.compliance\ -- -t tools\jmespathnet.compliance\jmespath.test\tests -o json ) `
         -Encoding UTF8
 
