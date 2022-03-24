@@ -14,6 +14,7 @@ namespace jmespath.net.compliance
     {
         public string TestSuitesFolder { get; set; }
         public OutputFormats OutputFormat { get; set; }
+        public IList<string> Registrations { get; } = new List<string>();
 
         private CommandLine()
         {
@@ -28,6 +29,7 @@ namespace jmespath.net.compliance
             {
                 { "t|tests|test-suites=", v => commandLine.TestSuitesFolder = v },
                 { "o|output=", v => commandLine.OutputFormat = ParseOutputFormat(v) },
+                { "r|reg|register|register-functions=", v => commandLine.Registrations.Add(v) },
             };
 
             try
