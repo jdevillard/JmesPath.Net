@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using DevLab.JmesPath.Expressions;
+using DevLab.JmesPath.Interop;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
@@ -8,16 +10,27 @@ namespace DevLab.JmesPath.Functions
 {
     public abstract class JmesPathFunction
     {
+        protected readonly IScopeParticipant scopes_;
+        private JToken context_ = null;
+
         protected JmesPathFunction(string name, int count)
-            : this(name, count, false)
-        {
-        }
+            : this(name, count, false, null)
+        { }
+        protected JmesPathFunction(string name, int count, IScopeParticipant scopes)
+            : this(name, count, false, scopes)
+        { }
 
         protected JmesPathFunction(string name, int minCount, bool variadic)
+            : this(name, minCount, variadic, null)
+        { }
+
+        protected JmesPathFunction(string name, int minCount, bool variadic, IScopeParticipant scopes)
         {
             Name = name;
             MinArgumentCount = minCount;
             Variadic = variadic;
+
+            scopes_ = scopes;
         }
 
         public string Name { get; private set; }
@@ -26,6 +39,17 @@ namespace DevLab.JmesPath.Functions
 
         public bool Variadic { get; }
 
+        public IScopeParticipant Scopes
+            => scopes_;
+
+        protected JToken Context
+            => context_;
+
+        /// <summary>
+        /// Called when expression arguments have been evaluated prior to function evaluation.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <exception cref="Exception"></exception>
         public virtual void Validate(params JmesPathFunctionArgument[] args)
         {
             if (args.Any(a => a.IsExpressionType))
@@ -93,6 +117,12 @@ namespace DevLab.JmesPath.Functions
                 throw new Exception($"Error: invalid-type, function {Name} expects either an array or a string.");
         }
 
+        protected void EnsureExpressionType(JmesPathFunctionArgument argument)
+        {
+            if (!argument.IsExpressionType)
+                throw new Exception($"Error: invalid-type, function {Name} expects an expression-type.");
+        }
+
         protected void EnsureNumbers(params JmesPathFunctionArgument[] args)
         {
             foreach (var argument in args)
@@ -125,6 +155,11 @@ namespace DevLab.JmesPath.Functions
             valid.AppendFormat("or {0}", types[types.Length - 1]);
 
             return valid.ToString();
+        }
+
+        public void SetContext(JToken token)
+        {
+            context_ = token;
         }
     }
 }

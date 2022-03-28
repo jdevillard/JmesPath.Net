@@ -14,6 +14,7 @@ namespace DevLab.JmesPath
     {
         private readonly Encoding _encoding;
         private readonly JmesPathFunctionFactory repository_;
+        private readonly ScopeParticipantVisitor evaluator_ = new ScopeParticipantVisitor();
 
         public JmesPath() : this(Encoding.UTF8)
         {
@@ -22,9 +23,7 @@ namespace DevLab.JmesPath
         public JmesPath(Encoding encoding)
         {
             _encoding = encoding;
-            repository_ = new JmesPathFunctionFactory();
-            foreach (var name in JmesPathFunctionFactory.Default.Names)
-                repository_.Register(name, JmesPathFunctionFactory.Default[name]);
+            repository_ = JmesPathFunctionFactory.Create(evaluator_);
         }
 
         public IRegisterFunctions FunctionRepository => repository_;
@@ -84,6 +83,11 @@ namespace DevLab.JmesPath
             var syntax = new SyntaxVisitor();
             analyzer.Expression.Accept(syntax);
 
+            // inject scope evaluator to all expressions
+
+            var evaluator = new ContextEvaluatorVisitor(evaluator_); 
+            analyzer.Expression.Accept(evaluator);
+
             return new Expression(analyzer.Expression);
         }
 
@@ -115,6 +119,21 @@ namespace DevLab.JmesPath
                 var projection = expression as JmesPathSliceProjection;
                 if (projection?.Step != null && projection.Step.Value == 0)
                     throw new Exception("Error: invalid-value, a slice projection step cannot be 0.");
+            }
+        }
+
+        private sealed class ContextEvaluatorVisitor : IVisitor
+        {
+            private readonly IContextEvaluator evaluator_;
+
+            public ContextEvaluatorVisitor(IContextEvaluator evaluator)
+            {
+                evaluator_ = evaluator;
+            }
+            public void Visit(JmesPathExpression expression)
+            {
+                if (expression is JmesPathIdentifier identifier)
+                    identifier.evaluator_ = evaluator_;
             }
         }
     }

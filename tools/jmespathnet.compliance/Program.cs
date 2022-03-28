@@ -111,8 +111,8 @@ namespace jmespath.net.compliance
                 }
             }
 
-            var total = compliance.TestResults.Concat(compliance.TestResults).Count();
-            var succeeded = compliance.TestResults.Concat(compliance.TestResults).Count(r => r.Success);
+            var total = compliance.TestResults.Concat(complianceFuncs.TestResults).Count();
+            var succeeded = compliance.TestResults.Concat(complianceFuncs.TestResults).Count(r => r.Success);
             var failed = total - succeeded;
 
             var percent = (double)succeeded / total;

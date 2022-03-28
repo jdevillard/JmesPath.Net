@@ -131,6 +131,7 @@ namespace jmespath.net.compliance
 
                 parser.FunctionRepository
                     .Register<ItemsFunction>()
+                    .Register<LetFunction>()
                     .Register<ToObjectFunction>()
                     .Register<ZipFunction>()
                     ;
