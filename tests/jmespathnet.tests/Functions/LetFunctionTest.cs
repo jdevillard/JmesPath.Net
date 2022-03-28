@@ -1,4 +1,6 @@
-﻿using jmespath.net.tests.Parser;
+﻿using DevLab.JmesPath;
+using DevLab.JmesPath.Functions;
+using jmespath.net.tests.Parser;
 
 namespace jmespath.net.tests.Functions
 {
@@ -6,6 +8,15 @@ namespace jmespath.net.tests.Functions
 
     public class LetFunctionTest : ParserTestBase
     {
+        protected override void RegisterFunction(JmesPath parser)
+        {
+            parser
+                .FunctionRepository
+                .Register<LetFunction>();
+
+            base.RegisterFunction(parser);
+        }
+
         [Fact]
         public void JmesPathLetFunction_CurrentContext()
         {
