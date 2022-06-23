@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using DevLab.JmesPath.Interop;
 
+#if NETSTANDARD1_3
+using System.Reflection;
+#endif
+
 namespace DevLab.JmesPath.Functions
 {
     public class JmesPathFunctionFactory : IRegisterFunctions, IFunctionRepository
