@@ -77,18 +77,7 @@ namespace DevLab.JmesPath
         #region Expressions
 
         public void OnSubExpression()
-        {
-            Prolog();
-
-            System.Diagnostics.Debug.Assert(expressions_.Count >= 2);
-
-            var right = expressions_.Pop();
-            var left = expressions_.Pop();
-
-            var expression = new JmesPathSubExpression(left, right);
-
-            expressions_.Push(expression);
-        }
+            => PopPush((left, right) => new JmesPathSubExpression(left, right));
 
         #region index_expression
 
@@ -128,18 +117,7 @@ namespace DevLab.JmesPath
         }
 
         public void OnIndexExpression()
-        {
-            Prolog();
-
-            System.Diagnostics.Debug.Assert(expressions_.Count >= 2);
-
-            var right = expressions_.Pop();
-            var left = expressions_.Pop();
-
-            var expression = new JmesPathIndexExpression(left, right);
-
-            expressions_.Push(expression);
-        }
+            => PopPush((left, right) => new JmesPathIndexExpression(left, right));
 
         public void OnSliceExpression(int? start, int? stop, int? step)
         {
@@ -273,18 +251,7 @@ namespace DevLab.JmesPath
         }
 
         public void OnPipeExpression()
-        {
-            Prolog();
-
-            System.Diagnostics.Debug.Assert(expressions_.Count >= 2);
-
-            var right = expressions_.Pop();
-            var left = expressions_.Pop();
-
-            var expression = new JmesPathPipeExpression(left, right);
-
-            expressions_.Push(expression);
-        }
+            => PopPush((left, right) => new JmesPathPipeExpression(left, right));
 
         #region function_expression
 
