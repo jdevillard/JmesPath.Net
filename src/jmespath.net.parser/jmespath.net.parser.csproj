@@ -23,6 +23,9 @@
     <Compile Include="JmesPathScanner.g.cs" Condition="!Exists( 'JmesPathScanner.g.cs' )" />
     <Compile Include="JmesPathParser.g.cs" Condition="!Exists( 'JmesPathParser.g.cs' )" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\jmespath.net.interop\jmespath.net.interop.csproj" />
+  </ItemGroup>
 
   <Target Name="_RestoreDotnetCliTool" Inputs="JmesPathScanner.lex;JmesPathParser.y" Outputs="JmesPathScanner.g.cs;JmesPathParser.g.cs">
     <Exec Command="dotnet tool restore" />
