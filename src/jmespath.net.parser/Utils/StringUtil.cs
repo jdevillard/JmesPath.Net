@@ -29,7 +29,69 @@ namespace DevLab.JmesPath.Utils
 
             var text = rawText.Substring(1, rawText.Length - 2);
 
-            // then, process the unicode escape sequences
+        /// <summary>
+        /// Accepts a valid representation of a JMESPath identifier
+        /// with surrounding quotes and escape sequences and
+        /// returns the resulting plain string.
+        /// 
+        /// E.g. foo              -> foo
+        /// E.g. "bar.baz"        -> bar.baz
+        /// 
+        /// </summary>
+        /// <param name="identifier"></param>
+        /// <returns></returns>
+        public static string UnwrapIdentifier(string identifier)
+            => UnquoteIdentifier(UnescapeIdentifier(identifier));
+
+        public static string UnquoteIdentifier(string identifier)
+            => identifier[0] == '"' ? Unquote(identifier) : identifier;
+
+        public static string UnescapeIdentifier(string identifier)
+            => Unescape(identifier);
+
+        /// <summary>
+        /// Converts a name to its 
+        /// corresponding JMESPath identifier string.
+        /// 
+        /// E.g. foo              -> foo
+        /// E.g. bar.baz          -> "bar.baz"
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string WrapIdentifier(string name)
+            => QuoteIdentifier(EscapeIdentifier(name));
+
+        public static string QuoteIdentifier(string name)
+        {
+            foreach (var c in name)
+                if (c < '0' ||
+                    (c > '9' && c < 'A') ||
+                    (c > 'Z' && c < '_') ||
+                    (c > '_' && c < 'a') ||
+                    (c > 'z'))
+                {
+                    return Quote(name);
+                }
+
+            return name;
+        }
+
+        public static string EscapeIdentifier(string identifier)
+            => Escape(identifier);
+
+        /// <summary>
+        /// Accepts a valid representation of a JMESPath raw string
+        /// with surrounding single quotes and escape sequences and
+        /// returns the resulting plain string.
+        /// 
+        /// E.g 'Hello, world!'  -> Hello, world!
+        ///
+        /// </summary>
+        /// <param name="rawText"></param>
+        /// <returns></returns>
+        public static string UnwrapRawString(string rawText)
+            => UnescapeRawString(Unquote(rawText));
 
             text = UnwrapUnicode(text);
 
@@ -81,13 +143,37 @@ namespace DevLab.JmesPath.Utils
         /// with surrounding quotes and proper escape sequences.
         /// 
         /// E.g. Hello, world! -> "Hello, world!"
-        /// E.g. ✓            -> "\u2713"
+        /// E.g. ✓             -> "\u2713"
         /// E.g.               -> "\ud834\udd1e"
         /// 
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
         public static string Wrap(string text)
+            => Quote(Escape(text));
+
+        /// <summary>
+        /// Surround the specified text with double-quotes.
+        ///
+        /// E.g. Hello, world! -> "Hello, world!"
+        ///
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string Quote(string text)
+            => $"\"{text}\"";
+
+        /// <summary>
+        /// Escapes characters to their proper JSON escape sequences.
+        /// 
+        /// E.g. Hello, world! -> Hello, world!
+        /// E.g. ✓             -> \u2713
+        /// E.g.               -> \ud834\udd1e
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string Escape(string text)
         {
             // first, process common escaped characters
 
@@ -106,10 +192,7 @@ namespace DevLab.JmesPath.Utils
             // then, process extended unicode characters
 
             escaped = WrapUnicode(escaped);
-
-            // finally, surround the resulting string with double-quotes
-
-            return $"\"{escaped}\"";
+            return escaped;
         }
 
         // characters in a .NET string are represented by a 21-bit code value

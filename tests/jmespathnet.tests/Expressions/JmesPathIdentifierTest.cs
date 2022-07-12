@@ -1,10 +1,30 @@
+using DevLab.JmesPath;
 using DevLab.JmesPath.Expressions;
+using DevLab.JmesPath.Tokens;
+
 using Xunit;
 
 namespace jmespath.net.tests.Expressions
 {
     public class JmesPathIdentifierTest : JmesPathExpressionsTestBase
     {
+        [Theory]
+        [InlineData("foo")]
+        [InlineData("\"foo.bar\"")]
+        [InlineData("\"with space\"")]
+        [InlineData("\"special chars: !@#\"")]
+        [InlineData("\"quote\\\"char\"")]
+        [InlineData("\"\\\\ \\/ \\b \\f \\n \\r \\t \"")]
+        [InlineData("\"\\u2713\"")]
+        public void JmesPathIdentifier_ToString(string expression)
+        {
+            var token = expression.StartsWith("\"") ? new QuotedStringToken(expression) : new Token(TokenType.T_USTRING, expression);
+            var identifier = new JmesPathIdentifier((string) token.Value);
+
+            var actual = identifier.ToString();
+            Xunit.Assert.Equal(expression, actual);
+        }
+
         /*
          * http://jmespath.org/specification.html#identifiers
          * 
@@ -26,9 +46,9 @@ namespace jmespath.net.tests.Expressions
         [InlineData("quote\"char", "{\"quote\\\"char\": \"value\"}", "\"value\"")]
         [InlineData("\u2713", "{\"\u2713\": \"value\"}", "\"value\"")]
         public void JmesPathIdentifier_Transform(string identifier, string input, string expected)
-            => Assert(identifier, input, expected);
+            => Expect(identifier, input, expected);
 
-        private void Assert(string identifier, string input, string expected)
+        private void Expect(string identifier, string input, string expected)
         {
             var expression = new JmesPathIdentifier(identifier);
             Assert(expression, input, expected);
