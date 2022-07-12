@@ -20,6 +20,7 @@ namespace jmespath.net.tests.Utils
             Assert.Equal("\"\\u2713\"", StringUtil.Wrap("\u2713"));
             // http://www.fileformat.info/info/unicode/char/1d11e/index.htm
             Assert.Equal("\"\\ud834\\udd1e\"", StringUtil.Wrap("\U0001d11e"));
+            Assert.Equal("\"\\\"\"", StringUtil.Wrap("\""));
         }
 
         [Fact]
