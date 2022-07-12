@@ -15,6 +15,7 @@ namespace jmespath.net.tests.Utils
         [Theory]
         [InlineData("\"\\u2713\"", "\u2713")] // http://www.fileformat.info/info/unicode/char/2713/index.htm
         [InlineData("\"\\ud834\\udd1e\"", "\U0001d11e")] // http://www.fileformat.info/info/unicode/char/1d11e/index.htm
+        [InlineData("\"\\\"\"", "\"")]
         public void StringUtil_Wrap_Unicode(string wrapped, string text)
             => Assert.Equal(wrapped, StringUtil.Wrap(text));
 
