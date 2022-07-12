@@ -1,9 +1,8 @@
 using DevLab.JmesPath.Expressions;
+using Xunit;
 
 namespace jmespath.net.tests.Expressions
 {
-    using FactAttribute = Xunit.FactAttribute;
-
     public class JmesPathIdentifierTest : JmesPathExpressionsTestBase
     {
         /*
@@ -18,17 +17,16 @@ namespace jmespath.net.tests.Expressions
          * search("\u2713", {"\u2713": "value"}) -> "value"
          */
 
-        [Fact]
-        public void JmesPathIdentifier_Transform()
-        {
-            Assert("foo", "{\"foo\": \"value\"}", "\"value\"");
-            Assert("bar", "{\"foo\": \"value\"}", "null");
-            Assert("foo", "{\"foo\": [0, 1, 2]}", "[0,1,2]");
-            Assert("with space", "{\"with space\": \"value\"}", "\"value\"");
-            Assert("special chars: !@#", "{\"special chars: !@#\": \"value\"}", "\"value\"");
-            Assert("quote\"char", "{\"quote\\\"char\": \"value\"}", "\"value\"");
-            Assert("\u2713", "{\"\u2713\": \"value\"}", "\"value\"");
-        }
+        [Theory]
+        [InlineData("foo", "{\"foo\": \"value\"}", "\"value\"")]
+        [InlineData("bar", "{\"foo\": \"value\"}", "null")]
+        [InlineData("foo", "{\"foo\": [0, 1, 2]}", "[0,1,2]")]
+        [InlineData("with space", "{\"with space\": \"value\"}", "\"value\"")]
+        [InlineData("special chars: !@#", "{\"special chars: !@#\": \"value\"}", "\"value\"")]
+        [InlineData("quote\"char", "{\"quote\\\"char\": \"value\"}", "\"value\"")]
+        [InlineData("\u2713", "{\"\u2713\": \"value\"}", "\"value\"")]
+        public void JmesPathIdentifier_Transform(string identifier, string input, string expected)
+            => Assert(identifier, input, expected);
 
         private void Assert(string identifier, string input, string expected)
         {

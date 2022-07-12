@@ -1,20 +1,13 @@
 ﻿using DevLab.JmesPath.Expressions;
+using Xunit;
 
 namespace jmespath.net.tests.Expressions
 {
-    using FactAttribute = Xunit.FactAttribute;
-
     public class JmesPathRawStringTest : JmesPathExpressionsTestBase
     {
-        [Fact]
-        public void JmesPathRawString_NoSpecialChar()
-        {
-            var expression = new JmesPathRawString("foo");
-
-            const string input = "{\"foo\": \"value\"}";
-            const string expected = "\"foo\"";
-
-            Assert(expression, input, expected);
-        }
+        [Theory]
+        [InlineData("foo", "{\"foo\": \"value\"}", "\"foo\"")]
+        public void JmesPathRawString_NoSpecialChar(string expression, string input, string expected)
+            => Assert(new JmesPathRawString(expression), input, expected);
     }
 }

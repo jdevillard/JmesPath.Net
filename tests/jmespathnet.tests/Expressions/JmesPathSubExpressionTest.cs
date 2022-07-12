@@ -1,9 +1,8 @@
 using DevLab.JmesPath.Expressions;
+using Xunit;
 
 namespace jmespath.net.tests.Expressions
 {
-    using FactAttribute = Xunit.FactAttribute;
-
     public class JmesPathSubExpressionTest : JmesPathExpressionsTestBase
     {
         /*
@@ -16,22 +15,18 @@ namespace jmespath.net.tests.Expressions
          * 
          */
 
-        [Fact]
-        public void JmesPathSubExpression_Transform()
-        {
-            Assert(new[] {"foo", "bar"}, "{\"foo\": {\"bar\": \"value\" }}", "\"value\"");
-            Assert(new[] { "foo", "bar" }, "{\"foo\": {\"bar\": \"value\" }}", "\"value\"");
-            Assert(new[] { "foo", "bar" }, "{\"foo\": {\"baz\": \"value\" }}", "null");
-            Assert(new[] { "foo", "bar", "baz" }, "{\"foo\": {\"bar\": { \"baz\": \"value\" }}}", "\"value\"");
-            Assert(new[] { "foo", "bar", "baz", "bad" }, "{\"foo\": {\"bar\": {\"baz\": \"correct\"}}}", "null");
-        }
+        [Theory]
+        [InlineData(new[] { "foo", "bar" }, "{\"foo\": {\"bar\": \"value\" }}", "\"value\"")]
+        [InlineData(new[] { "foo", "bar" }, "{\"foo\": {\"baz\": \"value\" }}", "null")]
+        [InlineData(new[] { "foo", "bar", "baz" }, "{\"foo\": {\"bar\": { \"baz\": \"value\" }}}", "\"value\"")]
+        [InlineData(new[] { "foo", "bar", "baz", "bad" }, "{\"foo\": {\"bar\": {\"baz\": \"correct\"}}}", "null")]
+        public void JmesPathSubExpression_Transform(string[] expressions, string input, string expected)
+            => Assert(expressions, input, expected);
 
-        [Fact]
-        public void JmesPathSubExpression_Compliance()
-        {
-            Assert(new[] { "foo", "bar" }, "{\"foo\": -1}", "null");
-        }
-
+        [Theory]
+        [InlineData(new[] { "foo", "bar" }, "{\"foo\": -1}", "null")]
+        public void JmesPathSubExpression_Compliance(string[] expressions, string input, string expected)
+            => Assert(expressions, input, expected);
 
         private void Assert(string[] expressions, string input, string expected)
         {
