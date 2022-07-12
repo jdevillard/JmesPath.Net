@@ -1,21 +1,14 @@
 using Newtonsoft.Json.Linq;
 using DevLab.JmesPath.Expressions;
+using Xunit;
 
 namespace jmespath.net.tests.Expressions
 {
-    using FactAttribute = Xunit.FactAttribute;
-
     public class JmesPathLiteralTest : JmesPathExpressionsTestBase
     {
-        [Fact]
-        public void JmesPathLiteralJson_String()
-        {
-            var expression = new JmesPathLiteral(JToken.Parse("\"foo\""));
-
-            const string input = "{\"foo\": \"value\"}";
-            const string expected = "\"foo\"";
-
-            Assert(expression, input, expected);
-        }
+        [Theory]
+        [InlineData("\"foo\"", "{\"foo\": \"value\"}", "\"foo\"")]
+        public void JmesPathLiteralJson_String(string expression, string input, string expected)
+            => Assert(new JmesPathLiteral(JToken.Parse(expression)), input, expected);
     }
 }
