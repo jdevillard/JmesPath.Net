@@ -1,4 +1,5 @@
 ﻿using System;
+using DevLab.JmesPath.Utils;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -19,5 +20,8 @@ namespace DevLab.JmesPath.Expressions
         {
             return value_;
         }
+
+        public override string ToString()
+            => StringUtil.WrapLiteral(value_.AsString());
     }
 }

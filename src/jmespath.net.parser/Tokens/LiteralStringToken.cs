@@ -3,19 +3,18 @@ using JsonCheckerTool;
 
 namespace DevLab.JmesPath.Tokens
 {
-
     internal sealed class LiteralStringToken : Token
     {
         private readonly string value_;
 
-        public LiteralStringToken(string rawText)
-            : base(TokenType.T_LSTRING, rawText)
+        public LiteralStringToken(string literalText)
+            : base(TokenType.T_LSTRING, literalText)
         {
-            System.Diagnostics.Debug.Assert(rawText.Length >= 2);
-            System.Diagnostics.Debug.Assert(rawText.StartsWith("`"));
-            System.Diagnostics.Debug.Assert(rawText.EndsWith("`"));
+            System.Diagnostics.Debug.Assert(literalText.Length >= 2);
+            System.Diagnostics.Debug.Assert(literalText.StartsWith("`"));
+            System.Diagnostics.Debug.Assert(literalText.EndsWith("`"));
 
-            var literal = StringUtil.UnescapeLiteral(rawText);
+            var literal = StringUtil.UnwrapLiteral(literalText);
             var checker = new JsonChecker();
             var lws = true;
             var scalar = false;

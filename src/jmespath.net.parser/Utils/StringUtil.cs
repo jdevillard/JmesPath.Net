@@ -13,6 +13,53 @@ namespace DevLab.JmesPath.Utils
     public sealed class StringUtil
     {
         /// <summary>
+        /// Surround the specified text with double-quotes.
+        ///
+        /// E.g. Hello, world! -> "Hello, world!"
+        ///
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string Quote(string text)
+            => Quote(text, '\"');
+
+        /// <summary>
+        /// Surrounds the specified text with back-ticks
+        ///
+        /// E.g. true         -> `true`
+        ///
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string QuoteLiteral(string text)
+            => Quote(text, '`');
+
+        public static string QuoteRawString(string text)
+            => Quote(text, '\'');
+
+        /// <summary>
+        /// Surrounds the specified text with identical "quote" characters.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="quote">Quote character to surround the text with.</param>
+        /// <returns></returns>
+        public static string Quote(string text, char quote)
+            => $"{quote}{text}{quote}";
+
+        /// <summary>
+        /// Removes the surrounding "quote" characters around a text.
+        /// This does not care which kinds of "quotes" are used.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string Unquote(string text)
+        {
+            System.Diagnostics.Debug.Assert(text?.Length >= 2);
+            System.Diagnostics.Debug.Assert(text[0] == text[text.Length - 1]);
+            return text.Substring(1, text.Length - 2);
+        }
+
+        /// <summary>
         /// Accepts a valid representation of a JSON string
         /// with surrounding quotes and escape sequences and
         /// returns the resulting plain string.
@@ -21,13 +68,24 @@ namespace DevLab.JmesPath.Utils
         /// E.g "\u2713"        -> ✓
         /// 
         /// </summary>
-        /// <param name="rawText"></param>
+        /// <param name="quotedText"></param>
         /// <returns></returns>
-        public static string Unwrap(string rawText)
-        {
-            // first, remove the surrounding double-quotes
+        public static string Unwrap(string quotedText)
+            => Unescape(Unquote(quotedText));
 
-            var text = rawText.Substring(1, rawText.Length - 2);
+        /// <summary>
+        /// Converts the specified string to its valid JSON representation
+        /// with surrounding quotes and proper escape sequences.
+        /// 
+        /// E.g. Hello, world! -> "Hello, world!"
+        /// E.g. ✓             -> "\u2713"
+        /// E.g.               -> "\ud834\udd1e"
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string Wrap(string text)
+            => Quote(Escape(text));
 
         /// <summary>
         /// Accepts a valid representation of a JMESPath identifier
@@ -93,7 +151,85 @@ namespace DevLab.JmesPath.Utils
         public static string UnwrapRawString(string rawText)
             => UnescapeRawString(Unquote(rawText));
 
-            text = UnwrapUnicode(text);
+        public static string UnescapeRawString(string rawText)
+            => rawText
+                .Replace("\\'", "'")
+                ;
+
+        /// <summary>
+        /// Converts a text into its
+        /// corresponding JMESPath raw string token text.
+        ///
+        /// E.g. foo           -> 'foo'
+        /// E.g. Hello 'world' -> 'Hello \'world\''
+        ///
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string WrapRawString(string text)
+            => QuoteRawString(EscapeRawString(text));
+
+        public static string EscapeRawString(string text)
+            => text
+                .Replace("'", "\\'")
+                ;
+
+        public static string UnwrapLiteral(string literalText)
+            => UnescapeLiteral(Unquote(literalText));
+
+        public static string UnescapeLiteral(string literalText)
+            => literalText.Replace("\\`", "`");
+
+        /// <summary>
+        /// Converts a JSON representation to its
+        /// corresponding `literal` token text.
+        ///
+        /// E.g. "Hello `world`"          -> `"Hello \`world\`"`
+        ///
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string WrapLiteral(string text)
+            => Quote(EscapeLiteral(text), '`');
+
+        public static string EscapeLiteral(string text)
+        {
+            // the literal has been serialized by Newtonsoft.Json
+            // that natively handles JSON escape sequences, except
+            // for the / (U+002F SOLIDUS) character.
+            // 
+
+            text = text
+                .Replace("/", "\\/")
+
+            // additionnaly, JMESPath requires ` (U+0060 GRAVE ACCENT) characters
+            // to also be escaped.
+
+                .Replace("`", "\\`")
+                ;
+
+            // replace Unicode escape sequences
+
+            text = EscapeUnicode(text);
+
+            return text;
+        }
+
+        /// <summary>
+        /// Resolves escape sequences and returns a proper string.
+        ///
+        /// E.g. Hello, world! -> Hello, world!
+        /// E.g. \u2713        -> ✓
+        /// E.g. \ud834\udd1e  -> 𝄞
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string Unescape(string text)
+        {
+            // process the unicode escape sequences
+
+            text = UnescapeUnicode(text);
 
             // finally, process the common escape sequences
 
@@ -110,65 +246,12 @@ namespace DevLab.JmesPath.Utils
                 ;
         }
 
-        public static string UnescapeRaw(string rawText)
-        {
-            // first, remove the surrounding double-quotes
-
-            var text = rawText.Substring(1, rawText.Length - 2);
-
-            // finally, process the common escape sequences
-
-            return text
-                .Replace("\\'", "'")
-
-                ;
-        }
-
-        public static string UnescapeLiteral(string rawText)
-        {
-            // first, remove the surrounding double-quotes
-
-            var text = rawText.Substring(1, rawText.Length - 2);
-
-            // finally, process the common escape sequences
-
-            return text
-                .Replace("\\`", "`")
-
-                ;
-        }
-
-        /// <summary>
-        /// Converts the specified string to its valid JSON representation
-        /// with surrounding quotes and proper escape sequences.
-        /// 
-        /// E.g. Hello, world! -> "Hello, world!"
-        /// E.g. ✓             -> "\u2713"
-        /// E.g.               -> "\ud834\udd1e"
-        /// 
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        public static string Wrap(string text)
-            => Quote(Escape(text));
-
-        /// <summary>
-        /// Surround the specified text with double-quotes.
-        ///
-        /// E.g. Hello, world! -> "Hello, world!"
-        ///
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        public static string Quote(string text)
-            => $"\"{text}\"";
-
         /// <summary>
         /// Escapes characters to their proper JSON escape sequences.
         /// 
         /// E.g. Hello, world! -> Hello, world!
-        /// E.g. ✓             -> \u2713
-        /// E.g.               -> \ud834\udd1e
+        /// E.g. ✓            -> \u2713
+        /// E.g. 𝄞             -> \ud834\udd1e
         /// 
         /// </summary>
         /// <param name="text"></param>
@@ -191,7 +274,7 @@ namespace DevLab.JmesPath.Utils
 
             // then, process extended unicode characters
 
-            escaped = WrapUnicode(escaped);
+            escaped = EscapeUnicode(escaped);
             return escaped;
         }
 
@@ -214,7 +297,7 @@ namespace DevLab.JmesPath.Utils
                 RegexOptions.IgnorePatternWhitespace
                 );
 
-        private static string UnwrapUnicode(string text)
+        private static string UnescapeUnicode(string text)
         {
             var builder = new StringBuilder();
 
@@ -302,7 +385,7 @@ namespace DevLab.JmesPath.Utils
             return Encoding.Unicode.GetString(buffer);
         }
 
-        private static string WrapUnicode(string text)
+        private static string EscapeUnicode(string text)
         {
             var builder = new StringBuilder();
 
@@ -333,7 +416,7 @@ namespace DevLab.JmesPath.Utils
                 {
                     // handle surrogate pairs
 
-                    var raw = new string(new[] { text[index] , text[index + 1] });
+                    var raw = new string(new[] { text[index], text[index + 1] });
                     var buffer = Encoding.Unicode.GetBytes(raw);
                     var high = BitConverter.ToInt32(new byte[] { buffer[0], buffer[1], 0, 0, }, 0);
                     var low = BitConverter.ToInt32(new byte[] { buffer[2], buffer[3], 0, 0, }, 0);
