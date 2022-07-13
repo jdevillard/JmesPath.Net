@@ -16,7 +16,6 @@ namespace DevLab.JmesPath.Expressions
         public JmesPathFunctionExpression(IFunctionRepository repository, string name, IList<JmesPathExpression> expressions)
             : this(repository, name, expressions.ToArray())
         {
-
         }
 
         public JmesPathFunctionExpression(IFunctionRepository repository, string name, params JmesPathExpression[] expressions)

@@ -48,16 +48,12 @@ namespace DevLab.JmesPath.Expressions
         public bool IsExpressionType { get; private set; }
 
         public static void MakeExpressionType(JmesPathExpression expression)
-        {
-            expression.IsExpressionType = true;
-        }
+            => expression.IsExpressionType = true;
 
         /// <summary>
         /// Perform a traversal of the abstract syntax tree.
         /// </summary>
         public virtual void Accept(IVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
+            => visitor.Visit(this);
     }
 }
