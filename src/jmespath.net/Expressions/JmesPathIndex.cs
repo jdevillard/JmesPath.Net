@@ -34,5 +34,8 @@ namespace DevLab.JmesPath.Expressions
 
             return array[index];
         }
+
+        public override string ToString()
+            => $"[{index_}]";
     }
 }

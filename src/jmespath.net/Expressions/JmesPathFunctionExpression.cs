@@ -70,5 +70,8 @@ namespace DevLab.JmesPath.Expressions
             foreach (var expression in expressions_)
                 expression.Accept(visitor);
         }
+
+        public override string ToString()
+            => $"{name_}({string.Join(", ", expressions_.AsEnumerable())})";
     }
 }

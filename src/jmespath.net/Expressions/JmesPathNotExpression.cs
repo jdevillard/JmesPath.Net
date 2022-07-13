@@ -22,5 +22,8 @@ namespace DevLab.JmesPath.Expressions
                 : JmesPathArgument.False
                 ;
         }
+
+        public override string ToString()
+            => $"!{Expression}";
     }
 }

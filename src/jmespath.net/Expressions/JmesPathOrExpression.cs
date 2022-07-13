@@ -20,5 +20,8 @@ namespace DevLab.JmesPath.Expressions
             var token = Left.Transform(json);
             return !JmesPathArgument.IsFalse(token) ? token : Right.Transform(json);
         }
+
+        public override string ToString()
+            => $"{Left} || {Right}";
     }
 }

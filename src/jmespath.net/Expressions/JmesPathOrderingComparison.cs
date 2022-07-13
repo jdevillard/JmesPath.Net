@@ -10,8 +10,9 @@ namespace DevLab.JmesPath.Expressions
         /// </summary>
         /// <param name="left"></param>
         /// <param name="right"></param>
-        protected JmesPathOrderingComparison(JmesPathExpression left, JmesPathExpression right)
-            : base(left, right)
+        /// <param name="op"></param>
+        protected JmesPathOrderingComparison(JmesPathExpression left, JmesPathExpression right, string op)
+            : base(left, right, op)
         {
         }
 

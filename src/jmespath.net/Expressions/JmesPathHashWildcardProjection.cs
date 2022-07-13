@@ -21,5 +21,8 @@ namespace DevLab.JmesPath.Expressions
 
             return new JmesPathArgument(hashes);
         }
+
+        public override string ToString()
+            => "*";
     }
 }
