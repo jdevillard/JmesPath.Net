@@ -20,14 +20,15 @@ namespace DevLab.JmesPath.Expressions
             => expression_;
 
         protected override JmesPathArgument Transform(JToken json)
-        {
-            return expression_.Transform(json);
-        }
+            => expression_.Transform(json);
 
         public override void Accept(IVisitor visitor)
         {
             base.Accept(visitor);
             expression_.Accept(visitor);
         }
+
+        public override string ToString()
+            => expression_.ToString();
     }
 }

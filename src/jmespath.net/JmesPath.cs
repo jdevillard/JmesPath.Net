@@ -46,13 +46,11 @@ namespace DevLab.JmesPath
             return result.AsString();
         }
 
-        public sealed class Expression : JmesPathExpression
+        public sealed class Expression : JmesPathSimpleExpression
         {
-            private readonly JmesPathExpression expression_;
-
             internal Expression(JmesPathExpression expression)
+                : base(expression)
             {
-                expression_ = expression;
             }
 
             public string Transform(string document)
@@ -60,11 +58,6 @@ namespace DevLab.JmesPath
                 var token = ParseJson(document);
                 var result = Transform(token);
                 return result.AsJToken()?.AsString();
-            }
-
-            protected override JmesPathArgument Transform(JToken json)
-            {
-                return expression_.Transform(json);
             }
         }
 
