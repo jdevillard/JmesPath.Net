@@ -14,6 +14,9 @@ namespace DevLab.JmesPath.Expressions
             expression_ = expression;
         }
 
+        public JmesPathExpression Expression
+            => expression_;
+
         public override JmesPathArgument Project(JmesPathArgument argument)
         {
             if (argument.IsProjection)

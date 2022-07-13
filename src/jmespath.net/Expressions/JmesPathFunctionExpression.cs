@@ -44,7 +44,8 @@ namespace DevLab.JmesPath.Expressions
             expressions_ = expressions;
         }
 
-        public JToken Name => name_;
+        public string Name => name_;
+        public JmesPathExpression[] Arguments => expressions_;
 
         protected override JmesPathArgument Transform(JToken json)
         {

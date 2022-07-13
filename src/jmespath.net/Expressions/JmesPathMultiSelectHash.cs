@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using DevLab.JmesPath.Interop;
 using Newtonsoft.Json.Linq;
 
@@ -15,6 +16,9 @@ namespace DevLab.JmesPath.Expressions
             foreach (var key in dictionary.Keys)
                 dictionary_.Add(key, dictionary[key]);
         }
+
+        public IReadOnlyDictionary<string, JmesPathExpression> Dictionary
+            => new ReadOnlyDictionary<string, JmesPathExpression>(dictionary_);
 
         protected override JmesPathArgument Transform(JToken json)
         {
