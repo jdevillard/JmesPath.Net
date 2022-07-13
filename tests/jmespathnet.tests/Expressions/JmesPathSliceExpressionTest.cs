@@ -5,6 +5,27 @@ namespace jmespath.net.tests.Expressions
 {
     public class JmesPathSliceExpressionTest : JmesPathExpressionsTestBase
     {
+        [Theory]
+        [InlineData("[0:4:1]")]
+        [InlineData("[0:4]")]
+        [InlineData("[0:3]")]
+        [InlineData("[:2]")]
+        [InlineData("[::2]")]
+        [InlineData("[::-1]")]
+        [InlineData("[-2:]")]
+        [InlineData("[-8:3:2]")]
+        [InlineData("[-8:-3:-2]")]
+        [InlineData("[8:2:7]")]
+        [InlineData("[::]", "[:]")]
+        public void JmesPathSliceExpression_ToString(string slices, string expected = null)
+        {
+            var parameters = GetSliceParameters(slices);
+            var slice = new JmesPathSliceProjection(parameters[0], parameters[1], parameters[2]);
+
+            var actual = slice.ToString();
+            Xunit.Assert.Equal(expected ?? slices, actual);
+        }
+
         /*
          * http://jmespath.org/specification.html#index-expressions
          * 
@@ -51,18 +72,7 @@ namespace jmespath.net.tests.Expressions
         }
 
         private void Assert(string slices, string input, string expected)
-        {
-            var parameters = new int?[3];
-            var numbers = slices.Substring(1, slices.Length - 2).Split(':');
-
-            for (var index = 0; index < numbers.Length; index++)
-                parameters[index] = string.IsNullOrWhiteSpace(numbers[index])
-                    ? (int?) null
-                    : int.Parse(numbers[index])
-                    ;
-
-            Assert(parameters, input, expected);
-        }
+            => Assert(GetSliceParameters(slices), input, expected);
 
         private void Assert(int?[] numbers, string input, string expected)
         {
@@ -75,6 +85,19 @@ namespace jmespath.net.tests.Expressions
                 );
 
             Assert(expression, input, expected);
+        }
+
+        private static int?[] GetSliceParameters(string slices)
+        {
+            var parameters = new int?[3];
+            var numbers = slices.Substring(1, slices.Length - 2).Split(':');
+
+            for (var index = 0; index < numbers.Length; index++)
+                parameters[index] = string.IsNullOrWhiteSpace(numbers[index])
+                    ? (int?)null
+                    : int.Parse(numbers[index])
+                    ;
+            return parameters;
         }
     }
 }
