@@ -39,11 +39,12 @@ namespace DevLab.JmesPath.Expressions
         }
 
         public override JmesPathArgument Transform(JmesPathArgument argument)
-        {
-            return argument.IsProjection 
+            => argument.IsProjection 
                 ? Project(argument) 
                 : base.Transform(argument)
                 ;
-        }
+
+        public override string ToString()
+            => "[]";
     }
 }
