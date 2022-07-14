@@ -40,5 +40,8 @@ namespace DevLab.JmesPath.Expressions
             foreach (var expression in expressions_)
                 expression.Accept(visitor);
         }
+
+        public override string ToString()
+            => $"[{string.Join(", ", expressions_)}]";
     }
 }

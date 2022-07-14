@@ -1,11 +1,22 @@
+using DevLab.JmesPath;
 using DevLab.JmesPath.Expressions;
+using Xunit;
 
 namespace jmespath.net.tests.Expressions
 {
-    using FactAttribute = Xunit.FactAttribute;
-
     public class JmesPathMultiSelectListTest : JmesPathExpressionsTestBase
     {
+        [Theory]
+        [InlineData("[foo, bar.baz]")]
+        [InlineData("[foo, bar[0]]")]
+        public void JmesPathMultiSelectList_ToString(string expression)
+        {
+            var ast = new JmesPath().Parse(expression);
+            var actual = ast.ToString();
+
+            Xunit.Assert.Equal(expression, actual);
+        }
+
         /*
          * http://jmespath.org/specification.html#multiselect-list
          * 
