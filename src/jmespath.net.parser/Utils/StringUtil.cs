@@ -92,8 +92,8 @@ namespace DevLab.JmesPath.Utils
             // first, process common escaped characters
 
             var escaped = text
-                .Replace("\"", "\\\"")
                 .Replace("\\", "\\\\")
+                .Replace("\"", "\\\"")
                 .Replace("/", "\\/")
                 .Replace("\b", "\\b")
                 .Replace("\f", "\\f")
