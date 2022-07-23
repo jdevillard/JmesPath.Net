@@ -30,50 +30,15 @@ namespace DevLab.JmesPath
 
         [Obsolete("Please, use the Transform(string, string) overload instead.")]
         public JToken Transform(JToken token, string expression)
-        {
-            // this method is deprecated because we do not correctly
-            // handle JToken.Date tokens.
-
-            var jmesPath = Parse(expression);
-            var result = jmesPath.Transform(token);
-            return result.AsJToken();
-        }
+            => Parse(expression).Transform(token).AsJToken();
 
         public String Transform(string json, string expression)
-        {
-            var token = ParseJson(json);
-            var result = Transform(token, expression);
-            return result.AsString();
-        }
+            => Transform(ParseJson(json), expression)?.AsString();
 
-        public sealed class Expression : JmesPathExpression
-        {
-            private readonly JmesPathExpression expression_;
+        public JmesPathExpression Parse(string expression)
+            => Parse(new MemoryStream(_encoding.GetBytes(expression)));
 
-            internal Expression(JmesPathExpression expression)
-            {
-                expression_ = expression;
-            }
-
-            public string Transform(string document)
-            {
-                var token = ParseJson(document);
-                var result = Transform(token);
-                return result.AsJToken()?.AsString();
-            }
-
-            protected override JmesPathArgument Transform(JToken json)
-            {
-                return expression_.Transform(json);
-            }
-        }
-
-        public Expression Parse(string expression)
-        {
-            return Parse(new MemoryStream(_encoding.GetBytes(expression)));
-        }
-
-        public Expression Parse(Stream stream)
+        public JmesPathExpression Parse(Stream stream)
         {
             var analyzer = new JmesPathGenerator(repository_);
             Parser.Parse(stream, _encoding, analyzer);
@@ -85,10 +50,10 @@ namespace DevLab.JmesPath
 
             // inject scope evaluator to all expressions
 
-            var evaluator = new ContextEvaluatorVisitor(evaluator_); 
+            var evaluator = new ContextEvaluatorVisitor(evaluator_);
             analyzer.Expression.Accept(evaluator);
 
-            return new Expression(analyzer.Expression);
+            return analyzer.Expression;
         }
 
         public static JToken ParseJson(string input)
@@ -136,5 +101,21 @@ namespace DevLab.JmesPath
                     identifier.evaluator_ = evaluator_;
             }
         }
+    }
+
+    public static class JmesPathExpressionExtensions
+    {
+        /// <summary>
+        /// Helper method that transforms the specified JSON
+        /// document by applying the JMESPath expression.
+        /// </summary>
+        /// <param name="document"></param>
+        /// <param name="expression"></param>
+        /// <returns>Result as a string</returns>
+        public static string Transform(this JmesPathExpression expression, JToken document)
+            => expression.Transform(document)
+                .AsJToken()
+                ?.AsString()
+                ;
     }
 }
