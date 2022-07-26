@@ -18,7 +18,7 @@ namespace DevLab.JmesPath.Expressions
             return new JValue(Value);
         }
 
-        public override string ToString()
+        protected override string Format()
             => StringUtil.WrapRawString(Value);
     }
 }

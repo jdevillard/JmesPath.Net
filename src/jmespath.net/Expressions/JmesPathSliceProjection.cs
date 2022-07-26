@@ -90,7 +90,7 @@ namespace DevLab.JmesPath.Expressions
             return new JmesPathArgument(arguments);
         }
 
-        public override string ToString()
+        protected override string Format()
             => $"[{(start_?.ToString() ?? "")}:{(stop_?.ToString() ?? "")}{(step_ == null ? "" : $":{step_?.ToString()}")}]";
     }
 }

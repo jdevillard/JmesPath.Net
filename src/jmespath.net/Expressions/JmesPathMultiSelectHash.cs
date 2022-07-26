@@ -40,7 +40,7 @@ namespace DevLab.JmesPath.Expressions
                 dictionary_[key].Accept(visitor);
         }
 
-        public override string ToString()
+        protected override string Format()
             => $"{{{string.Join(", ", dictionary_.Select(kv => $"{StringUtil.WrapIdentifier(kv.Key)}: {kv.Value}"))}}}";
     }
 }

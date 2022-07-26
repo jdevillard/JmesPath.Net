@@ -44,7 +44,7 @@ namespace DevLab.JmesPath.Expressions
                 : base.Transform(argument)
                 ;
 
-        public override string ToString()
+        protected override string Format()
             => "[]";
     }
 }

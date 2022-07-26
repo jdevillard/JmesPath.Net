@@ -47,7 +47,7 @@ namespace DevLab.JmesPath.Expressions
             Right.Accept(visitor);
         }
 
-        public override string ToString()
+        protected override string Format()
             => $"{Left}{Right}";
     }
 }

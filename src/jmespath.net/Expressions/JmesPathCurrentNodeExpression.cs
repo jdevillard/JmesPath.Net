@@ -7,7 +7,7 @@ namespace DevLab.JmesPath.Expressions
         protected override JmesPathArgument Transform(JToken json)
             => json;
 
-        public override string ToString()
+        protected override string Format()
             => "@";
     }
 }

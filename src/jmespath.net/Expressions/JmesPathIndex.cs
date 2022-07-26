@@ -35,7 +35,7 @@ namespace DevLab.JmesPath.Expressions
             return array[index];
         }
 
-        public override string ToString()
+        protected override string Format()
             => $"[{index_}]";
     }
 }

@@ -23,7 +23,7 @@ namespace DevLab.JmesPath.Expressions
             return new JmesPathArgument(items);
         }
 
-        public override string ToString()
+        protected override string Format()
             => "[*]";
     }
 }

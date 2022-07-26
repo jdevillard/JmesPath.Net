@@ -55,5 +55,10 @@ namespace DevLab.JmesPath.Expressions
         /// </summary>
         public virtual void Accept(IVisitor visitor)
             => visitor.Visit(this);
+
+        public override string ToString()
+            => $"{(IsExpressionType ? "&" : "")}{Format()}";
+
+        protected abstract string Format();
     }
 }

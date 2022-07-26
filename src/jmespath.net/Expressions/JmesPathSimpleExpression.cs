@@ -28,7 +28,7 @@ namespace DevLab.JmesPath.Expressions
             expression_.Accept(visitor);
         }
 
-        public override string ToString()
+        protected override string Format()
             => expression_.ToString();
     }
 }

@@ -71,7 +71,7 @@ namespace DevLab.JmesPath.Expressions
                 expression.Accept(visitor);
         }
 
-        public override string ToString()
+        protected override string Format()
             => $"{name_}({string.Join(", ", expressions_.AsEnumerable())})";
     }
 }
