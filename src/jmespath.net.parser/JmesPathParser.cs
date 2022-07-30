@@ -163,11 +163,25 @@ namespace DevLab.JmesPath
 
         #endregion
 
+        #region arithmetic_expression
+
+        void OnArithmeticAddition() => generator_.OnArithmeticAddition();
+        void OnArithmeticSubtraction() => generator_.OnArithmeticSubtraction();
+        void OnArithmeticMultiplication() => generator_.OnArithmeticMultiplication();
+        void OnArithmeticDivision() => generator_.OnArithmeticDivision();
+        void OnArithmeticModulo() => generator_.OnArithmeticModulo();
+        void OnArithmeticIntegerDivision() => generator_.OnArithmeticIntegerDivision();
+
+        #endregion
+
+        #region logical_expression
         void OnOrExpression() => generator_.OnOrExpression();
 
         void OnAndExpression() => generator_.OnAndExpression();
 
         void OnNotExpression() => generator_.OnNotExpression();
+
+        #endregion
 
         void OnIdentifier(Token token) =>
             generator_.OnIdentifier((string)token.Value);
@@ -221,7 +235,7 @@ namespace DevLab.JmesPath
         }
 
         void OnCurrentNode() => generator_.OnCurrentNode();
-
+        
         #endregion // Expressions
     }
 }

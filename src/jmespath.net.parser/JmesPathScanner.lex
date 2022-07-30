@@ -10,6 +10,13 @@ T_AND			&&
 T_OR			\|\|
 T_NOT			!
 
+T_MINUS         \-|−
+T_PLUS          \+
+T_MULTIPLY      ×
+T_DIVIDE        /|÷
+T_MODULO        %
+T_DIV           \/\/
+
 T_COLON         :
 T_COMMA         ,
 T_DOT           \.
@@ -62,6 +69,14 @@ E_UNRECOGNIZED	.
 {T_AND}				{ return MakeToken(TokenType.T_AND); }
 {T_OR}				{ return MakeToken(TokenType.T_OR); }
 {T_NOT}				{ return MakeToken(TokenType.T_NOT); }
+
+{T_MINUS}			{ return MakeToken(TokenType.T_MINUS); }
+{T_PLUS}			{ return MakeToken(TokenType.T_PLUS); }
+{T_MULTIPLY}		{ return MakeToken(TokenType.T_MULTIPLY); }
+{T_DIVIDE}			{ return MakeToken(TokenType.T_DIVIDE); }
+{T_MODULO}			{ return MakeToken(TokenType.T_MODULO); }
+{T_DIV}				{ return MakeToken(TokenType.T_DIV); }
+
 
 {T_COLON}			{ return MakeToken(TokenType.T_COLON); }
 {T_COMMA}			{ return MakeToken(TokenType.T_COMMA); }
