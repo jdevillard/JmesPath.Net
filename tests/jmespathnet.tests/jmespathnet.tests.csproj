@@ -9,9 +9,12 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <IsTestProject>true</IsTestProject>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>../../src/jmespath.net.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\jmespath.net.parser\jmespath.net.parser.csproj" />
     <ProjectReference Include="..\..\src\jmespath.net\jmespath.net.csproj" />
   </ItemGroup>
 

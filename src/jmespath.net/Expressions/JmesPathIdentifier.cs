@@ -22,10 +22,8 @@ namespace DevLab.JmesPath.Expressions
             return jsonObject?[name_] ?? Evaluate(name_);
         }
 
-        public override string ToString()
-        {
-            return $"JmesPathIdentifier: {name_}";
-        }
+        protected override string Format()
+            => StringUtil.WrapIdentifier(name_);
 
         public JToken Evaluate(string identifier)
             => evaluator_?.Evaluate(identifier) ?? JTokens.Null;

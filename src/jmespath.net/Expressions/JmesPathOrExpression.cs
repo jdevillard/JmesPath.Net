@@ -2,21 +2,6 @@
 
 namespace DevLab.JmesPath.Expressions
 {
-    public class JmesParenExpression : JmesPathExpression
-    {
-        private readonly JmesPathExpression expression_;
-
-        public JmesParenExpression(JmesPathExpression expression)
-        {
-            expression_ = expression;
-        }
-
-        protected override JmesPathArgument Transform(JToken json)
-        {
-            return expression_.Transform(json);
-        }
-    }
-
     public class JmesPathOrExpression : JmesPathCompoundExpression
     {
         /// <summary>
@@ -35,5 +20,8 @@ namespace DevLab.JmesPath.Expressions
             var token = Left.Transform(json);
             return !JmesPathArgument.IsFalse(token) ? token : Right.Transform(json);
         }
+
+        public override string ToString()
+            => $"{Left} || {Right}";
     }
 }

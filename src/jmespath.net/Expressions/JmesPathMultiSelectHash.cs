@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using DevLab.JmesPath.Interop;
+using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
@@ -36,5 +39,8 @@ namespace DevLab.JmesPath.Expressions
             foreach (var key in dictionary_.Keys)
                 dictionary_[key].Accept(visitor);
         }
+
+        protected override string Format()
+            => $"{{{string.Join(", ", dictionary_.Select(kv => $"{StringUtil.WrapIdentifier(kv.Key)}: {kv.Value}"))}}}";
     }
 }

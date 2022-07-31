@@ -10,14 +10,11 @@ namespace DevLab.JmesPath.Expressions
         /// <param name="left"></param>
         /// <param name="right"></param>
         public JmesPathEqualOperator(JmesPathExpression left, JmesPathExpression right)
-            : base(left, right)
+            : base(left, right, "==")
         {
-            
         }
 
         protected override bool? Compare(JToken left, JToken right)
-        {
-            return JToken.DeepEquals(left, right);
-        }
+            => JToken.DeepEquals(left, right);
     }
 }

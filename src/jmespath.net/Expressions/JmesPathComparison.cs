@@ -4,15 +4,19 @@ namespace DevLab.JmesPath.Expressions
 {
     public abstract class JmesPathComparison : JmesPathCompoundExpression
     {
+        private readonly string operator_;
+
         /// <summary>
         /// Initialize a new instance of the <see cref="JmesPathComparison" /> class
         /// that performs a comparison between two specified expressions.
         /// </summary>
         /// <param name="left"></param>
         /// <param name="right"></param>
-        protected JmesPathComparison(JmesPathExpression left, JmesPathExpression right)
+        /// <param name="op"></param>
+        protected JmesPathComparison(JmesPathExpression left, JmesPathExpression right, string op)
             : base(left, right)
         {
+            operator_ = op;
         }
 
         protected abstract bool? Compare(JToken left, JToken right);
@@ -31,5 +35,8 @@ namespace DevLab.JmesPath.Expressions
                     : JmesPathArgument.False
                 ;
         }
+
+        public override string ToString()
+            => $"{Left} {operator_} {Right}";
     }
 }

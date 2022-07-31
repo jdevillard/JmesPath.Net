@@ -16,7 +16,6 @@ namespace DevLab.JmesPath.Expressions
         public JmesPathFunctionExpression(IFunctionRepository repository, string name, IList<JmesPathExpression> expressions)
             : this(repository, name, expressions.ToArray())
         {
-
         }
 
         public JmesPathFunctionExpression(IFunctionRepository repository, string name, params JmesPathExpression[] expressions)
@@ -71,5 +70,8 @@ namespace DevLab.JmesPath.Expressions
             foreach (var expression in expressions_)
                 expression.Accept(visitor);
         }
+
+        protected override string Format()
+            => $"{name_}({string.Join(", ", expressions_.AsEnumerable())})";
     }
 }

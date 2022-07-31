@@ -1,5 +1,4 @@
-﻿using DevLab.JmesPath.Utils;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
 {
@@ -8,8 +7,6 @@ namespace DevLab.JmesPath.Expressions
         public abstract JmesPathArgument Project(JmesPathArgument argument);
 
         protected override JmesPathArgument Transform(JToken json)
-        {
-            return Project(json);
-        }
+            => Project(json);
     }
 }

@@ -40,5 +40,8 @@ namespace DevLab.JmesPath.Expressions
             base.Accept(visitor);
             expression_.Accept(visitor);
         }
+
+        protected override string Format()
+            => $"[?{expression_}]";
     }
 }

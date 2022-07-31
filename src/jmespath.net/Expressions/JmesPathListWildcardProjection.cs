@@ -22,5 +22,8 @@ namespace DevLab.JmesPath.Expressions
 
             return new JmesPathArgument(items);
         }
+
+        protected override string Format()
+            => "[*]";
     }
 }

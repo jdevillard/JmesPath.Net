@@ -1,5 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
@@ -16,8 +15,9 @@ namespace DevLab.JmesPath.Expressions
         public JToken Value => value_;
 
         protected override JmesPathArgument Transform(JToken json)
-        {
-            return value_;
-        }
+            => value_;
+
+        protected override string Format()
+            => StringUtil.WrapLiteral(value_.AsString());
     }
 }
