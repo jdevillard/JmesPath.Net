@@ -14,7 +14,7 @@ namespace DevLab.JmesPath
     {
         private readonly Encoding _encoding;
         private readonly JmesPathFunctionFactory repository_;
-        private readonly ScopeParticipantVisitor evaluator_ = new ScopeParticipantVisitor();
+        private readonly ScopeParticipant evaluator_ = new ScopeParticipant();
 
         public JmesPath() : this(Encoding.UTF8)
         {
