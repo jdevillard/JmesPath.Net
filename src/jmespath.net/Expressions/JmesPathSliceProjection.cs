@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
@@ -30,6 +31,12 @@ namespace DevLab.JmesPath.Expressions
         public int? Step
             => step_;
 
+        protected override JmesPathArgument Transform(JToken json)
+            => json.GetTokenType() == "string"
+            ? Slice(json.Value<string>())
+            : base.Transform(json)
+            ;
+
         public override JmesPathArgument Project(JmesPathArgument argument)
         {
             if (argument.IsProjection)
@@ -47,6 +54,44 @@ namespace DevLab.JmesPath.Expressions
             if (array == null)
                 return null;
 
+            var length = array.Count;
+            var (start, stop, step) = GetSliceParameters(length);
+
+            // if the element being sliced is an array and yields no results, the result MUST be an empty array.
+
+            var items = new List<JToken>();
+
+            for (var index = start; (step > 0 ? index < stop : index > stop); index += step)
+                if (index >= 0 && index < length)
+                    items.Add(array[index]);
+
+            var arguments = items.Select(i => (JmesPathArgument)i);
+
+            return new JmesPathArgument(arguments);
+        }
+
+        private delegate bool Comparator(int l, int r);
+
+        private JToken Slice(string text)
+        {
+            var length = text.Length;
+            var (start, stop, step) = GetSliceParameters(length);
+
+            var characters = new List<char>();
+
+            var compare = (step > 0)
+               ? (Comparator)((int r, int l) => r < l)
+               : (Comparator)((int r, int l) => r > l)
+               ;
+
+            for (var index = start; compare(index, stop); index += step)
+                characters.Add(text[index]);
+
+            return new JValue(new string(characters.ToArray()));
+        }
+
+        private (int start, int stop, int step) GetSliceParameters(int length)
+        {
             // slice expressions adhere to the following rules:
             // if the given step is omitted, it it assumed to be 1.
 
@@ -56,8 +101,6 @@ namespace DevLab.JmesPath.Expressions
             // no runtime check here - the parser will ensure that 0 is not a valid value
 
             System.Diagnostics.Debug.Assert(step != 0);
-
-            var length = array.Count;
 
             // if no start position is given, it is assumed to be 0 if the given step is greater than 0 or the end of the array if the given step is less than 0.
 
@@ -77,19 +120,8 @@ namespace DevLab.JmesPath.Expressions
             if (stop_.HasValue && stop_.Value < 0)
                 stop = length + stop_.Value;
 
-            // if the element being sliced is an array and yields no results, the result MUST be an empty array.
-
-            var items = new List<JToken>();
-
-            for (var index = start; (step > 0 ? index < stop : index > stop); index += step)
-                if (index >= 0 && index < length)
-                    items.Add(array[index]);
-
-            var arguments = items.Select(i => (JmesPathArgument)i);
-
-            return new JmesPathArgument(arguments);
+            return (start, stop, step);
         }
-
         protected override string Format()
             => $"[{(start_?.ToString() ?? "")}:{(stop_?.ToString() ?? "")}{(step_ == null ? "" : $":{step_?.ToString()}")}]";
     }
