@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DevLab.JmesPath.Utils;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
@@ -16,5 +17,8 @@ namespace DevLab.JmesPath.Expressions
         {
             return new JValue(Value);
         }
+
+        protected override string Format()
+            => StringUtil.WrapRawString(Value);
     }
 }

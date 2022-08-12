@@ -1,11 +1,30 @@
+using DevLab.JmesPath;
 using DevLab.JmesPath.Expressions;
+using DevLab.JmesPath.Tokens;
+
+using Xunit;
 
 namespace jmespath.net.tests.Expressions
 {
-    using FactAttribute = Xunit.FactAttribute;
-
     public class JmesPathIdentifierTest : JmesPathExpressionsTestBase
     {
+        [Theory]
+        [InlineData("foo")]
+        [InlineData("\"foo.bar\"")]
+        [InlineData("\"with space\"")]
+        [InlineData("\"special chars: !@#\"")]
+        [InlineData("\"quote\\\"char\"")]
+        [InlineData("\"\\\\ \\/ \\b \\f \\n \\r \\t \"")]
+        [InlineData("\"\\u2713\"")]
+        public void JmesPathIdentifier_ToString(string expression)
+        {
+            var token = expression.StartsWith("\"") ? new QuotedStringToken(expression) : new Token(TokenType.T_USTRING, expression);
+            var identifier = new JmesPathIdentifier((string) token.Value);
+
+            var actual = identifier.ToString();
+            Xunit.Assert.Equal(expression, actual);
+        }
+
         /*
          * http://jmespath.org/specification.html#identifiers
          * 
@@ -18,19 +37,18 @@ namespace jmespath.net.tests.Expressions
          * search("\u2713", {"\u2713": "value"}) -> "value"
          */
 
-        [Fact]
-        public void JmesPathIdentifier_Transform()
-        {
-            Assert("foo", "{\"foo\": \"value\"}", "\"value\"");
-            Assert("bar", "{\"foo\": \"value\"}", "null");
-            Assert("foo", "{\"foo\": [0, 1, 2]}", "[0,1,2]");
-            Assert("with space", "{\"with space\": \"value\"}", "\"value\"");
-            Assert("special chars: !@#", "{\"special chars: !@#\": \"value\"}", "\"value\"");
-            Assert("quote\"char", "{\"quote\\\"char\": \"value\"}", "\"value\"");
-            Assert("\u2713", "{\"\u2713\": \"value\"}", "\"value\"");
-        }
+        [Theory]
+        [InlineData("foo", "{\"foo\": \"value\"}", "\"value\"")]
+        [InlineData("bar", "{\"foo\": \"value\"}", "null")]
+        [InlineData("foo", "{\"foo\": [0, 1, 2]}", "[0,1,2]")]
+        [InlineData("with space", "{\"with space\": \"value\"}", "\"value\"")]
+        [InlineData("special chars: !@#", "{\"special chars: !@#\": \"value\"}", "\"value\"")]
+        [InlineData("quote\"char", "{\"quote\\\"char\": \"value\"}", "\"value\"")]
+        [InlineData("\u2713", "{\"\u2713\": \"value\"}", "\"value\"")]
+        public void JmesPathIdentifier_Transform(string identifier, string input, string expected)
+            => Expect(identifier, input, expected);
 
-        private void Assert(string identifier, string input, string expected)
+        private void Expect(string identifier, string input, string expected)
         {
             var expression = new JmesPathIdentifier(identifier);
             Assert(expression, input, expected);

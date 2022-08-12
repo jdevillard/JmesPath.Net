@@ -25,5 +25,8 @@ namespace DevLab.JmesPath.Expressions
                 false
                 );
         }
+
+        public override string ToString()
+            => $"{Left}.{Right}";
     }
 }

@@ -30,5 +30,8 @@ namespace DevLab.JmesPath.Expressions
 
             return Right.Transform(token);
         }
+
+        public override string ToString()
+            => $"{Left}|{Right}";
     }
 }

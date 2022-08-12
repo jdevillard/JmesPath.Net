@@ -13,7 +13,7 @@ namespace DevLab.JmesPath.Tokens
             System.Diagnostics.Debug.Assert(rawText.StartsWith("'"));
             System.Diagnostics.Debug.Assert(rawText.EndsWith("'"));
 
-            value_ = StringUtil.UnescapeRaw(rawText);
+            value_ = StringUtil.UnwrapRawString(rawText);
         }
 
         public override object Value => value_;

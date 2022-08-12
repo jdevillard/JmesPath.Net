@@ -11,19 +11,16 @@ namespace DevLab.JmesPath.Expressions
         /// <param name="left"></param>
         /// <param name="right"></param>
         public JmesPathGreaterThanOperator(JmesPathExpression left, JmesPathExpression right)
-            : base(left, right)
+            : base(left, right, ">")
         {
         }
 
         protected override bool Compare(double left, double right)
-        {
-            return left > right;
-        }
+            => left > right;
 
         protected override bool Compare(string left, string right)
-        {
-            if (left == null) return false;
-            return String.Compare(left, right, StringComparison.Ordinal) > 0;
-        }
+            => left == null ? false
+            : String.Compare(left, right, StringComparison.Ordinal) > 0
+            ;
     }
 }

@@ -32,9 +32,7 @@ namespace DevLab.JmesPath.Expressions
             ;
 
         public static implicit operator JmesPathArgument(JToken token)
-        {
-            return new JmesPathArgument(token);
-        }
+            => new JmesPathArgument(token);
 
         public JToken Token { get; }
 
@@ -53,32 +51,22 @@ namespace DevLab.JmesPath.Expressions
         }
 
         public static bool IsFalse(JmesPathArgument argument)
-        {
-            var token = argument.AsJToken();
-            return JTokens.IsFalse(token);
-        }
+            => JTokens.IsFalse(argument.AsJToken());
 
         public bool Equals(JmesPathArgument other)
-        {
-            return GetHashCode() == other.GetHashCode();
-        }
+            => GetHashCode() == other.GetHashCode();
 
         public override bool Equals(object obj)
-        {
-            if (!(obj is JmesPathArgument))
-                return false;
-            return Equals((JmesPathArgument)obj);
-        }
+            => obj is JmesPathArgument arg ? Equals(arg)
+                    : false
+                    ;
 
         public static bool operator ==(JmesPathArgument left, JmesPathArgument right)
-        {
-            return left.Equals(right);
-        }
+            => left.Equals(right);
 
         public static bool operator !=(JmesPathArgument left, JmesPathArgument right)
-        {
-            return !left.Equals(right);
-        }
+            => !left.Equals(right);
+
         public override int GetHashCode()
         {
             const int seedPrimeNumber = 691;

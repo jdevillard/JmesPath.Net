@@ -1,10 +1,10 @@
 using System.Collections.Generic;
+using DevLab.JmesPath;
 using DevLab.JmesPath.Expressions;
+using Xunit;
 
 namespace jmespath.net.tests.Expressions
 {
-    using FactAttribute = Xunit.FactAttribute;
-
     /*
      * http://jmespath.org/specification.html#multiselect-hash
      * 
@@ -21,6 +21,19 @@ namespace jmespath.net.tests.Expressions
 
     public class JmesPathMultiSelectHashTest : JmesPathExpressionsTestBase
     {
+        [Theory]
+        [InlineData("{foo: foo, bar: bar}")]
+        [InlineData("{foo: foo, \"bar.baz\": bar.baz}")]
+        [InlineData("{foo: foo, firstbar: bar[0]}")]
+
+        public void JmesPathMultiSelectHash_ToString(string expression)
+        {
+            var ast = new JmesPath().Parse(expression);
+            var actual = ast.ToString();
+
+            Xunit.Assert.Equal(expression, actual);
+        }
+
         [Fact]
         public void JmesPathMultiSelectHash()
         {
