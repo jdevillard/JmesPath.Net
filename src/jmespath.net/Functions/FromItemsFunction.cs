@@ -5,10 +5,10 @@ using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Functions
 {
-    public class ToObjectFunction : JmesPathFunction
+    public class FromItemsFunction : JmesPathFunction
     {
-        public ToObjectFunction()
-            : base("to_object", 1)
+        public FromItemsFunction()
+            : base("from_items", 1)
         {
         }
 
