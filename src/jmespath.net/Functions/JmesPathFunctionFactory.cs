@@ -29,6 +29,7 @@ namespace DevLab.JmesPath.Functions
                 .Register<FindFirstFunction>()
                 .Register<FindLastFunction>()
                 .Register<FloorFunction>()
+                .Register<GroupByFunction>()
                 .Register<JoinFunction>()
                 .Register<LengthFunction>()
                 .Register<LowerFunction>()
