@@ -23,5 +23,22 @@ namespace jmespath.net.Functions.Impl
             return (pos != -1) ? s + pos : (int?)null;
         }
 
+        /// <summary>
+        /// Supports JMESPath `find_last` function.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="search"></param>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        public static int? FindLast(this string text, string search, int? position)
+        {
+            int p = Math.Min(position ?? (text.Length == 0 ? 0 : text.Length), text.Length);
+            int e = Math.Min(p + search.Length, text.Length);
+
+            var substring = text.Substring(0, e);
+            var pos = substring.LastIndexOf(search, StringComparison.OrdinalIgnoreCase);
+
+            return (pos != -1) ? pos : (int?)null;
+        }
     }
 }
