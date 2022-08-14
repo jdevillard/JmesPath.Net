@@ -16,7 +16,7 @@ namespace DevLab.JmesPath.Expressions
             expression_ = expression;
         }
 
-        protected JmesPathExpression Expression
+        public JmesPathExpression Expression
             => expression_;
 
         protected override JmesPathArgument Transform(JToken json)

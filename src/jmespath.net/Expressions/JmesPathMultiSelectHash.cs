@@ -19,6 +19,9 @@ namespace DevLab.JmesPath.Expressions
                 dictionary_.Add(key, dictionary[key]);
         }
 
+        public IReadOnlyDictionary<string, JmesPathExpression> Dictionary
+            => new ReadOnlyDictionary<string, JmesPathExpression>(dictionary_);
+
         protected override JmesPathArgument Transform(JToken json)
         {
             var properties = new List<JProperty>();

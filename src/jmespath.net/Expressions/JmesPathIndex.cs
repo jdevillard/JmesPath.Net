@@ -16,6 +16,8 @@ namespace DevLab.JmesPath.Expressions
             index_ = index;
         }
 
+        public int Index => index_;
+
         protected override JmesPathArgument Transform(JToken json)
         {
             if (json.Type != JTokenType.Array)

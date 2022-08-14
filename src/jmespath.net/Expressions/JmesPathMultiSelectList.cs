@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using DevLab.JmesPath.Interop;
 using Newtonsoft.Json.Linq;
 using DevLab.JmesPath.Utils;
+using System.Linq;
 
 namespace DevLab.JmesPath.Expressions
 {
@@ -21,6 +22,9 @@ namespace DevLab.JmesPath.Expressions
             foreach (var expression in expressions)
                 expressions_.Add(expression);
         }
+
+        public JmesPathExpression[] Expressions
+            => expressions_.ToArray();
 
         protected override JmesPathArgument Transform(JToken json)
         {
