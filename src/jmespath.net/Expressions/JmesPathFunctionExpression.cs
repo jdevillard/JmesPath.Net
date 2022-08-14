@@ -26,18 +26,22 @@ namespace DevLab.JmesPath.Expressions
             function_ = repository[name];
 
             var variadic = function_.Variadic;
-            var expected = function_.MinArgumentCount;
+            var minExpected = function_.MinArgumentCount;
+            var maxExpected = function_.MaxArgumentCount;
             var actual = expressions?.Length;
 
-            if (actual < expected || (!variadic && actual > expected))
+            if (actual < minExpected || (!variadic && maxExpected == null && actual > minExpected))
             {
                 var more = variadic ? "or more " : "";
                 var only = variadic ? "only " : "";
                 var report = actual == 0 ? "none" : $"{only}{actual}";
-                var plural = expected > 1 ? "s" : "";
+                var plural = minExpected > 1 ? "s" : "";
 
-                throw new Exception($"Error: invalid-arity, the function {name} expects {expected} argument{plural} {more}but {report} were supplied.");
+                throw new Exception($"Error: invalid-arity, the function {name} expects {minExpected} argument{plural} {more}but {report} were supplied.");
             }
+
+            if (maxExpected != null && actual > maxExpected)
+                throw new Exception($"Error: invalid-arity, the function {name} expects at most {maxExpected} arguments but {actual} were supplied.");
 
             name_ = name;
             expressions_ = expressions;

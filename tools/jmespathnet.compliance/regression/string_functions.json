@@ -1,0 +1,35 @@
+[
+  {
+    "given": {
+      "string": "subject string"
+    },
+    "cases": [
+      {
+        "expression": "find_first(string, 'string', `1`, `2`, `3`)",
+        "error": "invalid-arity"
+      },
+      {
+        "expression": "find_first(@, 'string', `1`, `2`)",
+        "error": "invalid-type"
+      },
+      {
+        "expression": "find_first(string, 'string', '1')",
+        "error": "invalid-type"
+      },
+      {
+        "expression": "find_first(string, 'string', `1`, '2')",
+        "error": "invalid-type"
+      },
+
+      { "expression": "find_first(string, 'string')", "result": 8 },
+      { "expression": "find_first(string, 'string', `0`)", "result": 8 },
+      { "expression": "find_first(string, 'string', `0`, `14`)", "result": 8 },
+      { "expression": "find_first(string, 'string', `-99`, `100`)", "result": 8 },
+      { "expression": "find_first(string, 'string', `0`, `13`)", "result": null },
+      { "expression": "find_first(string, 'string', `8`)", "result": 8 },
+      { "expression": "find_first(string, 'string', `9`)", "result": null },
+      { "expression": "find_first(string, 's')", "result": 0 },
+      { "expression": "find_first(string, 's', `1`)", "result": 8 },
+    ]
+  }
+]
