@@ -44,6 +44,7 @@ namespace DevLab.JmesPath.Functions
                 .Register<PadRightFunction>()
                 .Register<ReplaceFunction>()
                 .Register<ReverseFunction>()
+                .Register<SplitFunction>()
                 .Register<StartsWithFunction>()
                 .Register<SortFunction>()
                 .Register<SortByFunction>()

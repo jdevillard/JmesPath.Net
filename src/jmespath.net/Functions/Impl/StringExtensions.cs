@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace jmespath.net.Functions.Impl
@@ -60,6 +61,38 @@ namespace jmespath.net.Functions.Impl
             ;
 
             return replaced;
+        }
+
+        /// <summary>
+        /// Supports the JMESPath `split` function.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="separator"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public static string[] Split(this string text, string separator, int? count)
+        { 
+            if (separator.Length == 0)
+            {
+                var position = count ?? text.Length;
+                var tail = text.Substring(position);
+                var head = text.Substring(0, position);
+
+                var heads = head.ToCharArray().Select(c => new string(new[] { c, }));
+                var remainders = tail.Length > 0 ? new[] { tail, } : Enumerable.Empty<string>();
+
+                return heads.Concat(remainders).ToArray();
+            }
+
+            else
+            {
+                var split = count != null
+                    ? text.Split(new[] { separator }, count.GetValueOrDefault() + 1, StringSplitOptions.None)
+                    : text.Split(new[] { separator }, StringSplitOptions.None)
+                    ;
+
+                return split;
+            }
         }
     }
 }

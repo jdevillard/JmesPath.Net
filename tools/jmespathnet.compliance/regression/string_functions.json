@@ -1,8 +1,9 @@
 [
   {
     "given": {
+      "abab": "aabaaabaaaab",
       "string": "subject string",
-       "abab": "aabaaabaaaab"
+      "split":  "avg|-|min|-|max|-|mean|-|mode|-|median"
     },
     "cases": [
       {
@@ -83,15 +84,26 @@
 
       },
 
-      { "expression":  "pad_left('string', `0`)", "result": "string" },
-      { "expression":  "pad_left('string', `5`)", "result": "string" },
-      { "expression":  "pad_left('string', `10`)", "result": "    string" },
-      { "expression":  "pad_left('string', `10`, '-')", "result": "----string" },
+      { "expression": "pad_left('string', `0`)", "result": "string" },
+      { "expression": "pad_left('string', `5`)", "result": "string" },
+      { "expression": "pad_left('string', `10`)", "result": "    string" },
+      { "expression": "pad_left('string', `10`, '-')", "result": "----string" },
 
-      { "expression":  "pad_right('string', `0`)", "result": "string" },
-      { "expression":  "pad_right('string', `5`)", "result": "string" },
-      { "expression":  "pad_right('string', `10`)", "result": "string    " },
-      { "expression":  "pad_right('string', `10`, '-')", "result": "string----" },
+      { "expression": "pad_right('string', `0`)", "result": "string" },
+      { "expression": "pad_right('string', `5`)", "result": "string" },
+      { "expression": "pad_right('string', `10`)", "result": "string    " },
+      { "expression": "pad_right('string', `10`, '-')", "result": "string----" },
+
+      { "expression": "split('/', '/')", "result": [ "", "" ] },
+      { "expression": "split('all chars', '')", "result": [ "a", "l", "l", " ", "c", "h", "a", "r", "s" ] },
+      { "expression": "split('all chars', '', `3`)", "result": [ "a", "l", "l", " chars" ] },
+
+      { "expression": "split(split, '|-|')", "result": [ "avg", "min", "max", "mean", "mode", "median" ] },
+      { "expression": "split(split, '|-|', `3`)", "result": [ "avg", "min", "max", "mean|-|mode|-|median" ] },
+      { "expression": "split(split, '|-|', `2`)", "result": [ "avg", "min", "max|-|mean|-|mode|-|median" ] },
+      { "expression": "split(split, '|-|', `1`)", "result": [ "avg", "min|-|max|-|mean|-|mode|-|median" ] },
+      { "expression": "split(split, '|-|', `0`)", "result": [ "avg|-|min|-|max|-|mean|-|mode|-|median" ] },
+
     ]
   }
 ]
