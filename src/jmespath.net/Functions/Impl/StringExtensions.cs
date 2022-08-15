@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace jmespath.net.Functions.Impl
 {
@@ -39,6 +40,26 @@ namespace jmespath.net.Functions.Impl
             var pos = substring.LastIndexOf(search, StringComparison.OrdinalIgnoreCase);
 
             return (pos != -1) ? pos : (int?)null;
+        }
+
+        /// <summary>
+        /// Supports JMESPath `replace` function.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="replace"></param>
+        /// <param name="with"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public static string Replace(this string text, string replace, string with, int? count)
+        {
+            var pattern = Regex.Escape(replace);
+
+            var replaced = count != null
+                ?  new Regex(pattern).Replace(text, with, count.GetValueOrDefault())
+                :  new Regex(pattern).Replace(text, with);
+            ;
+
+            return replaced;
         }
     }
 }
