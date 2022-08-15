@@ -31,6 +31,7 @@ namespace DevLab.JmesPath.Functions
                 .Register<FloorFunction>()
                 .Register<JoinFunction>()
                 .Register<LengthFunction>()
+                .Register<LowerFunction>()
                 .Register<KeysFunction>()
                 .Register<MapFunction>()
                 .Register<MaxFunction>()
@@ -48,6 +49,7 @@ namespace DevLab.JmesPath.Functions
                 .Register<ToNumberFunction>()
                 .Register<ToStringFunction>()
                 .Register<TypeFunction>()
+                .Register<UpperFunction>()
                 .Register<ValuesFunction>()
                 ;
         }
