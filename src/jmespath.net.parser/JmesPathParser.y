@@ -63,7 +63,6 @@
 %left T_LE
 %left T_NE
 %left T_NOT
-%left T_DOT
 
 %left T_PLUS
 %left T_MINUS
@@ -71,6 +70,8 @@
 %left T_DIVIDE
 %left T_MODULO
 %left T_DIV
+
+%left T_DOT
 
 %left T_LBRACKET
 %left T_STAR

@@ -15,6 +15,8 @@ namespace jmespath.net.tests.Expressions
         [InlineData("foo % bar", "{\"foo\": 40, \"bar\": 3}", "1.0")]
         [InlineData("foo // bar", "{\"foo\": 40, \"bar\": 3}", "13.0")]
 
+        [InlineData("a.b + c.d", "{ \"a\": { \"b\": 1 }, \"c\": { \"d\": 2 } }", "3.0")]
+        
         [InlineData("{ ab: a.b, cd: c.d } | ab + cd", "{ \"a\": { \"b\": 1 }, \"c\": { \"d\": 2 } }", "3.0")]
         [InlineData("{ ab: a.b, cd: c.d } | ab + cd × cd", "{ \"a\": { \"b\": 1 }, \"c\": { \"d\": 2 } }", "5.0")]
         [InlineData("{ ab: a.b, cd: c.d } | (ab + cd) × cd", "{ \"a\": { \"b\": 1 }, \"c\": { \"d\": 2 } }", "6.0")]
