@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace DevLab.JmesPath
 {
-    public sealed class ScopeParticipantVisitor : IScopeParticipant, IContextEvaluator
+    public sealed class ScopeParticipant : IScopeParticipant, IContextEvaluator
     {
         private readonly Stack<JToken> scopes_
             = new Stack<JToken>()
