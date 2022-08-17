@@ -1,5 +1,6 @@
 ﻿using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
+using System;
 
 namespace DevLab.JmesPath.Expressions
 {
@@ -21,7 +22,13 @@ namespace DevLab.JmesPath.Expressions
             var l = leftToken.Value<double>();
             var r = rightToken.Value<double>();
 
-            return JToken.FromObject(Compute(l, r));
+            var result = Compute(l, r);
+            if (Double.IsInfinity(result))
+                throw new Exception($"Error: not-a-number, expression {this} overflow.");
+            if (Double.IsNaN(result))
+                throw new Exception($"Error: not-a-number, expression {this} is an illegal arithmetic operation.");
+
+            return JToken.FromObject(result);
         }
 
         protected abstract double Compute(double left, double right);
