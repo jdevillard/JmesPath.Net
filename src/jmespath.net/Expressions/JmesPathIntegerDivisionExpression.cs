@@ -7,5 +7,8 @@
         { }
         protected override double Compute(double left, double right)
             => (int) (left / right);
+
+        public override string ToString()
+            => $"{Left} // {Right}";
     }
 }
