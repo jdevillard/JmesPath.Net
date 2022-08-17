@@ -122,7 +122,15 @@ sub_expression_impl	: expression T_DOT identifier
 					| expression T_DOT hash_wildcard
 					;
 
-arithmetic_expression	: expression T_PLUS expression
+arithmetic_expression	: T_PLUS expression
+						{
+							OnArithmeticUnaryPlus();
+						}
+						| T_MINUS expression
+						{
+							OnArithmeticUnaryMinus();
+						}
+						| expression T_PLUS expression
 						{
 							OnArithmeticAddition();
 						}

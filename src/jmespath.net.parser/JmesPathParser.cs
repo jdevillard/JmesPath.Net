@@ -165,6 +165,8 @@ namespace DevLab.JmesPath
 
         #region arithmetic_expression
 
+        void OnArithmeticUnaryPlus() => generator_.OnArithmeticUnaryPlus();
+        void OnArithmeticUnaryMinus() => generator_.OnArithmeticUnaryMinus();
         void OnArithmeticAddition() => generator_.OnArithmeticAddition();
         void OnArithmeticSubtraction() => generator_.OnArithmeticSubtraction();
         void OnArithmeticMultiplication() => generator_.OnArithmeticMultiplication();

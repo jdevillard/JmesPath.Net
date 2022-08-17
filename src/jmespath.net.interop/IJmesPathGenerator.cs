@@ -21,6 +21,8 @@
         void OnComparisonLesserOrEqual();
         void OnComparisonNotEqual();
 
+        void OnArithmeticUnaryPlus();
+        void OnArithmeticUnaryMinus();
         void OnArithmeticAddition();
         void OnArithmeticSubtraction();
         void OnArithmeticMultiplication();

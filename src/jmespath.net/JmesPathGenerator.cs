@@ -154,6 +154,24 @@ namespace DevLab.JmesPath
 
         #region arithmetic_expression
 
+        public void OnArithmeticUnaryPlus()
+        {
+            Prolog();
+
+            var expression = expressions_.Pop();
+            var arithmetic = new JmesPathUnaryPlusExpression(expression);
+            expressions_.Push(arithmetic);
+        }
+
+        public void OnArithmeticUnaryMinus()
+        {
+            Prolog();
+
+            var expression = expressions_.Pop();
+            var arithmetic = new JmesPathUnaryMinusExpression(expression);
+            expressions_.Push(arithmetic);
+        }
+
         public void OnArithmeticAddition()
             => PopPush((left, right) => new JmesPathAdditionExpression(left, right));
         public void OnArithmeticSubtraction() 
