@@ -102,20 +102,4 @@ namespace DevLab.JmesPath
             }
         }
     }
-
-    public static class JmesPathExpressionExtensions
-    {
-        /// <summary>
-        /// Helper method that transforms the specified JSON
-        /// document by applying the JMESPath expression.
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="expression"></param>
-        /// <returns>Result as a string</returns>
-        public static string Transform(this JmesPathExpression expression, JToken document)
-            => expression.Transform(document)
-                .AsJToken()
-                ?.AsString()
-                ;
-    }
 }
