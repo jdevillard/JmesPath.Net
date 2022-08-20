@@ -4,10 +4,9 @@ using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
 {
-    public class JmesPathIdentifier : JmesPathExpression
+    public class JmesPathIdentifier : JmesPathExpression, IContextHolder
     {
         private readonly string name_;
-        internal IContextEvaluator evaluator_;
 
         public JmesPathIdentifier(string name)
         {
@@ -15,6 +14,8 @@ namespace DevLab.JmesPath.Expressions
         }
 
         public string Name => name_;
+
+        IContextEvaluator IContextHolder.Evaluator { get; set ; }
 
         protected override JmesPathArgument Transform(JToken json)
         {
@@ -26,6 +27,6 @@ namespace DevLab.JmesPath.Expressions
             => StringUtil.WrapIdentifier(name_);
 
         public JToken Evaluate(string identifier)
-            => evaluator_?.Evaluate(identifier) ?? JTokens.Null;
+            => (this as IContextHolder).Evaluator?.Evaluate(identifier) ?? JTokens.Null;
     }
 }

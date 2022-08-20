@@ -23,6 +23,6 @@ namespace DevLab.JmesPath.Interop
 
     public interface IContextHolder
     {
-        void SetContext(JToken context);
+        IContextEvaluator Evaluator { get; set; }
     }
 }
