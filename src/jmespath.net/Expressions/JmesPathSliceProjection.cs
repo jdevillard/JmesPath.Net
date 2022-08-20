@@ -31,13 +31,7 @@ namespace DevLab.JmesPath.Expressions
         public int? Step
             => step_;
 
-        protected override JmesPathArgument Transform(JToken json)
-            => json.GetTokenType() == "string"
-            ? Slice(json.Value<string>())
-            : base.Transform(json)
-            ;
-
-        public override JmesPathArgument Project(JmesPathArgument argument)
+        protected override JmesPathArgument Project(JmesPathArgument argument)
         {
             if (argument.IsProjection)
                 argument = argument.AsJToken();

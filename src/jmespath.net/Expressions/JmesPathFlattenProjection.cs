@@ -7,7 +7,17 @@ namespace DevLab.JmesPath.Expressions
 {
     public sealed class JmesPathFlattenProjection : JmesPathProjection
     {
-        public override JmesPathArgument Project(JmesPathArgument argument)
+        protected override JmesPathArgument Project(IEnumerable<JmesPathArgument> arguments)
+        {
+            // flatten the array before
+            // projecting again
+
+            var projection = new JmesPathArgument(arguments);
+            var array = projection.AsJToken();
+            return Project(array);
+        }
+
+        protected override JmesPathArgument Project(JmesPathArgument argument)
         {
             if (argument.IsProjection)
                 argument = argument.AsJToken();
@@ -37,12 +47,6 @@ namespace DevLab.JmesPath.Expressions
 
             return new JmesPathArgument(items);
         }
-
-        public override JmesPathArgument Transform(JmesPathArgument argument)
-            => argument.IsProjection 
-                ? Project(argument) 
-                : base.Transform(argument)
-                ;
 
         protected override string Format()
             => "[]";
