@@ -31,6 +31,7 @@
         void OnArithmeticIntegerDivision();
 
         void OnCurrentNode();
+        void OnRootNode();
 
         void OnSubExpression();
 

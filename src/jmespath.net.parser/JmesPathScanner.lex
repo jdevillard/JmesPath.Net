@@ -33,6 +33,7 @@ T_FLATTEN		\[\]
 T_FILTER		\[\?
 T_STAR			\*
 T_CURRENT		@
+T_ROOT			\$
 T_ETYPE			&
 
 T_NUMBER		\-?[0-9]+
@@ -94,6 +95,7 @@ E_UNRECOGNIZED	.
 {T_FLATTEN}			{ return MakeToken(TokenType.T_FLATTEN); }
 {T_STAR}			{ return MakeToken(TokenType.T_STAR); }
 {T_CURRENT}			{ return MakeToken(TokenType.T_CURRENT); }
+{T_ROOT}			{ return MakeToken(TokenType.T_ROOT); }
 {T_ETYPE}			{ return MakeToken(TokenType.T_ETYPE); }
 
 {T_NUMBER}			{ return MakeToken(TokenType.T_NUMBER); }
