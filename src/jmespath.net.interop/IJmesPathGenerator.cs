@@ -21,6 +21,15 @@
         void OnComparisonLesserOrEqual();
         void OnComparisonNotEqual();
 
+        void OnArithmeticUnaryPlus();
+        void OnArithmeticUnaryMinus();
+        void OnArithmeticAddition();
+        void OnArithmeticSubtraction();
+        void OnArithmeticMultiplication();
+        void OnArithmeticDivision();
+        void OnArithmeticModulo();
+        void OnArithmeticIntegerDivision();
+
         void OnCurrentNode();
 
         void OnSubExpression();

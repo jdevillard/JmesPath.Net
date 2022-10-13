@@ -1,4 +1,14 @@
-﻿%namespace DevLab.JmesPath
+
+// ==========================================================================
+//  GPPG error listing for yacc source file <JmesPathParser.y - 12/08/2022 13:06:11>
+// ==========================================================================
+//  Version:  1.0.0.0
+//  Machine:  FRC0LW15566
+//  DateTime: 12/08/2022 13:06:23
+// ==========================================================================
+
+
+%namespace DevLab.JmesPath
 %partial
 %parsertype JmesPathParser
 %visibility internal
@@ -63,15 +73,17 @@
 %left T_LE
 %left T_NE
 %left T_NOT
+%left T_DOT
 
 %left T_PLUS
-%left T_MINUS
-%left T_MULTIPLY
-%left T_DIVIDE
-%left T_MODULO
-%left T_DIV
-
-%left T_DOT
+%left T_MINUS,
+%left T_MULTIPLY,
+//^^^
+// Error: Syntax error, unexpected %left, expecting ident, or litchar
+// ------------------------------------------------------------------
+%left T_DIVIDE,
+%left T_MODULO,
+%left T_DIV,
 
 %left T_LBRACKET
 %left T_STAR
@@ -122,43 +134,18 @@ sub_expression_impl	: expression T_DOT identifier
 					| expression T_DOT hash_wildcard
 					;
 
-arithmetic_expression	: T_PLUS expression
-						{
-							OnArithmeticUnaryPlus();
-						}
-						| T_MINUS expression
-						{
-							OnArithmeticUnaryMinus();
-						}
-						| expression T_PLUS expression
-						{
-							OnArithmeticAddition();
-						}
-						| expression T_MINUS expression
-						{
-							OnArithmeticSubtraction();
-						}
-						| expression T_MULTIPLY expression
-						{
-							OnArithmeticMultiplication();
-						}
-						| expression T_STAR expression
-						{
-							OnArithmeticMultiplication();
-						}
-						| expression T_DIVIDE expression
-						{
-							OnArithmeticDivision();
-						}
-						| expression T_MODULO expression
-						{
-							OnArithmeticModulo();
-						}
-						| expression T_DIV expression
-						{
-							OnArithmeticIntegerDivision();
-						}
-						;
+arithmetic_expression : expression T_PLUS expression
+					{
+						OnArithmeticAddition();
+					}
+					| expression T_MINUS expression
+					| expression T_PLUS expression
+					| expression T_STAR expression
+					| expression T_MULTIPLY expression
+					| expression T_MODULO expression
+					| expression T_DIV expression
+					;
+
 
 index_expression	: expression bracket_specifier
 					{
@@ -413,3 +400,5 @@ raw_string			: T_RSTRING
 					;
 
 %%
+// ==========================================================================
+

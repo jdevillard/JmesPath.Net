@@ -152,6 +152,43 @@ namespace DevLab.JmesPath
 
         #endregion
 
+        #region arithmetic_expression
+
+        public void OnArithmeticUnaryPlus()
+        {
+            Prolog();
+
+            var expression = expressions_.Pop();
+            var arithmetic = new JmesPathUnaryPlusExpression(expression);
+            expressions_.Push(arithmetic);
+        }
+
+        public void OnArithmeticUnaryMinus()
+        {
+            Prolog();
+
+            var expression = expressions_.Pop();
+            var arithmetic = new JmesPathUnaryMinusExpression(expression);
+            expressions_.Push(arithmetic);
+        }
+
+        public void OnArithmeticAddition()
+            => PopPush((left, right) => new JmesPathAdditionExpression(left, right));
+        public void OnArithmeticSubtraction() 
+            => PopPush((left, right) => new JmesPathSubtractionExpression(left, right));
+        public void OnArithmeticMultiplication() 
+            => PopPush((left, right) => new JmesPathMultiplicationExpression(left, right));
+        public void OnArithmeticDivision() 
+            => PopPush((left, right) => new JmesPathDivisionExpression(left, right));
+        public void OnArithmeticModulo() 
+            => PopPush((left, right) => new JmesPathModuloExpression(left, right));
+        public void OnArithmeticIntegerDivision() 
+            => PopPush((left, right) => new JmesPathIntegerDivisionExpression(left, right));
+
+        #endregion
+        
+        #region logical_expression
+
         public void OnOrExpression() =>
             PopPush((left, right) => new JmesPathOrExpression(left, right));
 
@@ -161,7 +198,9 @@ namespace DevLab.JmesPath
         public void OnNotExpression() =>
             PopPush(e => new JmesPathNotExpression(e));
 
-        public void OnIdentifier(string name)
+        #endregion
+
+public void OnIdentifier(string name)
         {
             Prolog();
 
