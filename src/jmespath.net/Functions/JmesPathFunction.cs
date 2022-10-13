@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Interop;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
@@ -14,21 +13,29 @@ namespace DevLab.JmesPath.Functions
         private JToken context_ = null;
 
         protected JmesPathFunction(string name, int count)
-            : this(name, count, false, null)
+            : this(name, count, null, false, null)
         { }
         protected JmesPathFunction(string name, int count, IScopeParticipant scopes)
-            : this(name, count, false, scopes)
+            : this(name, count, null, false, scopes)
         { }
 
         protected JmesPathFunction(string name, int minCount, bool variadic)
-            : this(name, minCount, variadic, null)
+            : this(name, minCount, null, variadic, null)
         { }
 
-        protected JmesPathFunction(string name, int minCount, bool variadic, IScopeParticipant scopes)
+        protected JmesPathFunction(string name, int minCount, int maxCount)
+            : this(name, minCount, maxCount, false, null)
+        { }
+
+        protected JmesPathFunction(string name, int minCount, int? maxCount, bool variadic, IScopeParticipant scopes)
         {
             Name = name;
             MinArgumentCount = minCount;
+            MaxArgumentCount = maxCount;
+
             Variadic = variadic;
+
+            System.Diagnostics.Debug.Assert(maxCount == null || !variadic);
 
             scopes_ = scopes;
         }
@@ -36,6 +43,7 @@ namespace DevLab.JmesPath.Functions
         public string Name { get; private set; }
 
         public int MinArgumentCount { get; }
+        public int? MaxArgumentCount { get; }
 
         public bool Variadic { get; }
 
@@ -62,6 +70,9 @@ namespace DevLab.JmesPath.Functions
         {
             return Math.Abs(sum % 1) <= (Double.Epsilon * 100);
         }
+
+        protected string EnsureString(JmesPathFunctionArgument argument)
+            => (EnsureOf(argument, "string") as JValue).Value<string>();
 
         protected JObject EnsureObject(JmesPathFunctionArgument argument)
         {
