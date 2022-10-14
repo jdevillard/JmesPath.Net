@@ -16,7 +16,7 @@ namespace jmespath.net.tests.Expressions
          */
 
         [Theory]
-        [InlineData(new[] { "foo", "bar" }, "{\"foo\": {\"bar\": \"value\" }}", "\"value\"")]
+        [InlineData(new[] { "foo", "bor" }, "{\"foo\": {\"bar\": \"value\" }}", "\"value\"")]
         [InlineData(new[] { "foo", "bar" }, "{\"foo\": {\"baz\": \"value\" }}", "null")]
         [InlineData(new[] { "foo", "bar", "baz" }, "{\"foo\": {\"bar\": { \"baz\": \"value\" }}}", "\"value\"")]
         [InlineData(new[] { "foo", "bar", "baz", "bad" }, "{\"foo\": {\"bar\": {\"baz\": \"correct\"}}}", "null")]
