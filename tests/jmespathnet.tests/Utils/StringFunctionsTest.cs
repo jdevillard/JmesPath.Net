@@ -25,7 +25,7 @@ namespace jmespath.net.tests.Utils
         public void Sort(string[] strings, string[] expected)
         {
             var sort = new SortFunction();
-            var result = (JArray) sort.Execute(new JmesPathFunctionArgument(JArray.FromObject(strings)));
+            var result = (JArray)sort.Execute(new JmesPathFunctionArgument(JArray.FromObject(strings)));
             var actual = result.Select(u => u.Value<string>()).ToArray();
 
             Assert.True(Enumerable.SequenceEqual(expected, actual));
@@ -46,12 +46,28 @@ namespace jmespath.net.tests.Utils
             var by = new JmesPathIdentifier("foo");
             JmesPathExpression.MakeExpressionType(by);
 
-            var actualArray = (JArray) sortBy.Execute(
+            var actualArray = (JArray)sortBy.Execute(
                 new JmesPathFunctionArgument(inputArray),
                 new JmesPathFunctionArgument(by)
                 );
 
             Assert.True(JToken.DeepEquals(expectedArray, actualArray));
+        }
+
+        [Theory]
+        [InlineData("a𝌆b", "b𝌆a")]
+
+        public void Reverse(string text, string expected)
+        {
+            var reverse = new ReverseFunction();
+            var argument = new JmesPathFunctionArgument(JToken.FromObject(text));
+
+            var actual = reverse
+                .Execute(argument)
+                .Value<string>()
+                ;
+
+            Assert.Equal(expected, actual);
         }
     }
 }

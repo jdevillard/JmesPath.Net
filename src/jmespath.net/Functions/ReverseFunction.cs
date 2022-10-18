@@ -28,15 +28,16 @@ namespace DevLab.JmesPath.Functions
             switch (token.GetTokenType())
             {
                 case "string":
-                {
-                    var characters = token.Value<String>().Reverse().ToArray();
-                    return new JValue(new string(characters));
-                }
+                    {
+                        var text = (Text)token.Value<String>();
+                        var reversed = new Text(text.CodePoints.Reverse().ToArray());
+                        return new JValue((string)reversed);
+                    }
                 case "array":
-                {
+                    {
                         var items = ((JArray)token).Reverse();
-                    return new JArray().AddRange(items);
-                }
+                        return new JArray().AddRange(items);
+                    }
                 default:
                     return null;
             }

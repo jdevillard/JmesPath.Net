@@ -31,13 +31,6 @@ namespace DevLab.JmesPath.Utils
         }
 
         /// <summary>
-        /// Returns an <see cref="IComparer{Text}" /> implementation
-        /// that compares Text using the numerical value of its codepoints.
-        /// </summary>
-        public static IComparer<Text> CodePointComparer
-            => defaultComparer_;
-
-        /// <summary>
         /// Initialize a new instance of the <see cref="Text" /> class.
         /// </summary>
         /// <param name="codePoints"></param>
@@ -50,6 +43,13 @@ namespace DevLab.JmesPath.Utils
             text_ = sb.ToString();
             info_ = new StringInfo(text_);
         }
+
+        /// <summary>
+        /// Returns an <see cref="IComparer{Text}" /> implementation
+        /// that compares Text using the numerical value of its codepoints.
+        /// </summary>
+        public static IComparer<Text> CodePointComparer
+            => defaultComparer_;
 
         /// <summary>
         /// The number of Unicode codepoints.
