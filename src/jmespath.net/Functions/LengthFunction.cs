@@ -27,7 +27,7 @@ namespace DevLab.JmesPath.Functions
             switch (token.GetTokenType())
             {
                 case "string":
-                    return token.Value<String>().Length;               
+                    return ((Text)token.Value<String>()).Length;
                 case "array":
                     return ((JArray) token).Count;
                 case "object":
