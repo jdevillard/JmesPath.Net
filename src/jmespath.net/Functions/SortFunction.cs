@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
@@ -28,18 +29,26 @@ namespace DevLab.JmesPath.Functions
             var item = array[0];
 
             if (item.Type == JTokenType.Float)
-                return new JArray().AddRange(Sort<double>(array));
+                return JArray.FromObject(SortNumber<double>(array));
             else if (item.Type == JTokenType.Integer)
-                return new JArray().AddRange(Sort<int>(array));
+                return JArray.FromObject(SortNumber<int>(array));
             else
-                return new JArray().AddRange(Sort<string>(array));
+                return JArray.FromObject(SortText(array));
         }
 
-        private static JToken[] Sort<T>(JArray array)
-        {
-            return array
-                .OrderBy(u => u.Value<T>())
-                .ToArray();
-        }
+        internal static T[] SortNumber<T>(JArray array)
+            => array
+                .Values<T>()
+                .OrderBy(u => u)
+                .ToArray()
+            ;
+
+        internal static string[] SortText(JArray array)
+            => array
+                .Select(u => (Text)u.Value<string>())
+                .OrderBy(u => u, Text.CodePointComparer)
+                .Select(u => (string)u)
+                .ToArray()
+                ;
     }
 }
