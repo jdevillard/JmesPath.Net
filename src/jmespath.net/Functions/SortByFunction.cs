@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
@@ -21,35 +23,77 @@ namespace DevLab.JmesPath.Functions
             var array = (JArray)args[0].Token;
             var expression = args[1].Expression;
 
-            var done = false;
+            if (array.Count == 0)
+                return new JArray();
 
-            var expectedItemType = "none";
+            // make sure this is an homogeneous array
+            // with all items from a single expected type
 
-            var ordered = array.OrderBy(u =>
-            {
-                var e = expression.Transform(u);
-
-                var actualItemType = e.AsJToken().GetTokenType();
-
-                if (!done)
-                {
-                    if (actualItemType != "number" && actualItemType != "string")
-                        throw new Exception($"Error: invalid-type, the expression argument of function {Name} should return a number or a string.");
-
-                    expectedItemType = actualItemType;
-                    done = true;
-                }
-
-                if (expectedItemType != actualItemType)
-                    throw new Exception("Error: invalid-type, all items resulting from the evaluation of the expression argument of function {Name} should have the same type.");
-                                
-                return e.AsJToken();
-
-            }).ToArray();
-
-            return new JArray()
-                .AddRange(ordered)
+            var keyCollection = array
+                .Select(u => expression.Transform(u).AsJToken())
+                .ToArray()
                 ;
+
+            var actualItemType = keyCollection[0].GetTokenType();
+            if (actualItemType != "number" && actualItemType != "string")
+                throw new Exception($"Error: invalid-type, the expression argument of function {Name} should return a number or a string.");
+
+            if (keyCollection.Any(k => k.GetTokenType() != actualItemType))
+                throw new Exception($"Error: invalid-type, all items resulting from the evaluation of the expression argument of function {Name} should have the same type.");
+
+            // sort array
+
+            var tokens = array.AsEnumerable().ToArray();
+            JToken[] ordered = tokens;
+
+            if (actualItemType == "number")
+            {
+                var actualKeyTokenType = keyCollection[0].Type;
+                if (actualKeyTokenType == JTokenType.Float)
+                    ordered = SortByNumbers<double>(tokens, expression);
+                else if (actualKeyTokenType == JTokenType.Integer)
+                    ordered = SortByNumbers<int>(tokens, expression);
+            }
+            else
+            {
+                 ordered = SortByText(tokens, expression);
+            }
+
+            return new JArray(ordered);
+        }
+
+        private JToken[] SortByNumbers<T>(JToken[] array, JmesPathExpression expression)
+        {
+            T keySelector(JToken t) {
+                var token = expression.Transform(t).AsJToken();
+                return token.Value<T>();
+            };
+
+            var ordered = array
+                .OrderBy(keySelector)
+                .ToArray()
+                ;
+
+            return ordered;
+        }
+        private JToken[] SortByText(JToken[] array, JmesPathExpression expression)
+        {
+            Text keySelector(JToken t)
+            {
+                var key = expression.Transform(t).AsJToken();
+                return (Text) key.Value<string>();
+            };
+            IComparer<Text> comparer = Text.CodePointComparer;
+
+            var ordered = array
+                .OrderBy(
+                    keySelector,
+                    comparer
+                )
+                .ToArray()
+                ;
+
+            return ordered;
         }
     }
 }

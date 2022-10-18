@@ -1,4 +1,5 @@
-﻿using DevLab.JmesPath.Functions;
+﻿using DevLab.JmesPath.Expressions;
+using DevLab.JmesPath.Functions;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using Xunit;
@@ -28,6 +29,29 @@ namespace jmespath.net.tests.Utils
             var actual = result.Select(u => u.Value<string>()).ToArray();
 
             Assert.True(Enumerable.SequenceEqual(expected, actual));
+        }
+
+        [Theory]
+        [InlineData(new[] { "𝌆", "\xfb06", "\xfb06yle", "\xfb03" }, new[] { "\xfb03", "\xfb06", "\xfb06yle", "𝌆" })]
+        public void SortBy(string[] strings, string[] expected)
+        {
+            var sortBy = new SortByFunction();
+
+            JToken MakeObject(string text)
+                => JToken.Parse($"{{\"foo\": \"{text}\"}}");
+
+            var expectedArray = JArray.FromObject(expected.Select(MakeObject).ToArray());
+            var inputArray = JArray.FromObject(strings.Select(MakeObject).ToArray());
+
+            var by = new JmesPathIdentifier("foo");
+            JmesPathExpression.MakeExpressionType(by);
+
+            var actualArray = (JArray) sortBy.Execute(
+                new JmesPathFunctionArgument(inputArray),
+                new JmesPathFunctionArgument(by)
+                );
+
+            Assert.True(JToken.DeepEquals(expectedArray, actualArray));
         }
     }
 }
