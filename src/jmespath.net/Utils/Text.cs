@@ -55,7 +55,7 @@ namespace DevLab.JmesPath.Utils
         /// The number of Unicode codepoints.
         /// </summary>
         public int Length
-            => info_.LengthInTextElements;
+            => CodePoints.Length;
 
         /// <summary>
         /// Returns a enumerator over the sequence of Unicode codepoints.
@@ -67,8 +67,8 @@ namespace DevLab.JmesPath.Utils
         /// <summary>
         /// The sequence of Unicode codepoints.
         /// </summary>
-        public IEnumerable<int> CodePoints
-            => new CodePointEnumerator(this).AsEnumerable();
+        public int[] CodePoints
+            => CodePointEnumerator.GetCodePoints(this);
 
         public static implicit operator String(Text text)
             => text.ToString();

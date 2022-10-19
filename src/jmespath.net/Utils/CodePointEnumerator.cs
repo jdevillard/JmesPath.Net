@@ -48,38 +48,28 @@ namespace DevLab.JmesPath.Utils
 
         public void Dispose() { }
 
-        private static int[] GetCodePoints(Text text)
+        internal static int[] GetCodePoints(Text text)
         {
-            var codePoints = new List<int>(text.Length);
+            var codePoints = new List<int>();
 
             var enumerator = StringInfo.GetTextElementEnumerator(text);
             while (enumerator.MoveNext())
             {
                 var element = enumerator.GetTextElement();
-                if (element.Length == 1)
+
+                // element represents either a codepoint from the basic multilingual plane
+                // or a supplementary plane encoded as a pair of surrogate UTF-16 code units.
+
+                if (element.Length > 1 && (Char.IsSurrogatePair(element[0], element[1])))
                 {
-                    codePoints.Add(element[0]);
+                    System.Diagnostics.Debug.Assert(element.Length == 2);
+                    codePoints.Add(Char.ConvertToUtf32(element[0], element[1]));
                 }
 
                 else
                 {
-                    // element represents either a codepoint from a supplementary plane
-                    // encoded as a surrogate pair of UTF-16 code units.
-
-                    // or a composite character encoded as two codepoints.
-
-                    System.Diagnostics.Debug.Assert(element.Length == 2);
-
-                    if (Char.IsSurrogatePair(element[0], element[1]))
-                    {
-                        codePoints.Add(Char.ConvertToUtf32(element[0], element[1]));
-                    }
-
-                    else
-                    {
-                        codePoints.Add(element[0]);
-                        codePoints.Add(element[1]);
-                    }
+                    foreach (var codePoint in element)
+                        codePoints.Add(codePoint);
                 }
             }
 
