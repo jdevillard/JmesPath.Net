@@ -45,6 +45,10 @@ before_build:
       Write-Host "Using private strong-name key for assembly signing." -ForegroundColor Yellow
       C:\projects\jmespath-net\bin\EncryptDecryptFile.PS1
     }
+    else
+    {
+      Set-AppveyorBuildVariable -Name CONFIGURATION -Value Debug
+    }
 
 build_script:
   - ps: C:\projects\jmespath-net\bin\update-version.ps1 -Version $Env:APPVEYOR_BUILD_VERSION
