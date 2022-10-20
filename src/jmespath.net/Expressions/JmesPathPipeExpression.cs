@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using DevLab.JmesPath.Utils;
+using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
 {
@@ -28,7 +29,7 @@ namespace DevLab.JmesPath.Expressions
                 .AsJToken()
                 ;
 
-            return Right.Transform(token);
+            return JTokens.IsNull(token) ? token : Right.Transform(token);
         }
 
         public override string ToString()
