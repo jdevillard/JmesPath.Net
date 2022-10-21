@@ -29,7 +29,7 @@ namespace DevLab.JmesPath.Expressions
                 .AsJToken()
                 ;
 
-            return JTokens.IsNull(token) ? token : Right.Transform(token);
+            return Right.Transform(token);
         }
 
         public override string ToString()
