@@ -43,8 +43,9 @@ namespace DevLab.JmesPath.Functions
                 var token = expression.Transform(element).AsJToken();
                 if (token != JTokens.Null)
                 {
-                    if (token.GetTokenType() != "string")
-                        continue;
+                    var tokenType = token.GetTokenType();
+                    if (tokenType != "string")
+                        throw new Exception($"Error: invalid-type, function {Name} expects its second expression-type argument to evaluate to a 'string' value but received '{tokenType}' {token} instead.");
 
                     key = token.Value<string>();
                     AddElement(dictionary, key, element);
