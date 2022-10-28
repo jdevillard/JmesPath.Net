@@ -102,8 +102,7 @@
       { "expression": "split(split, '|-|', `3`)", "result": [ "avg", "min", "max", "mean|-|mode|-|median" ] },
       { "expression": "split(split, '|-|', `2`)", "result": [ "avg", "min", "max|-|mean|-|mode|-|median" ] },
       { "expression": "split(split, '|-|', `1`)", "result": [ "avg", "min|-|max|-|mean|-|mode|-|median" ] },
-      { "expression": "split(split, '|-|', `0`)", "result": [ "avg|-|min|-|max|-|mean|-|mode|-|median" ] },
-
+      { "expression": "split(split, '|-|', `0`)", "result": [ "avg|-|min|-|max|-|mean|-|mode|-|median" ] }
     ]
   }
 ]
