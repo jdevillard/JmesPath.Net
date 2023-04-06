@@ -30,17 +30,18 @@ namespace jmespath.net.Functions.Impl
         /// </summary>
         /// <param name="text"></param>
         /// <param name="search"></param>
-        /// <param name="position"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
         /// <returns></returns>
-        public static int? FindLast(this string text, string search, int? position)
+        public static int? FindLast(this string text, string search, int? start, int? end)
         {
-            int p = Math.Min(position ?? (text.Length == 0 ? 0 : text.Length), text.Length);
-            int e = Math.Min(p + search.Length, text.Length);
+            int s = Math.Max(start ?? 0, 0);
+            int e = Math.Min(end ?? (text.Length == 0 ? 0 : text.Length), text.Length);
 
-            var substring = text.Substring(0, e);
+            var substring = text.Substring(s, e - s);
             var pos = substring.LastIndexOf(search, StringComparison.OrdinalIgnoreCase);
 
-            return (pos != -1) ? pos : (int?)null;
+            return (pos != -1) ? s + pos : (int?)null;
         }
 
         /// <summary>

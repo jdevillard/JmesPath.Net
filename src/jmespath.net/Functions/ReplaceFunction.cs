@@ -21,7 +21,7 @@ namespace DevLab.JmesPath.Functions
             {
                 var count = args[3].Token.Value<double>();
                 if (args[3].Token.GetTokenType() != "number" || count < 0.0 || !IsInteger(count))
-                    throw new Exception($"Error: syntax, if specified, the $count parameter to the function {Name} must be a positive integer.");
+                    throw new Exception($"Error: invalid-value, if specified, the $count parameter to the function {Name} must be a positive integer.");
             }
 
             base.Validate(args);
