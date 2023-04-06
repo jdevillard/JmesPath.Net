@@ -13,14 +13,8 @@ namespace DevLab.JmesPath.Expressions
 
         protected override JmesPathArgument Transform(JToken json)
         {
-            try
-            {
-                scopes_.PushScope(new JObject { { "$", json } });
-                return Expression.Transform(json);
-            }
-            finally {
-                scopes_.PopScope();
-            }
+            scopes_.SetRoot(json);
+            return Expression.Transform(json);
         }
     }
 }

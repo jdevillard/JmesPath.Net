@@ -10,6 +10,11 @@ namespace DevLab.JmesPath
         private readonly Stack<JToken> scopes_
             = new Stack<JToken>()
             ;
+
+        private JToken root_ = JTokens.Null;
+
+        JToken IContextEvaluator.Root => root_;
+
         public JToken Evaluate(string identifier)
         {
             if (scopes_.Count == 0)
@@ -24,6 +29,9 @@ namespace DevLab.JmesPath
             return JTokens.Null;
         }
 
+        public void SetRoot(JToken root) {
+            root_ = root;
+        }
         public void PushScope(JToken token)
         {
             scopes_.Push(token);

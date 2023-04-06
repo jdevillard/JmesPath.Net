@@ -8,7 +8,7 @@ namespace DevLab.JmesPath.Expressions
         IContextEvaluator IContextHolder.Evaluator { get; set; }
 
         protected override JmesPathArgument Transform(JToken json)
-            => (this as IContextHolder).Evaluator?.Evaluate("$");
+            => (this as IContextHolder).Evaluator?.Root;
 
         protected override string Format()
             => "$";
