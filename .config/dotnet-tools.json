@@ -3,13 +3,13 @@
   "isRoot": true,
   "tools": {
     "springcomp.gplex": {
-      "version": "1.0.0",
+      "version": "1.2.1",
       "commands": [
         "dotnet-gplex"
       ]
     },
     "springcomp.gppg": {
-      "version": "1.0.0",
+      "version": "1.2.1",
       "commands": [
         "dotnet-gppg"
       ]
