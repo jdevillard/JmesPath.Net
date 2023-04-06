@@ -62,8 +62,8 @@ build_script:
         -Encoding UTF8
 
 after_build:
-  - dotnet pack "src\jmespath.net.parser" -c %CONFIGURATION%
-  - dotnet pack "src\jmespath.net" -c %CONFIGURATION%
+  - dotnet pack --no-build "src\jmespath.net.parser" -c %CONFIGURATION%
+  - dotnet pack --no-build "src\jmespath.net" -c %CONFIGURATION%
 
 test_script:
   - dotnet test "tests\jmespathnet.tests" -c %CONFIGURATION%
