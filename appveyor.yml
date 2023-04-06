@@ -62,11 +62,11 @@ build_script:
         -Encoding UTF8
 
 after_build:
-  - dotnet pack --no-build "src\jmespath.net.parser" -c $Env:CONFIGURATION
-  - dotnet pack --no-build "src\jmespath.net" -c $Env:CONFIGURATION
+  - ps: dotnet pack --no-build "src\jmespath.net.parser" -c $Env:CONFIGURATION
+  - ps: dotnet pack --no-build "src\jmespath.net" -c $Env:CONFIGURATION
 
 test_script:
-  - dotnet test "tests\jmespathnet.tests" -c $Env:CONFIGURATION
+  - ps: dotnet test "tests\jmespathnet.tests" -c $Env:CONFIGURATION
 
 artifacts:
   - path: '**\*.nupkg'
