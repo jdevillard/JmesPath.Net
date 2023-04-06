@@ -38,6 +38,9 @@ namespace DevLab.JmesPath.Expressions
 
             var json = argument.Token;
 
+            if (json.Type == JTokenType.String)
+                return Slice((Text)(json as JValue).Value<string>());
+
             if (json.Type != JTokenType.Array)
                 return null;
 
@@ -66,12 +69,13 @@ namespace DevLab.JmesPath.Expressions
 
         private delegate bool Comparator(int l, int r);
 
-        private JToken Slice(string text)
+        private JToken Slice(Text text)
         {
             var length = text.Length;
             var (start, stop, step) = GetSliceParameters(length);
 
-            var characters = new List<char>();
+            var codePoints = text.CodePoints;
+            var characters = new List<int>(codePoints.Length);
 
             var compare = (step > 0)
                ? (Comparator)((int r, int l) => r < l)
@@ -79,9 +83,9 @@ namespace DevLab.JmesPath.Expressions
                ;
 
             for (var index = start; compare(index, stop); index += step)
-                characters.Add(text[index]);
+                characters.Add(text.CodePoints[index]);
 
-            return new JValue(new string(characters.ToArray()));
+            return new JValue(new Text(characters.ToArray()));
         }
 
         private (int start, int stop, int step) GetSliceParameters(int length)
