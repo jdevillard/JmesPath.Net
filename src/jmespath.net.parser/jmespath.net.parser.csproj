@@ -28,8 +28,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Springcomp.GPLEX.Runtime" Version="1.2.0" />
-    <PackageReference Include="Springcomp.GPPG.Runtime" Version="1.2.0" />
+    <PackageReference Include="Springcomp.GPLEX.Runtime" Version="1.2.2" />
+    <PackageReference Include="Springcomp.GPPG.Runtime" Version="1.2.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.7.0" />
   </ItemGroup>
 
