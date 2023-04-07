@@ -16,6 +16,6 @@ namespace DevLab.JmesPath.Functions
         }
 
         public override JToken Execute(params JmesPathFunctionArgument[] args)
-            => EnsureString(args[0]).ToLowerInvariant();
+            => EnsureString(args[0]).ToLower();
     }
 }
