@@ -27,6 +27,20 @@
     <ProjectReference Include="..\jmespath.net.interop\jmespath.net.interop.csproj" />
   </ItemGroup>
 
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <Content Include="bin\Debug\net45\jmespath.net.interop.dll">
+      <PackagePath>lib\net45</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+    <Content Include="bin\Debug\netstandard1.3\jmespath.net.interop.dll">
+      <PackagePath>lib\netstandard1.3</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Springcomp.GPLEX.Runtime" Version="1.2.4" />
     <PackageReference Include="Springcomp.GPPG.Runtime" Version="1.2.4" />
