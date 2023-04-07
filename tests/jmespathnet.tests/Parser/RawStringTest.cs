@@ -9,9 +9,9 @@ namespace jmespath.net.tests.Parser
         public void EscapeQuote()
         {
             /*
-             * raw : 'foo\'bar\''  -> foo'bar'
-             * C# : 'foo\\'bar\\'' -> foo'bar'
-             * json :              -> "foo'bar'"
+             * raw : 'foo\'bar\''    -> foo'bar'
+             * C# :  'foo\\'bar\\''  -> "'foo\\'bar\\''"
+             * json :                -> "foo\\'bar\\'"
              */
             const string json = "null";
             const string expression = "'foo\\'bar\\''";
@@ -24,13 +24,13 @@ namespace jmespath.net.tests.Parser
         public void EscapeBackslash()
         {
             /*
-             * raw : 'c:\\temp\\'    -> c:\temp\
-             * C# : 'c:\\\\temp\\\\' -> c:\\temp\\
-             * json :                -> "c:\\temp\\"
+             * raw : '\\'    -> \
+             * C# :  '\\\\'  -> "'\\\\'"
+             * json :        -> "\\"
              */
             const string json = "null";
-            const string expression = "'c:\\\\temp\\\\'";
-            const string expected = "\"c:\\temp\\\"";
+            const string expression = "'\\\\'";
+            const string expected = "\"\\\\\"";
 
             Assert(expression, json, expected);
         }
