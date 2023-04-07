@@ -29,6 +29,9 @@ T_LT			<
 T_LE			<=
 T_NE			!=
 
+T_ASSIGN        =
+T_VARIABLE		\$[A-Za-z_][0-9A-Za-z_]*
+
 T_FLATTEN		\[\]
 T_FILTER		\[\?
 T_STAR			\*
@@ -49,6 +52,9 @@ T_LBRACKET		\[
 T_RBRACKET		\]
 T_LPAREN		\(
 T_RPAREN		\)
+
+T_LET			let
+T_IN			in
 
 T_WHITESPACE	[ \b\f\n\r\t]+
 E_UNRECOGNIZED	.
@@ -91,12 +97,18 @@ E_UNRECOGNIZED	.
 {T_LE}				{ return MakeToken(TokenType.T_LE); }
 {T_NE}				{ return MakeToken(TokenType.T_NE); }
 
+{T_ASSIGN}			{ return MakeToken(TokenType.T_ASSIGN); }
+{T_VARIABLE}		{ return MakeToken(TokenType.T_VARIABLE); }
+
 {T_FILTER}			{ return MakeToken(TokenType.T_FILTER); }
 {T_FLATTEN}			{ return MakeToken(TokenType.T_FLATTEN); }
 {T_STAR}			{ return MakeToken(TokenType.T_STAR); }
 {T_CURRENT}			{ return MakeToken(TokenType.T_CURRENT); }
 {T_ROOT}			{ return MakeToken(TokenType.T_ROOT); }
 {T_ETYPE}			{ return MakeToken(TokenType.T_ETYPE); }
+
+{T_LET}				{ return MakeToken(TokenType.T_LET); }
+{T_IN}				{ return MakeToken(TokenType.T_IN); }
 
 {T_NUMBER}			{ return MakeToken(TokenType.T_NUMBER); }
 {T_LSTRING}			{ return MakeToken(TokenType.T_LSTRING); }

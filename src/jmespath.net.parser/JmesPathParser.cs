@@ -239,6 +239,26 @@ namespace DevLab.JmesPath
         void OnCurrentNode() => generator_.OnCurrentNode();
         void OnRootNode() => generator_.OnRootNode();
 
+        #region let_expression
+
+        void OnLetExpression()
+            => generator_.OnLetExpression();
+
+        void OnLetBindings()
+            => generator_.OnLetBindings();
+
+        void OnLetBinding(Token token) 
+            => generator_.OnLetBinding((string)token.Value);
+
+        #endregion
+
+        #region variable_ref
+
+        void OnVariableReference(Token token)
+            => generator_.OnVariableReference((string)token.Value);
+
+        #endregion
+
         #endregion // Expressions
     }
 }

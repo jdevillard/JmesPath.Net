@@ -2,6 +2,7 @@
 using DevLab.JmesPath.Interop;
 using DevLab.JmesPath.Utils;
 using System.Collections.Generic;
+using System;
 
 namespace DevLab.JmesPath
 {
@@ -18,7 +19,7 @@ namespace DevLab.JmesPath
         public JToken Evaluate(string identifier)
         {
             if (scopes_.Count == 0)
-                return JTokens.Null;
+                throw new Exception($"Error: undefined-variable, the variable '${identifier}' is not defined.");
 
             foreach (var scope in scopes_)
             {
@@ -26,7 +27,7 @@ namespace DevLab.JmesPath
                     return scope[identifier];
             }
 
-            return JTokens.Null;
+            throw new Exception($"Error: undefined-variable, the variable '${identifier}' is not defined.");
         }
 
         public void SetRoot(JToken root) {

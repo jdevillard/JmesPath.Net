@@ -1,19 +1,20 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using DevLab.JmesPath.Interop;
+using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
 {
-    internal sealed class JmesPathRootExpression : JmesPathSimpleExpression
+    internal sealed class JmesPathRootExpression : JmesPathSimpleExpression, IScopeHolder
     {
-        internal ScopeParticipant scopes_;
-
         public JmesPathRootExpression(JmesPathExpression expression)
             : base(expression)
         {
         }
 
+        public IScopeParticipant Scopes { get; set; }
+
         protected override JmesPathArgument Transform(JToken json)
         {
-            scopes_.SetRoot(json);
+            Scopes.SetRoot(json);
             return Expression.Transform(json);
         }
     }

@@ -46,7 +46,6 @@ namespace DevLab.JmesPath
             var expression = analyzer.Expression;
 
             var ast = new JmesPathRootExpression(expression);
-            ast.scopes_ = evaluator_;
 
             // perform post-parsing syntax validation
 
@@ -57,6 +56,9 @@ namespace DevLab.JmesPath
 
             var evaluator = new ContextEvaluatorVisitor(evaluator_);
             ast.Accept(evaluator);
+
+            var participant = new ScopeParticipantVisitor(evaluator_);
+            ast.Accept(participant);
 
             return ast;
         }
@@ -104,6 +106,20 @@ namespace DevLab.JmesPath
             {
                 if (expression is IContextHolder context)
                     context.Evaluator = evaluator_;
+            }
+        }
+        private sealed class ScopeParticipantVisitor : IVisitor
+        {
+            private readonly IScopeParticipant scopes_;
+
+            public ScopeParticipantVisitor(IScopeParticipant scopes)
+            {
+                scopes_ = scopes;
+            }
+            public void Visit(JmesPathExpression expression)
+            {
+                if (expression is IScopeHolder context)
+                    context.Scopes = scopes_;
             }
         }
     }

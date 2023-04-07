@@ -33,6 +33,9 @@
 	T_LE,
 	T_NE,
 
+	T_ASSIGN,
+	T_VARIABLE,
+
 	T_FILTER,
 	T_FLATTEN,
 	T_STAR,
@@ -52,6 +55,11 @@
 	T_RBRACKET,
 	T_LPAREN,
 	T_RPAREN
+
+	T_LET
+	T_IN
+
+%left T_ASSIGN
 
 %left T_PIPE
 %left T_OR
@@ -91,24 +99,26 @@ expression			: expression_impl
 					}					
 					;
 
-expression_impl		: sub_expression
-					| index_expression
-					| comparator_expression
-					| or_expression
-					| identifier
-					| and_expression
-					| not_expression
-					| paren_expression
-					| hash_wildcard
+expression_impl		: identifier
+					| literal
+					| raw_string
+					| variable_ref
+					| current_node
+					| root_node
 					| multi_select_list
 					| multi_select_hash
-					| literal
+					| hash_wildcard
+					| index_expression
+					| paren_expression
+					| sub_expression
 					| pipe_expression
-					| function_expression
-					| raw_string
-					| current_node
 					| arithmetic_expression
-					| root_node
+					| comparator_expression
+					| and_expression
+					| or_expression
+					| not_expression
+					| function_expression
+					| let_expression
 					;
 
 sub_expression		: sub_expression_impl
@@ -404,6 +414,8 @@ quoted_string		: T_QSTRING
 					;
 
 unquoted_string		: T_USTRING
+					| T_LET
+					| T_IN
 					;
 
 literal				: T_LSTRING
@@ -416,6 +428,34 @@ raw_string			: T_RSTRING
 					{
 						System.Diagnostics.Debug.WriteLine("raw string : {0}", $1.Token);
 						OnRawString($1.Token);
+					}
+					;
+
+let_expression		: let_bindings expression
+					{
+						OnLetExpression();
+					}
+					;
+
+let_bindings        : T_LET let_bindings T_IN
+					{
+						OnLetBindings();
+					}
+					;
+
+let_bindings        : let_binding
+					| let_binding T_COMMA let_binding
+					;
+
+let_binding			: T_VARIABLE T_ASSIGN expression
+					{
+						OnLetBinding($1.Token);
+					}
+					;
+
+variable_ref        : T_VARIABLE
+					{
+						OnVariableReference($1.Token);
 					}
 					;
 
