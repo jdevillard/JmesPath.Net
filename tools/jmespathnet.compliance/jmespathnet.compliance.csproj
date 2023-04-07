@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="StarodubOleg.GPPG.Runtime" Version="0.1.0-alpha1-2" />
+    <PackageReference Include="Springcomp.GPPG.Runtime" Version="1.2.4" />
   </ItemGroup>
 
 </Project>

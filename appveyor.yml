@@ -61,12 +61,19 @@ build_script:
         -Value ( dotnet run --project tools\jmespathnet.compliance\ -- -t tools\jmespathnet.compliance\jmespath.test\tests -o json ) `
         -Encoding UTF8
 
-after_build:
-  - ps: dotnet pack --no-build "src\jmespath.net.parser" -c $Env:CONFIGURATION
-  - ps: dotnet pack --no-build "src\jmespath.net" -c $Env:CONFIGURATION
-
 test_script:
   - ps: dotnet test "tests\jmespathnet.tests" -c $Env:CONFIGURATION
+
+after_test:
+  - ps: dotnet pack --no-build "src\jmespath.net" -c $Env:CONFIGURATION
+  - ps: |
+      $targetPath = "src\jmespath.net.parser\bin\Any CPU\$Env:CONFIGURATION"
+      cp "src\jmespath.net.parser\JmesPath.Net.Parser.nuspec" $targetPath
+      mkdir "$targetPath\lib" | Out-Null
+      mv "$targetPath\netstandard1.3" "$targetPath\lib\netstandard1.3"
+      mv "$targetPath\net45" "$targetPath\lib\net45"
+      cd $targetPath
+      nuget pack
 
 artifacts:
   - path: '**\*.nupkg'

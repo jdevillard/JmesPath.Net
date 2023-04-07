@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>JmesPath.Net.Parser</id>
+    <version>42.43.44</version>
+    <authors>Jeremie Devillard,Maxime Labelle,Atif Aziz</authors>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/jdevillard/JmesPath.Net/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/jdevillard/JmesPath.Net</projectUrl>
+    <description>JmesPath.Net core language parser</description>
+    <tags>jmespath json</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="Springcomp.GPLEX.Runtime" version="1.2.4" exclude="Build,Analyzers" />
+        <dependency id="Springcomp.GPPG.Runtime" version="1.2.4" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard1.3">
+        <dependency id="NETStandard.Library" version="1.6.1" exclude="Build,Analyzers" />
+        <dependency id="Springcomp.GPLEX.Runtime" version="1.2.4" exclude="Build,Analyzers" />
+        <dependency id="Springcomp.GPPG.Runtime" version="1.2.4" exclude="Build,Analyzers" />
+        <dependency id="System.Reflection.TypeExtensions" version="4.7.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
