@@ -31,18 +31,15 @@ namespace DevLab.JmesPath.Expressions
         public int? Step
             => step_;
 
-        protected override JmesPathArgument Transform(JToken json)
-            => json.GetTokenType() == "string"
-            ? Slice(json.Value<string>())
-            : base.Transform(json)
-            ;
-
-        public override JmesPathArgument Project(JmesPathArgument argument)
+        protected override JmesPathArgument Project(JmesPathArgument argument)
         {
             if (argument.IsProjection)
                 argument = argument.AsJToken();
 
             var json = argument.Token;
+
+            if (json.Type == JTokenType.String)
+                return Slice((Text)(json as JValue).Value<string>());
 
             if (json.Type != JTokenType.Array)
                 return null;
@@ -72,12 +69,13 @@ namespace DevLab.JmesPath.Expressions
 
         private delegate bool Comparator(int l, int r);
 
-        private JToken Slice(string text)
+        private JToken Slice(Text text)
         {
             var length = text.Length;
             var (start, stop, step) = GetSliceParameters(length);
 
-            var characters = new List<char>();
+            var codePoints = text.CodePoints;
+            var characters = new List<int>(codePoints.Length);
 
             var compare = (step > 0)
                ? (Comparator)((int r, int l) => r < l)
@@ -85,9 +83,9 @@ namespace DevLab.JmesPath.Expressions
                ;
 
             for (var index = start; compare(index, stop); index += step)
-                characters.Add(text[index]);
+                characters.Add(text.CodePoints[index]);
 
-            return new JValue(new string(characters.ToArray()));
+            return new JValue(new Text(characters.ToArray()));
         }
 
         private (int start, int stop, int step) GetSliceParameters(int length)

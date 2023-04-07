@@ -12,17 +12,19 @@ namespace DevLab.JmesPath.Interop
     /// </summary>
     public interface IScopeParticipant
     {
+        void SetRoot(JToken root);
         void PushScope(JToken scope);
         void PopScope();
     }
 
     public interface IContextEvaluator
     {
+        JToken Root { get; }
         JToken Evaluate(string identifier);
     }
 
     public interface IContextHolder
     {
-        void SetContext(JToken context);
+        IContextEvaluator Evaluator { get; set; }
     }
 }

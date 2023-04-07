@@ -154,6 +154,7 @@ namespace DevLab.JmesPath.Utils
         public static string UnescapeRawString(string rawText)
             => rawText
                 .Replace("\\'", "'")
+                .Replace("\\\\", "\\")
                 ;
 
         /// <summary>

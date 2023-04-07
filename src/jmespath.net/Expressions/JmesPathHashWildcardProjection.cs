@@ -5,7 +5,7 @@ namespace DevLab.JmesPath.Expressions
 {
     public sealed class JmesPathHashWildcardProjection : JmesPathProjection
     {
-        public override JmesPathArgument Project(JmesPathArgument argument)
+        protected override JmesPathArgument Project(JmesPathArgument argument)
         {
             if (argument.IsProjection)
                 return argument;

@@ -20,6 +20,9 @@ namespace DevLab.JmesPath.Functions
             var array = (JArray)args[0].Token;
             var expression = args[1].Expression;
 
+            if (array.Count() == 0)
+                return null;
+
             var min = array.Aggregate(
                 (left, right) =>
                 {

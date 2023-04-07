@@ -19,23 +19,22 @@ namespace DevLab.JmesPath.Expressions
         /// <param name="argument"></param>
         /// <returns></returns>
         public virtual JmesPathArgument Transform(JmesPathArgument argument)
-        {
-            if (argument.IsProjection)
-            {
-                var items = new List<JmesPathArgument>();
-                foreach (var projected in argument.Projection)
-                {
-                    var item = Transform(projected);
-                    if (item.IsProjection)
-                        items.Add(item);
-                    else if (item.Token != JTokens.Null)
-                        items.Add(item);
-                }
+            => argument.IsProjection
+                ? Project(argument.Projection)
+                : Transform(argument.Token)
+                ;
 
-                return new JmesPathArgument(items);
+        protected virtual JmesPathArgument Project(IEnumerable<JmesPathArgument> arguments)
+        {
+            var items = new List<JmesPathArgument>();
+            foreach (var projected in arguments)
+            {
+                var item = Transform(projected);
+                if (item.IsProjection || item.Token != JTokens.Null)
+                    items.Add(item);
             }
 
-            return Transform(argument.Token);
+            return new JmesPathArgument(items);
         }
 
         /// <summary>

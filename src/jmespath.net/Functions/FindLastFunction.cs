@@ -3,33 +3,31 @@ using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Functions
 {
-    public sealed class FindLastFunction : JmesPathFunction
+    public sealed class FindLastFunction : FindFirstFunction
     {
         public FindLastFunction()
-            : base("find_last", 2, 3)
+            : base("find_last")
         { }
-
-        public override void Validate(params JmesPathFunctionArgument[] args)
-        {
-            EnsureString(args[0]);
-            EnsureString(args[1]);
-
-            if (args.Length > 2) EnsureNumbers(args[2]);
-
-            base.Validate(args);
-        }
 
         public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
             var text = EnsureString(args[0]);
             var search = EnsureString(args[1]);
 
-            var position = args.Length > 2
+            if (text.Length == 0 || search.Length == 0)
+                return null;
+
+            var start = args.Length > 2
                 ? args[2].Token.Value<int>()
                 : (int?)null
                 ;
 
-            return text.FindLast(search, position);
+            var end = args.Length > 3
+                ? args[3].Token.Value<int>()
+                : (int?)null
+                ;
+
+            return text.FindLast(search, start, end);
         }
     }
 }

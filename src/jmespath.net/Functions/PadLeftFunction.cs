@@ -24,8 +24,11 @@ namespace DevLab.JmesPath.Functions
             text_ = EnsureString(args[0]);
 
             var width = args[1].Token.Value<double>();
-            if (args[1].Token.GetTokenType() != "number" || width < 0.0 || !IsInteger(width))
-                throw new Exception($"Error: syntax, if specified, the $width parameter to the function {Name} must be a positive integer.");
+            if (args[1].Token.GetTokenType() != "number")
+                throw new Exception($"Error: invalid-type, the $width parameter to the function {Name} must be a number.");
+
+            if (width < 0.0 || !IsInteger(width))
+                throw new Exception($"Error: invalid-value, if specified, the $width parameter to the function {Name} must be a positive integer.");
 
             width_ = Convert.ToInt32(width);
 
@@ -33,7 +36,7 @@ namespace DevLab.JmesPath.Functions
             {
                 var character = EnsureString(args[2]);
                 if (character.Length > 1)
-                    throw new Exception($"Error: syntax, function {Name} expects its third argument to be a string with a single character at most.");
+                    throw new Exception($"Error: invalid-value, function {Name} expects its third argument to be a string with a single character at most.");
 
                 character_ = character[0];
             }

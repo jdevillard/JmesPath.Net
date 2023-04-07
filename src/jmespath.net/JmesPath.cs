@@ -43,17 +43,22 @@ namespace DevLab.JmesPath
             var analyzer = new JmesPathGenerator(repository_);
             Parser.Parse(stream, _encoding, analyzer);
 
+            var expression = analyzer.Expression;
+
+            var ast = new JmesPathRootExpression(expression);
+            ast.scopes_ = evaluator_;
+
             // perform post-parsing syntax validation
 
             var syntax = new SyntaxVisitor();
-            analyzer.Expression.Accept(syntax);
+            ast.Accept(syntax);
 
             // inject scope evaluator to all expressions
 
             var evaluator = new ContextEvaluatorVisitor(evaluator_);
-            analyzer.Expression.Accept(evaluator);
+            ast.Accept(evaluator);
 
-            return analyzer.Expression;
+            return ast;
         }
 
         public static JToken ParseJson(string input)
@@ -97,25 +102,9 @@ namespace DevLab.JmesPath
             }
             public void Visit(JmesPathExpression expression)
             {
-                if (expression is JmesPathIdentifier identifier)
-                    identifier.evaluator_ = evaluator_;
+                if (expression is IContextHolder context)
+                    context.Evaluator = evaluator_;
             }
         }
-    }
-
-    public static class JmesPathExpressionExtensions
-    {
-        /// <summary>
-        /// Helper method that transforms the specified JSON
-        /// document by applying the JMESPath expression.
-        /// </summary>
-        /// <param name="document"></param>
-        /// <param name="expression"></param>
-        /// <returns>Result as a string</returns>
-        public static string Transform(this JmesPathExpression expression, JToken document)
-            => expression.Transform(document)
-                .AsJToken()
-                ?.AsString()
-                ;
     }
 }
