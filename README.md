@@ -63,6 +63,8 @@ classDiagram
     JmesPathExpression <|-- JmesPathCompoundExpression
     JmesPathExpression <|-- JmesPathProjection
     JmesPathExpression <|-- JmesPathFunctionExpression
+    JmesPathExpression <|-- JmesPathLetExpression
+    JmesPathExpression <|-- JmesPathVariableReference
 
 	JmesPathFunctionExpression: +string Name
 	JmesPathFunctionExpression: +JmesPathExpression[] Arguments
