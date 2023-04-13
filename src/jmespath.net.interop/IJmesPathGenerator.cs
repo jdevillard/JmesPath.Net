@@ -58,5 +58,10 @@
         void OnExpressionType();
 
         void OnPipeExpression();
+        void OnLetExpression();
+        void OnLetBindings();
+        void OnLetBinding(string name);
+
+        void OnVariableReference(string name);
     }
 }

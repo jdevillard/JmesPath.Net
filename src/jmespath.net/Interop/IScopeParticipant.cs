@@ -17,6 +17,11 @@ namespace DevLab.JmesPath.Interop
         void PopScope();
     }
 
+    public interface IScopeHolder
+    {
+        IScopeParticipant Scopes { get; set; }
+    }
+
     public interface IContextEvaluator
     {
         JToken Root { get; }

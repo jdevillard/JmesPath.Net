@@ -1,10 +1,9 @@
-using DevLab.JmesPath.Interop;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
 {
-    public class JmesPathIdentifier : JmesPathExpression, IContextHolder
+    public class JmesPathIdentifier : JmesPathExpression
     {
         private readonly string name_;
 
@@ -15,18 +14,10 @@ namespace DevLab.JmesPath.Expressions
 
         public string Name => name_;
 
-        IContextEvaluator IContextHolder.Evaluator { get; set ; }
-
         protected override JmesPathArgument Transform(JToken json)
-        {
-            var jsonObject = json as JObject;
-            return jsonObject?[name_] ?? Evaluate(name_);
-        }
+            => (json as JObject)?[name_] ?? JTokens.Null;
 
         protected override string Format()
             => StringUtil.WrapIdentifier(name_);
-
-        public JToken Evaluate(string identifier)
-            => (this as IContextHolder).Evaluator?.Evaluate(identifier) ?? JTokens.Null;
     }
 }

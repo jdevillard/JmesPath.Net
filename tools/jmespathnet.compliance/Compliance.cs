@@ -128,14 +128,6 @@ namespace jmespath.net.compliance
             try
             {
                 var parser = new JmesPath();
-
-                parser.FunctionRepository
-                    .Register<ItemsFunction>()
-                    .Register<FromItemsFunction>()
-                    .Register<LetFunction>()
-                    .Register<ZipFunction>()
-                    ;
-
                 foreach (var registrationFactory in registrationFactories)
                     registrationFactory(parser.FunctionRepository)
                         ;
