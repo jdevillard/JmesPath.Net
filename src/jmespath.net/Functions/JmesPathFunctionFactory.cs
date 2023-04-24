@@ -10,16 +10,12 @@ namespace DevLab.JmesPath.Functions
 {
     public class JmesPathFunctionFactory : IRegisterFunctions, IFunctionRepository
     {
-        private readonly IScopeParticipant scopes_;
-
         private readonly Dictionary<string, JmesPathFunction> functions_
             = new Dictionary<string, JmesPathFunction>()
             ;
 
-        private JmesPathFunctionFactory(IScopeParticipant scopes)
+        private JmesPathFunctionFactory()
         {
-            scopes_ = scopes;
-
             this
                 .Register<AbsFunction>()
                 .Register<AvgFunction>()
@@ -65,8 +61,8 @@ namespace DevLab.JmesPath.Functions
                 ;
         }
 
-        public static JmesPathFunctionFactory Create(IScopeParticipant scopes)
-            => new JmesPathFunctionFactory(scopes);
+        public static JmesPathFunctionFactory Create()
+            => new JmesPathFunctionFactory();
 
         public IRegisterFunctions Register(string name, JmesPathFunction function)
         {
@@ -80,13 +76,7 @@ namespace DevLab.JmesPath.Functions
 
         public IRegisterFunctions Register<T>() where T : JmesPathFunction
         {
-            var ctor = typeof(T).GetConstructor(new Type[] { typeof(IScopeParticipant), });
-            var instance = (T)(
-                (ctor != null)
-                    ? ctor.Invoke(new object[] { scopes_, })
-                    : Activator.CreateInstance<T>()
-                )
-                ;
+            var instance = Activator.CreateInstance<T>();
 
             Register(instance.Name, instance);
 

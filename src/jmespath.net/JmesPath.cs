@@ -14,7 +14,6 @@ namespace DevLab.JmesPath
     {
         private readonly Encoding _encoding;
         private readonly JmesPathFunctionFactory repository_;
-        private readonly ScopeParticipant evaluator_ = new ScopeParticipant();
 
         public JmesPath() : this(Encoding.UTF8)
         {
@@ -23,7 +22,7 @@ namespace DevLab.JmesPath
         public JmesPath(Encoding encoding)
         {
             _encoding = encoding;
-            repository_ = JmesPathFunctionFactory.Create(evaluator_);
+            repository_ = JmesPathFunctionFactory.Create();
         }
 
         public IRegisterFunctions FunctionRepository => repository_;
@@ -54,11 +53,13 @@ namespace DevLab.JmesPath
 
             // inject scope evaluator to all expressions
 
-            var evaluator = new ContextEvaluatorVisitor(evaluator_);
-            ast.Accept(evaluator);
+            var participant = new ScopeParticipant();
 
-            var participant = new ScopeParticipantVisitor(evaluator_);
-            ast.Accept(participant);
+            var evaluatorVisitor = new ContextEvaluatorVisitor(participant);
+            ast.Accept(evaluatorVisitor);
+
+            var participantVisitor = new ScopeParticipantVisitor(participant);
+            ast.Accept(participantVisitor);
 
             return ast;
         }
