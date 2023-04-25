@@ -57,7 +57,25 @@ namespace jmespath.net.tests.Expressions
         [InlineData("[-8:-3:-2]", "[0, 1, 2, 3]", "[]")]
         [InlineData("[8:2:7]", "[0, 1, 2, 3]", "[]")]
         [InlineData("[::]", "[0, 1, 2, 3]", "[0,1,2,3]")]
-        public void JmesPathSliceExpression_Transform(string slices, string input, string expected)
+        [InlineData("[:30]", "[0, 1, 2, 3]", "[0,1,2,3]")]
+        public void JmesPathSliceExpression_Transform_Array(string slices, string input, string expected)
+            => Assert(slices, input, expected);
+
+        [Theory]
+        [InlineData("[0:4:1]", @"""0123""", @"""0123""")]
+        [InlineData("[0:4]", @"""0123""", @"""0123""")]
+        [InlineData("[0:3]", @"""0123""", @"""012""")]
+        [InlineData("[:2]", @"""0123""", @"""01""")]
+        [InlineData("[::2]", @"""0123""", @"""02""")]
+        [InlineData("[::-1]", @"""0123""", @"""3210""")]
+        [InlineData("[-2:]", @"""0123""", @"""23""")]
+
+        [InlineData("[-8:3:2]", @"""0123""", @"""02""")]
+        [InlineData("[-8:-3:-2]", @"""0123""", @"""""")]
+        [InlineData("[8:2:7]", @"""0123""", @"""""")]
+        [InlineData("[::]", @"""0123""", @"""0123""")]
+        [InlineData("[:30]", @"""0123""", @"""0123""")]
+        public void JmesPathSliceExpression_Transform_String(string slices, string input, string expected)
             => Assert(slices, input, expected);
 
         [Fact]
