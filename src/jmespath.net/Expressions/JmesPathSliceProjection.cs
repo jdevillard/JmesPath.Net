@@ -83,7 +83,8 @@ namespace DevLab.JmesPath.Expressions
                ;
 
             for (var index = start; compare(index, stop); index += step)
-                characters.Add(text.CodePoints[index]);
+                if (index >= 0 && index < length)
+                    characters.Add(text.CodePoints[index]);
 
             return new JValue(new Text(characters.ToArray()));
         }
