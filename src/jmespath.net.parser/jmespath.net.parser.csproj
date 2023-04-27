@@ -40,11 +40,11 @@
     <Exec Command="dotnet tool restore" />
   </Target>
 
-  <Target Name="ScannerGenerator" BeforeTargets="BeforeBuild" DependsOnTargets="_RestoreDotnetCliTool" Condition=" '$(IsCrossTargetingBuild)' != 'true' " Inputs="SqlScanner.lex" Outputs="Impl/SqlScanner.g.cs">
+  <Target Name="ScannerGenerator" BeforeTargets="BeforeBuild" DependsOnTargets="_RestoreDotnetCliTool" Condition=" '$(IsCrossTargetingBuild)' != 'true' " Inputs="JmesPathScanner.lex" Outputs="JmesPathScanner.g.cs">
     <Exec Command="dotnet gplex /unicode /noinfo /out:JmesPathScanner.g.cs JmesPathScanner.lex" WorkingDirectory="$(MSBuildProjectDirectory)" />
   </Target>
 
-  <Target Name="ParserGenerator" BeforeTargets="BeforeBuild" DependsOnTargets="_RestoreDotnetCliTool" Condition=" '$(IsCrossTargetingBuild)' != 'true' " Inputs="SqlParser.y" Outputs="Impl/SqlParser.g.cs">
+  <Target Name="ParserGenerator" BeforeTargets="BeforeBuild" DependsOnTargets="_RestoreDotnetCliTool" Condition=" '$(IsCrossTargetingBuild)' != 'true' " Inputs="JmesPathParser.y" Outputs="JmesPathParser.g.cs">
     <Exec Command="dotnet gppg /gplex /no-info /out:JmesPathParser.g.cs JmesPathParser.y" WorkingDirectory="$(MSBuildProjectDirectory)" />
   </Target>
 
