@@ -37,7 +37,7 @@ namespace DevLab.JmesPath.Expressions
         protected override JmesPathArgument Transform(JToken json)
         {
             var token = left_.Transform(json);
-            return token == JmesPathArgument.Null ? token : right_.Transform(token);
+            return token.IsNull() ? token : right_.Transform(token);
         }
 
         public override void Accept(IVisitor visitor)
