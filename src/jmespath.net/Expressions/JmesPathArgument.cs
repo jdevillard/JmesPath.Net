@@ -8,7 +8,7 @@ using DevLab.JmesPath.Utils;
 
 namespace DevLab.JmesPath.Expressions
 {
-    public struct JmesPathArgument : IEquatable<JmesPathArgument>
+    public struct JmesPathArgument
     {
         public static JmesPathArgument Null = new JmesPathArgument(JTokens.Null);
         public static JmesPathArgument True = new JmesPathArgument(JTokens.True);
@@ -53,45 +53,8 @@ namespace DevLab.JmesPath.Expressions
         public static bool IsFalse(JmesPathArgument argument)
             => JTokens.IsFalse(argument.AsJToken());
 
-        public bool Equals(JmesPathArgument other)
-            => GetHashCode() == other.GetHashCode();
-
-        public override bool Equals(object obj)
-            => obj is JmesPathArgument arg ? Equals(arg)
-                    : false
-                    ;
-
-        public static bool operator ==(JmesPathArgument left, JmesPathArgument right)
-            => left.Equals(right);
-
-        public static bool operator !=(JmesPathArgument left, JmesPathArgument right)
-            => !left.Equals(right);
-
-        public override int GetHashCode()
-        {
-            const int seedPrimeNumber = 691;
-            const int fieldPrimeNumber = 397;
-
-            var hashCode = seedPrimeNumber;
-
-            unchecked
-            {
-                if (Token != null)
-                {
-                    hashCode *= fieldPrimeNumber + Token.Type.GetHashCode();
-                    hashCode *= fieldPrimeNumber + Token.ToString().GetHashCode();
-                }
-                else
-                {
-                    // a projection does not contain null values
-
-                    foreach (var item in Projection)
-                        hashCode *= fieldPrimeNumber + item.GetHashCode();
-                }
-            }
-
-            return hashCode;
-        }
+        public bool IsNull()
+            => JTokens.IsNull(AsJToken());
 
 #if DEBUG
         public override string ToString()
