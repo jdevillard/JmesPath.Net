@@ -4,9 +4,6 @@ namespace DevLab.JmesPath.Functions
 {
     public class TrimFunction : JmesPathFunction
     {
-        protected string text_;
-        protected char[] characters_ = null;
-
         public TrimFunction()
             : this("trim")
         { }
@@ -17,15 +14,21 @@ namespace DevLab.JmesPath.Functions
 
         public override void Validate(params JmesPathFunctionArgument[] args)
         {
-            text_ = EnsureString(args[0]);
+            EnsureString(args[0]);
             if (args.Length > 1)
-                characters_ = (EnsureString(args[1])).ToCharArray();
+                (EnsureString(args[1])).ToCharArray();
 
             base.Validate(args);
         }
 
         public override JToken Execute(params JmesPathFunctionArgument[] args)
-            => text_.Trim(characters_);
+        {
+            var (Text, Characters) = GetFunctionArguments(args);
+            return Text.Trim(Characters);
+        }
+
+        protected (string Text, char[] Characters) GetFunctionArguments(JmesPathFunctionArgument[] args)
+            => (EnsureString(args[0]), args.Length > 1 ? EnsureString(args[1]).ToCharArray() : null);
     }
 
     public sealed class TrimLeftFunction : TrimFunction
@@ -34,7 +37,10 @@ namespace DevLab.JmesPath.Functions
             : base("trim_left")
         { }
         public override JToken Execute(params JmesPathFunctionArgument[] args)
-            => text_.TrimStart(characters_);
+        {
+            var (Text, Characters) = GetFunctionArguments(args);
+            return Text.TrimStart(Characters);
+        }
     }
     public sealed class TrimRightFunction : TrimFunction
     {
@@ -42,6 +48,9 @@ namespace DevLab.JmesPath.Functions
             : base("trim_right")
         { }
         public override JToken Execute(params JmesPathFunctionArgument[] args)
-            => text_.TrimEnd(characters_);
+        {
+            var (Text, Characters) = GetFunctionArguments(args);
+            return Text.TrimEnd(Characters);
+        }
     }
 }
