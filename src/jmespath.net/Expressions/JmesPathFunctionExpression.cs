@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using System.Linq;
+using System.Threading.Tasks;
 using DevLab.JmesPath.Functions;
 using DevLab.JmesPath.Interop;
 
@@ -69,6 +70,24 @@ namespace DevLab.JmesPath.Expressions
             return function_.Execute(arguments);
         }
 
+        protected override async Task<JmesPathArgument> TransformAsync(JToken json)
+        {
+            var arguments = await Task.WhenAll(expressions_.Select(
+                        async expression =>
+                        {
+                            if (expression.IsExpressionType)
+                                return new JmesPathFunctionArgument(expression);
+                            else
+                                return new JmesPathFunctionArgument((await expression.TransformAsync(json)).AsJToken());
+                        })
+                    .ToArray());
+
+            function_.Validate(arguments);
+            function_.SetContext(json);
+
+            return await function_.ExecuteAsync(arguments);
+        }
+        
         public override void Accept(IVisitor visitor)
         {
             base.Accept(visitor);

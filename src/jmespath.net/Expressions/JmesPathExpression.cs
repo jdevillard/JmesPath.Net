@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using DevLab.JmesPath.Interop;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
@@ -21,10 +22,22 @@ namespace DevLab.JmesPath.Expressions
         public virtual JmesPathArgument Transform(JmesPathArgument argument)
             => argument.IsProjection
                 ? Project(argument.Projection)
-                : Transform(argument.Token)
-                ;
+                : Transform(argument.Token);
 
-        protected virtual JmesPathArgument Project(IEnumerable<JmesPathArgument> arguments)
+        /// <summary>
+        /// Evaluates the expression against the specified JSON object.
+        /// The result cannot be null and is:
+        /// either a valid JSON found in the resulting <see cref="JmesPathArgument"/>'s Token property.
+        /// or a projection found in the resulting <see cref="JmesPathArgument"/>'s Projection property.
+        /// </summary>
+        /// <param name="argument"></param>
+        /// <returns></returns>
+        public virtual async Task<JmesPathArgument> TransformAsync(JmesPathArgument argument)
+            => argument.IsProjection
+                ? await ProjectAsync(argument.Projection)
+                : await TransformAsync(argument.Token);
+
+       protected virtual JmesPathArgument Project(IEnumerable<JmesPathArgument> arguments)
         {
             var items = new List<JmesPathArgument>();
             foreach (var projected in arguments)
@@ -37,12 +50,22 @@ namespace DevLab.JmesPath.Expressions
             return new JmesPathArgument(items);
         }
 
+       private Task<JmesPathArgument> ProjectAsync(IEnumerable<JmesPathArgument> arguments) =>
+           Task.FromResult(Project(arguments));
+
         /// <summary>
         /// Evaluates the expression against the specified JSON.
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
         protected abstract JmesPathArgument Transform(JToken json);
+
+        /// <summary>
+        /// Evaluates the expression against the specified JSON.
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        protected virtual Task<JmesPathArgument> TransformAsync(JToken json) => Task.FromResult(Transform(json));
 
         public bool IsExpressionType { get; private set; }
 

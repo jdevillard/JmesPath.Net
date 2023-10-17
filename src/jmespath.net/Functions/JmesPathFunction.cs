@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using DevLab.JmesPath.Interop;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
@@ -65,6 +66,8 @@ namespace DevLab.JmesPath.Functions
         }
 
         public abstract JToken Execute(params JmesPathFunctionArgument[] args);
+
+        public virtual Task<JToken> ExecuteAsync(params JmesPathFunctionArgument[] args) => Task.FromResult(Execute(args));
 
         protected static bool IsInteger(double sum)
         {

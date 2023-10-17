@@ -1,4 +1,5 @@
-﻿using DevLab.JmesPath.Interop;
+﻿using System.Threading.Tasks;
+using DevLab.JmesPath.Interop;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
@@ -16,6 +17,12 @@ namespace DevLab.JmesPath.Expressions
         {
             Scopes.SetRoot(json);
             return Expression.Transform(json);
+        }
+        
+        protected override async Task<JmesPathArgument> TransformAsync(JToken json)
+        {
+            Scopes.SetRoot(json);
+            return await Expression.TransformAsync(json);
         }
     }
 }

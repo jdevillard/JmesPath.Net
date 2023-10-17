@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Functions;
@@ -31,8 +32,22 @@ namespace DevLab.JmesPath
         public JToken Transform(JToken token, string expression)
             => Parse(expression).Transform(token).AsJToken();
 
+        public async Task<JToken> TransformAsync(JToken token, string expression)
+        {
+            var ast = Parse(expression);
+            var argument = await ast.TransformAsync(token);
+            return argument.AsJToken();
+        }
+
         public String Transform(string json, string expression)
             => Transform(ParseJson(json), expression)?.AsString();
+
+        public async Task<String> TransformAsync(string json, string expression)
+        {
+            var token = await TransformAsync(ParseJson(json), expression);
+            return token?.AsString();
+        }
+
 
         public JmesPathExpression Parse(string expression)
             => Parse(new MemoryStream(_encoding.GetBytes(expression)));

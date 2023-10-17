@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using DevLab.JmesPath;
 
 namespace jmespath.net.tests.Parser
@@ -13,6 +14,16 @@ namespace jmespath.net.tests.Parser
             Xunit.Assert.Equal(expected, result);
         }
 
+        protected async Task AssertAsync(string expression, string input, string expected)
+        {
+            var path = new JmesPath();
+            RegisterFunction(path);
+
+            var result = await path.TransformAsync(input, expression);
+            Xunit.Assert.Equal(expected, result);
+        }
+
+        
         protected virtual void RegisterFunction(JmesPath parser)
         {
             
