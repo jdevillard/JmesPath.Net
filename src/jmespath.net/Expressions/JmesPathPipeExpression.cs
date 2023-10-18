@@ -1,4 +1,5 @@
-﻿using DevLab.JmesPath.Utils;
+﻿using System.Threading.Tasks;
+using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
@@ -32,6 +33,16 @@ namespace DevLab.JmesPath.Expressions
             return Right.Transform(token);
         }
 
+        protected override async Task<JmesPathArgument> TransformAsync(JToken json)
+        {
+            // stop projections after
+            // evaluating the left expression
+
+            var token = (await Left.TransformAsync(json)).AsJToken();
+
+            return await Right.TransformAsync(token);
+        }
+        
         public override string ToString()
             => $"{Left}|{Right}";
     }

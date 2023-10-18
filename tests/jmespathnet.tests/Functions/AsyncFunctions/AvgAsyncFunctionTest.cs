@@ -15,10 +15,30 @@ namespace jmespath.net.tests.Functions
         }
 
         [Fact]
-        public async Task Avg()
+        public async Task AsyncWithinSync()
         {
             const string json = "{\"foo\":[2, 3]}";
-            const string expression = "floor(avg(foo))";
+            const string expression = "floor(avgasync(foo))";
+            const string expected = "2";
+
+            await AssertAsync(expression, json, expected);
+        }
+        
+        [Fact]
+        public async Task SyncWithinAsync()
+        {
+            const string json = "{\"foo\":[2.5, 3.5]}";
+            const string expression = "avgasync([floor(foo[0]), ceil(foo[1])])";
+            const string expected = "3.0";
+
+            await AssertAsync(expression, json, expected);
+        }
+        
+        [Fact]
+        public async Task AsyncWithPipe()
+        {
+            const string json = "{\"foo\":[2, 3]}";
+            const string expression = "avgasync(foo) | floor(@)";
             const string expected = "2";
 
             await AssertAsync(expression, json, expected);

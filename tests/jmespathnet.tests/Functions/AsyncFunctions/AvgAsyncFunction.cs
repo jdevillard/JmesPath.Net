@@ -9,7 +9,7 @@ namespace jmespath.net.tests.Functions
     public class AvgAsyncFunction : JmesPathAsyncFunction
     {
         public AvgAsyncFunction()
-            : base("avg", 1)
+            : base("avgasync", 1)
         {
         }
 
