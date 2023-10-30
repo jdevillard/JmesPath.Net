@@ -50,10 +50,20 @@ namespace DevLab.JmesPath.Expressions
             return new JmesPathArgument(items);
         }
 
-       private Task<JmesPathArgument> ProjectAsync(IEnumerable<JmesPathArgument> arguments) =>
-           Task.FromResult(Project(arguments));
+       private async Task<JmesPathArgument> ProjectAsync(IEnumerable<JmesPathArgument> arguments)
+       {
+           var items = new List<JmesPathArgument>();
+           foreach (var projected in arguments)
+           {
+               var item = await TransformAsync(projected);
+               if (item.IsProjection || item.Token != JTokens.Null)
+                   items.Add(item);
+           }
 
-        /// <summary>
+           return new JmesPathArgument(items);
+       }
+
+       /// <summary>
         /// Evaluates the expression against the specified JSON.
         /// </summary>
         /// <param name="json"></param>

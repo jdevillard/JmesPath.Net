@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using DevLab.JmesPath.Interop;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
@@ -30,6 +31,20 @@ namespace DevLab.JmesPath.Expressions
             {
                 var expression = dictionary_[key];
                 var result = expression.Transform(json).AsJToken();
+                properties.Add(new JProperty(key, result));
+            }
+
+            return new JObject(properties);
+        }
+        
+        protected override async Task<JmesPathArgument> TransformAsync(JToken json)
+        {
+            var properties = new List<JProperty>();
+
+            foreach (var key in dictionary_.Keys)
+            {
+                var expression = dictionary_[key];
+                var result = (await expression.TransformAsync(json)).AsJToken();
                 properties.Add(new JProperty(key, result));
             }
 

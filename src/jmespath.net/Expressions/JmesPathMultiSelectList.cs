@@ -3,6 +3,7 @@ using DevLab.JmesPath.Interop;
 using Newtonsoft.Json.Linq;
 using DevLab.JmesPath.Utils;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DevLab.JmesPath.Expressions
 {
@@ -38,6 +39,18 @@ namespace DevLab.JmesPath.Expressions
             return new JArray().AddRange(items);
         }
 
+        protected override async Task<JmesPathArgument> TransformAsync(JToken json)
+        {
+            var items = new List<JToken>();
+            foreach (var expression in expressions_)
+            {
+                var result = (await expression.TransformAsync(json)).AsJToken();
+                items.Add(result);
+            }
+
+            return new JArray().AddRange(items);
+        }
+        
         public override void Accept(IVisitor visitor)
         {
             base.Accept(visitor);            

@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DevLab.JmesPath.Functions
 {
@@ -57,6 +58,38 @@ namespace DevLab.JmesPath.Functions
             return new JObject(properties);
         }
 
+        public override async Task<JToken> ExecuteAsync(params JmesPathFunctionArgument[] args)
+        {
+            System.Diagnostics.Debug.Assert(args.Length == 2);
+            System.Diagnostics.Debug.Assert(args[0].IsToken);
+            System.Diagnostics.Debug.Assert(args[1].IsExpressionType);
+
+            var array = (JArray)args[0].Token;
+            var expression = args[1].Expression;
+
+            var dictionary = new Dictionary<string, IList<JToken>>();
+
+            foreach (var element in array)
+            {
+                string key = "";
+
+                var token = (await expression.TransformAsync(element)).AsJToken();
+                if (token != JTokens.Null)
+                {
+                    var tokenType = token.GetTokenType();
+                    if (tokenType != "string")
+                        throw new Exception($"Error: invalid-type, function {Name} expects its second expression-type argument to evaluate to a 'string' value but received '{tokenType}' {token} instead.");
+
+                    key = token.Value<string>();
+                    AddElement(dictionary, key, element);
+                }
+            }
+
+            var properties = dictionary.Select(kvp => new JProperty(kvp.Key, kvp.Value));
+
+            return new JObject(properties);
+        }
+        
         private static void AddElement(IDictionary<string, IList<JToken>> dictionary, string key, JToken element)
         {
             if (!dictionary.ContainsKey(key))

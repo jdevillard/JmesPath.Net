@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DevLab.JmesPath.Expressions
 {
@@ -37,6 +38,20 @@ namespace DevLab.JmesPath.Expressions
                 Scopes?.PopScope();
             }
         }
+        
+        protected override async Task<JmesPathArgument> TransformAsync(JToken json)
+        {
+            Scopes?.PushScope(await BindScopeAsync(json));
+
+            try
+            {
+                return await expression_.TransformAsync(json);
+            }
+            finally
+            {
+                Scopes?.PopScope();
+            }
+        }
 
         public override void Accept(IVisitor visitor)
         {
@@ -59,6 +74,19 @@ namespace DevLab.JmesPath.Expressions
             return new JObject(properties);
         }
 
+        private async Task<JToken> BindScopeAsync(JToken json)
+        {
+            var properties = new List<JProperty>();
+
+            foreach (var binding in bindings_)
+            {
+                var name = binding.Name;
+                var value = (await binding.Expression.TransformAsync(json)).AsJToken();
+                properties.Add(new JProperty(name, value));
+            }
+            return new JObject(properties);
+        }
+        
         protected override string Format()
             => $"let {String.Join(", ", bindings_.Select(b => b.ToString()))} in {expression_}";
     }

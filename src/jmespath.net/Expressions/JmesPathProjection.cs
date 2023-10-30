@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
 {
@@ -6,7 +7,12 @@ namespace DevLab.JmesPath.Expressions
     {
         protected abstract JmesPathArgument Project(JmesPathArgument argument);
 
-        protected override JmesPathArgument Transform(JToken json)
+        protected virtual Task<JmesPathArgument> ProjectAsync(JmesPathArgument argument) =>
+            Task.FromResult(Project(argument));
+
+       protected override JmesPathArgument Transform(JToken json)
             => Project(json);
+
+       protected override Task<JmesPathArgument> TransformAsync(JToken json) => ProjectAsync(json);
     }
 }

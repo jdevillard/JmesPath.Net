@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
@@ -29,10 +30,25 @@ namespace DevLab.JmesPath.Expressions
             var result = Compare(left, right);
 
             return result == null
-                ? JmesPathArgument.Null
-                : result.Value ?
-                    JmesPathArgument.True
-                    : JmesPathArgument.False
+                    ? JmesPathArgument.Null
+                    : result.Value
+                        ? JmesPathArgument.True
+                        : JmesPathArgument.False
+                ;
+        }
+
+        protected override async Task<JmesPathArgument> TransformAsync(JToken json)
+        {
+            var left = (await Left.TransformAsync(json)).AsJToken();
+            var right = (await Right.TransformAsync(json)).AsJToken();
+
+            var result = Compare(left, right);
+
+            return result == null
+                    ? JmesPathArgument.Null
+                    : result.Value
+                        ? JmesPathArgument.True
+                        : JmesPathArgument.False
                 ;
         }
 
