@@ -31,8 +31,8 @@ namespace DevLab.JmesPath.Expressions
 
             return result == null
                 ? JmesPathArgument.Null
-                : result.Value
-                    ? JmesPathArgument.True
+                : result.Value ?
+                    JmesPathArgument.True
                     : JmesPathArgument.False
                 ;
         }
