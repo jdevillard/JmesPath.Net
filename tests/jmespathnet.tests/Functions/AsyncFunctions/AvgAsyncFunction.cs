@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace jmespath.net.tests.Functions
 {
-    public class AvgAsyncFunction : JmesPathAsyncFunction
+    public class AvgAsyncFunction : JmesPathFunction
     {
         public AvgAsyncFunction()
             : base("avgasync", 1)
@@ -18,6 +18,11 @@ namespace jmespath.net.tests.Functions
             base.Validate();
             
             EnsureArrayOf(args[0], "number");
+        }
+
+        public override JToken Execute(params JmesPathFunctionArgument[] args)
+        {
+            throw new System.NotImplementedException();
         }
 
         public override async Task<JToken> ExecuteAsync(params JmesPathFunctionArgument[] args)
