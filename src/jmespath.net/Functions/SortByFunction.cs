@@ -155,7 +155,6 @@ namespace DevLab.JmesPath.Functions
                 var key = expression.Transform(t).AsJToken();
                 return (Text) key.Value<string>();
             };
-
             IComparer<Text> comparer = Text.CodePointComparer;
 
             var ordered = array
