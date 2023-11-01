@@ -30,7 +30,7 @@ namespace DevLab.JmesPath.Functions
 
             var items = elements.Select(e =>
                 expression.Transform(e).AsJToken()
-            ).ToArray();          
+                ).ToArray();          
 
             return new JArray().AddRange(items);
         }
