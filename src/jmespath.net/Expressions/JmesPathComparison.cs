@@ -30,10 +30,10 @@ namespace DevLab.JmesPath.Expressions
             var result = Compare(left, right);
 
             return result == null
-                    ? JmesPathArgument.Null
-                    : result.Value
-                        ? JmesPathArgument.True
-                        : JmesPathArgument.False
+                ? JmesPathArgument.Null
+                : result.Value
+                    ? JmesPathArgument.True
+                    : JmesPathArgument.False
                 ;
         }
 

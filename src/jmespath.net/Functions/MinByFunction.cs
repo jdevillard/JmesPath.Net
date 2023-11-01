@@ -31,8 +31,8 @@ namespace DevLab.JmesPath.Functions
                     var evalRight = Evaluate(expression, right);
 
                     return evalLeft.Value<double>() < evalRight.Value<double>()
-                            ? left
-                            : right
+                        ? left
+                        : right
                         ;
                 });
             return min;

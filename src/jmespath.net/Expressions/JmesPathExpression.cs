@@ -22,7 +22,8 @@ namespace DevLab.JmesPath.Expressions
         public virtual JmesPathArgument Transform(JmesPathArgument argument)
             => argument.IsProjection
                 ? Project(argument.Projection)
-                : Transform(argument.Token);
+                : Transform(argument.Token)
+                ;
 
         /// <summary>
         /// Evaluates the expression against the specified JSON object.
@@ -35,7 +36,8 @@ namespace DevLab.JmesPath.Expressions
         public virtual async Task<JmesPathArgument> TransformAsync(JmesPathArgument argument)
             => argument.IsProjection
                 ? await ProjectAsync(argument.Projection)
-                : await TransformAsync(argument.Token);
+                : await TransformAsync(argument.Token)
+                ;
 
        protected virtual JmesPathArgument Project(IEnumerable<JmesPathArgument> arguments)
         {

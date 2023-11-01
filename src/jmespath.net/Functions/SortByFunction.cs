@@ -31,18 +31,16 @@ namespace DevLab.JmesPath.Functions
             // with all items from a single expected type
 
             var keyCollection = array
-                    .Select(u => expression.Transform(u).AsJToken())
-                    .ToArray()
+                .Select(u => expression.Transform(u).AsJToken())
+                .ToArray()
                 ;
 
             var actualItemType = keyCollection[0].GetTokenType();
             if (actualItemType != "number" && actualItemType != "string")
-                throw new Exception(
-                    $"Error: invalid-type, the expression argument of function {Name} should return a number or a string.");
+                throw new Exception($"Error: invalid-type, the expression argument of function {Name} should return a number or a string.");
 
             if (keyCollection.Any(k => k.GetTokenType() != actualItemType))
-                throw new Exception(
-                    $"Error: invalid-type, all items resulting from the evaluation of the expression argument of function {Name} should have the same type.");
+                throw new Exception($"Error: invalid-type, all items resulting from the evaluation of the expression argument of function {Name} should have the same type.");
 
             // sort array
 
@@ -59,7 +57,7 @@ namespace DevLab.JmesPath.Functions
             }
             else
             {
-                ordered = SortByText(tokens, expression);
+                 ordered = SortByText(tokens, expression);
             }
 
             return new JArray(ordered);
@@ -117,17 +115,14 @@ namespace DevLab.JmesPath.Functions
 
         private JToken[] SortByNumbers<T>(JToken[] array, JmesPathExpression expression)
         {
-            T keySelector(JToken t)
-            {
+            T keySelector(JToken t) {
                 var token = expression.Transform(t).AsJToken();
                 return token.Value<T>();
-            }
-
-            ;
+            };
 
             var ordered = array
-                    .OrderBy(keySelector)
-                    .ToArray()
+                .OrderBy(keySelector)
+                .ToArray()
                 ;
 
             return ordered;
@@ -158,17 +153,17 @@ namespace DevLab.JmesPath.Functions
             Text keySelector(JToken t)
             {
                 var key = expression.Transform(t).AsJToken();
-                return (Text)key.Value<string>();
-            }
+                return (Text) key.Value<string>();
+            };
 
             IComparer<Text> comparer = Text.CodePointComparer;
 
             var ordered = array
-                    .OrderBy(
-                        keySelector,
-                        comparer
-                    )
-                    .ToArray()
+                .OrderBy(
+                    keySelector,
+                    comparer
+                )
+                .ToArray()
                 ;
 
             return ordered;
