@@ -34,6 +34,7 @@ namespace DevLab.JmesPath.Functions
                         ? left
                         : right
                         ;
+                    
                 });
             return min;
         }
