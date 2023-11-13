@@ -52,7 +52,7 @@ namespace DevLab.JmesPath.Expressions
             return new JmesPathArgument(items);
         }
 
-       private async Task<JmesPathArgument> ProjectAsync(IEnumerable<JmesPathArgument> arguments)
+       protected virtual async Task<JmesPathArgument> ProjectAsync(IEnumerable<JmesPathArgument> arguments)
        {
            var items = new List<JmesPathArgument>();
            foreach (var projected in arguments)
