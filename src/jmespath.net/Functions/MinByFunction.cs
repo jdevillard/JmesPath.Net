@@ -51,17 +51,19 @@ namespace DevLab.JmesPath.Functions
             if (array.Count == 0)
                 return null;
 
-            var evalLeft = await EvaluateAsync(expression, array[0]);
+            var left = array[0];
             for (var i = 1; i < array.Count; i++)
             {
-                var evalRight = await EvaluateAsync(expression, array[i]);
+                var right = array[i];
+                var evalLeft = await EvaluateAsync(expression, left);
+                var evalRight = await EvaluateAsync(expression, right);
                 if (evalLeft.Value<double>() >= evalRight.Value<double>())
                 {
-                    evalLeft = evalRight;
+                    left = right;
                 }
             }
 
-            return evalLeft;
+            return left;
         }
     }
 }
