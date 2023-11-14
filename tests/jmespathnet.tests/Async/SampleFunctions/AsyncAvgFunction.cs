@@ -4,12 +4,12 @@ using DevLab.JmesPath.Functions;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
-namespace jmespath.net.tests.Functions
+namespace jmespathnet.tests.Async.SampleFunctions
 {
-    public class AvgAsyncFunction : JmesPathFunction
+    public class AsyncAvgFunction : JmesPathFunction
     {
-        public AvgAsyncFunction()
-            : base("avgasync", 1)
+        public AsyncAvgFunction()
+            : base("asyncavg", 1)
         {
         }
 
