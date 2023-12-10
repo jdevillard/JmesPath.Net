@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using DevLab.JmesPath.Interop;
 using Newtonsoft.Json.Linq;
 
@@ -38,6 +39,12 @@ namespace DevLab.JmesPath.Expressions
         {
             var token = left_.Transform(json);
             return token.IsNull() ? token : right_.Transform(token);
+        }
+
+        protected override async Task<JmesPathArgument> TransformAsync(JToken json)
+        {
+            var token = await left_.TransformAsync(json);
+            return token.IsNull() ? token : await right_.TransformAsync(token);
         }
 
         public override void Accept(IVisitor visitor)

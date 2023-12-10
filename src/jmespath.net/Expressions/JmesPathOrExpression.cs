@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
 {
@@ -21,6 +22,12 @@ namespace DevLab.JmesPath.Expressions
             return !JmesPathArgument.IsFalse(token) ? token : Right.Transform(json);
         }
 
+        protected override async Task<JmesPathArgument> TransformAsync(JToken json)
+        {
+            var token = await Left.TransformAsync(json);
+            return !JmesPathArgument.IsFalse(token) ? token : await Right.TransformAsync(json);
+        }
+        
         public override string ToString()
             => $"{Left} || {Right}";
     }

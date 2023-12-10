@@ -1,6 +1,7 @@
 ﻿using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Threading.Tasks;
 
 namespace DevLab.JmesPath.Expressions
 {
@@ -16,6 +17,19 @@ namespace DevLab.JmesPath.Expressions
             var leftToken = Left.Transform(json).AsJToken();
             var rightToken = Right.Transform(json).AsJToken();
 
+            return Compute(rightToken, leftToken);
+        }
+
+        protected override async Task<JmesPathArgument> TransformAsync(JToken json)
+        {
+            var leftToken = (await Left.TransformAsync(json)).AsJToken();
+            var rightToken = (await Right.TransformAsync(json)).AsJToken();
+
+            return Compute(rightToken, leftToken);
+        }
+        
+        private JmesPathArgument Compute(JToken rightToken, JToken leftToken)
+        {
             if (rightToken.GetTokenType() != leftToken.GetTokenType() || leftToken.GetTokenType() != "number")
                 return JTokens.Null;
 

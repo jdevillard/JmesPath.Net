@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using DevLab.JmesPath;
 
 namespace jmespath.net.tests.Parser
@@ -13,7 +14,7 @@ namespace jmespath.net.tests.Parser
             Xunit.Assert.Equal(expected, result);
         }
 
-        protected virtual void RegisterFunction(JmesPath parser)
+        protected virtual void RegisterFunction(JmesPath jmesPath)
         {
             
         }

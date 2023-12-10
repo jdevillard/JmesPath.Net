@@ -1,4 +1,5 @@
-﻿using DevLab.JmesPath.Interop;
+﻿using System.Threading.Tasks;
+using DevLab.JmesPath.Interop;
 using Newtonsoft.Json.Linq;
 
 namespace DevLab.JmesPath.Expressions
@@ -21,6 +22,9 @@ namespace DevLab.JmesPath.Expressions
 
         protected override JmesPathArgument Transform(JToken json)
             => expression_.Transform(json);
+
+        protected override async Task<JmesPathArgument> TransformAsync(JToken json)
+            => await expression_.TransformAsync(json);
 
         public override void Accept(IVisitor visitor)
         {

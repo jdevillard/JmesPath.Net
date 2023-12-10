@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using DevLab.JmesPath.Expressions;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
@@ -25,6 +26,24 @@ namespace DevLab.JmesPath.Functions
         protected JToken Evaluate(JmesPathExpression expression, JToken token)
         {
             var eval = expression.Transform(token).AsJToken();
+            var type = eval.GetTokenType();
+
+            if (type != "number" && type != "string")
+                throw new Exception($"Error: invalid-type, the expression argument of function {Name} should return a number or a string.");
+
+            if (type == "number")
+                return eval;
+
+            double number;
+            if (double.TryParse(eval.Value<string>(), out number))
+                return new JValue(number);
+
+            throw new Exception("Error: invalid-type, when evaluating the expression argument of function {Name}, some items could not be cast to a number.");
+        }
+        
+        protected async Task<JToken> EvaluateAsync(JmesPathExpression expression, JToken token)
+        {
+            var eval = (await expression.TransformAsync(token)).AsJToken();
             var type = eval.GetTokenType();
 
             if (type != "number" && type != "string")

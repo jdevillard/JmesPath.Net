@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DevLab.JmesPath.Interop;
 using Newtonsoft.Json.Linq;
 
@@ -31,6 +32,27 @@ namespace DevLab.JmesPath.Expressions
             foreach (var item in array)
             {
                 var result = expression_.Transform(item);
+                if (!JmesPathArgument.IsFalse(result))
+                    items.Add(item);
+            }
+
+            return new JmesPathArgument(items);
+        }
+        
+        protected override async Task<JmesPathArgument> ProjectAsync(JmesPathArgument argument)
+        {
+            if (argument.IsProjection)
+                argument = argument.AsJToken();
+
+            var array = argument.Token as JArray;
+            if (array == null)
+                return null;
+
+            var items = new List<JmesPathArgument>();
+
+            foreach (var item in array)
+            {
+                var result = await expression_.TransformAsync(item);
                 if (!JmesPathArgument.IsFalse(result))
                     items.Add(item);
             }

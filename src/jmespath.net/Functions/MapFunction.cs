@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using DevLab.JmesPath.Utils;
 using Newtonsoft.Json.Linq;
 
@@ -32,6 +33,17 @@ namespace DevLab.JmesPath.Functions
                 ).ToArray();          
 
             return new JArray().AddRange(items);
-        }     
+        }
+
+        public override async Task<JToken> ExecuteAsync(params JmesPathFunctionArgument[] args)
+        {
+            var expression = args[0].Expression;
+            var elements = (JArray)(args[1].Token);
+
+            var items = await Task.WhenAll(elements
+                    .Select(async e => (await expression.TransformAsync(e)).AsJToken()))
+                ;
+            return new JArray().AddRange(items);
+        }
     }
 }
