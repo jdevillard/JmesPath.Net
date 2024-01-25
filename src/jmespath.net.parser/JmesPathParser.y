@@ -317,7 +317,28 @@ hash_wildcard		: T_STAR
 					}
 					;
 
-multi_select_hash	: T_LBRACE keyval_expressions T_RBRACE
+multi_select_hash	: multi_select_hash_key
+					| multi_select_hash_keyval
+					;
+
+multi_select_hash_key
+					: T_LBRACE key_expressions T_RBRACE
+					{
+						PopMultiSelectHash();
+					};
+
+key_expressions		: identifier
+					{
+						PushMultiSelectHash();
+						AddCompactHashExpression($1.Token);
+					}
+					|key_expressions T_COMMA identifier
+					{
+						AddCompactHashExpression($3.Token);
+					};
+
+multi_select_hash_keyval
+					: T_LBRACE keyval_expressions T_RBRACE
 					{
 						PopMultiSelectHash();
 					};
