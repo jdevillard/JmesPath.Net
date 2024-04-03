@@ -13,9 +13,14 @@
     <AssemblyOriginatorKeyFile>../../src/jmespath.net.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.1'">
     <ProjectReference Include="..\..\src\jmespath.net.parser\jmespath.net.parser.csproj" />
     <ProjectReference Include="..\..\src\jmespath.net\jmespath.net.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+    <ProjectReference Include="..\..\src\jmespath.net.parser\jmespath.net.parser.csproj" AdditionalProperties="TargetFramework=netstandard1.3"/>
+    <ProjectReference Include="..\..\src\jmespath.net\jmespath.net.csproj" AdditionalProperties="TargetFramework=netstandard1.3"/>
   </ItemGroup>
 
   <ItemGroup>

@@ -20,6 +20,10 @@
         <dependency id="Springcomp.GPPG.Runtime" version="1.2.4" exclude="Build,Analyzers" />
         <dependency id="System.Reflection.TypeExtensions" version="4.7.0" exclude="Build,Analyzers" />
       </group>
+	  <group targetFramework=".NETStandard2.1">
+        <dependency id="Springcomp.GPLEX.Runtime" version="1.2.4" exclude="Build,Analyzers" />
+        <dependency id="Springcomp.GPPG.Runtime" version="1.2.4" exclude="Build,Analyzers" />
+      </group>
     </dependencies>
   </metadata>
 </package>
