@@ -1,6 +1,7 @@
 ﻿using System;
-using StarodubOleg.GPLEX.Runtime;
-using StarodubOleg.GPPG.Runtime;
+using System.Collections.Generic;
+using DevLab.JmesPath.Utils;
+using QUT.Gppg;
 
 namespace DevLab.JmesPath
 {

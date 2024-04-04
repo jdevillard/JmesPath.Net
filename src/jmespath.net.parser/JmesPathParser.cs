@@ -1,6 +1,6 @@
 ﻿using System;
-using StarodubOleg.GPPG.Runtime;
 using DevLab.JmesPath.Tokens;
+using QUT.Gppg;
 
 namespace DevLab.JmesPath
 {
