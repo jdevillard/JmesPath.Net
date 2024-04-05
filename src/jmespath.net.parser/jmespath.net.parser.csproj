@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <Description>JmesPath.Net core language parser</Description>
     <AssemblyTitle>JmesPath.Net.Parser</AssemblyTitle>
@@ -49,4 +50,5 @@
   <Target Name="_RestoreDotnetCliTool" Inputs="JmesPathScanner.lex;JmesPathParser.y" Outputs="JmesPathScanner.g.cs;JmesPathParser.g.cs">
     <Exec Command="dotnet tool restore" />
   </Target>
+
 </Project>
