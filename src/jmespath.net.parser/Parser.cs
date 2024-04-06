@@ -8,7 +8,7 @@
     {
         public static void Parse(Stream stream, Encoding encoding, IJmesPathGenerator generator)
         {
-            var scanner = new JmesPathScanner(stream, encoding.CodePage.ToString());
+            var scanner = new JmesPathScanner(stream, encoding.CodePage);
             scanner.InitializeLookaheadQueue();
 
             var analyzer = new JmesPathParser(scanner, generator);

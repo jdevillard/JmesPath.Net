@@ -2,9 +2,10 @@
 %scannertype JmesPathScanner
 %visibility internal
 %tokentype	TokenType
-%using StarodubOleg.GPPG.Runtime;
+%using QUT.Gppg;
+%using System.Reflection;
 
-%option stack, minimize, parser, verbose, persistbuffer, embedbuffers 
+%option stack, minimize, parser, verbose, persistbuffer, noembedbuffers, unicode
 
 T_AND			&&
 T_OR			\|\|

@@ -5,7 +5,7 @@
     <AssemblyTitle>JmesPath.Net.Parser</AssemblyTitle>
     <Authors>Jeremie Devillard;Maxime Labelle;Atif Aziz</Authors>
     <VersionPrefix>42.43.44</VersionPrefix>
-    <TargetFrameworks>netstandard1.3;net45</TargetFrameworks>
+    <TargetFrameworks>netstandard2.1;netstandard1.3;net45</TargetFrameworks>
     <AssemblyName>JmePath.Net.Parser</AssemblyName>
     <AssemblyOriginatorKeyFile>../jmespath.net.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
@@ -20,32 +20,35 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
   </PropertyGroup>
   <ItemGroup>
+    <YaccFile Include="JmesPathParser.y">
+      <OutputFile>JmesPathParser.g.cs</OutputFile>
+    </YaccFile>
+    <LexFile Include="JmesPathScanner.lex">
+      <OutputFile>JmesPathScanner.g.cs</OutputFile>
+    </LexFile>
     <Compile Include="JmesPathScanner.g.cs" Condition="!Exists( 'JmesPathScanner.g.cs' )" />
     <Compile Include="JmesPathParser.g.cs" Condition="!Exists( 'JmesPathParser.g.cs' )" />
+	<Compile Include="GplexBuffers.cs" Condition="!Exists( 'GplexBuffers.cs' )" />
+	<Compile Include="ShiftReduceParserCode.cs" Condition="!Exists( 'ShiftReduceParserCode.cs' )" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\jmespath.net.interop\jmespath.net.interop.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Springcomp.GPLEX.Runtime" Version="1.2.4" />
-    <PackageReference Include="Springcomp.GPPG.Runtime" Version="1.2.4" />
-  </ItemGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.7.0" />
+	  <!-- Use GplexBuffers and ShiftReduceParserCode from the net13 folder instead, which are modified for use of netstandard 1.3 -->
+	  <Compile Remove="ShiftReduceParserCode.cs" />
+	  <Compile Remove="GplexBuffers.cs" />
+	  <PackageReference Include="System.Reflection.TypeExtensions" Version="4.7.0" />
+    <PackageReference Include="System.Runtime.Serialization.Formatters" Version="4.3.0" />
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <PackageReference Include="YaccLexTools" Version="1.2.2" PrivateAssets="All" />
   </ItemGroup>
 
   <Target Name="_RestoreDotnetCliTool" Inputs="JmesPathScanner.lex;JmesPathParser.y" Outputs="JmesPathScanner.g.cs;JmesPathParser.g.cs">
     <Exec Command="dotnet tool restore" />
-  </Target>
-
-  <Target Name="ScannerGenerator" BeforeTargets="BeforeBuild" DependsOnTargets="_RestoreDotnetCliTool" Condition=" '$(IsCrossTargetingBuild)' != 'true' " Inputs="JmesPathScanner.lex" Outputs="JmesPathScanner.g.cs">
-    <Exec Command="dotnet gplex /unicode /noinfo /out:JmesPathScanner.g.cs JmesPathScanner.lex" WorkingDirectory="$(MSBuildProjectDirectory)" />
-  </Target>
-
-  <Target Name="ParserGenerator" BeforeTargets="BeforeBuild" DependsOnTargets="_RestoreDotnetCliTool" Condition=" '$(IsCrossTargetingBuild)' != 'true' " Inputs="JmesPathParser.y" Outputs="JmesPathParser.g.cs">
-    <Exec Command="dotnet gppg /gplex /no-info /out:JmesPathParser.g.cs JmesPathParser.y" WorkingDirectory="$(MSBuildProjectDirectory)" />
   </Target>
 
 </Project>

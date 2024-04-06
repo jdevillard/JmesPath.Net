@@ -11,14 +11,13 @@
     <tags>jmespath json</tags>
     <dependencies>
       <group targetFramework=".NETFramework4.5">
-        <dependency id="Springcomp.GPLEX.Runtime" version="1.2.4" exclude="Build,Analyzers" />
-        <dependency id="Springcomp.GPPG.Runtime" version="1.2.4" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NETStandard1.3">
         <dependency id="NETStandard.Library" version="1.6.1" exclude="Build,Analyzers" />
-        <dependency id="Springcomp.GPLEX.Runtime" version="1.2.4" exclude="Build,Analyzers" />
-        <dependency id="Springcomp.GPPG.Runtime" version="1.2.4" exclude="Build,Analyzers" />
         <dependency id="System.Reflection.TypeExtensions" version="4.7.0" exclude="Build,Analyzers" />
+		<dependency id="System.Runtime.Serialization.Formatters" version="4.3.0" exclude="Build,Analyzers" />
+      </group>
+	  <group targetFramework=".NETStandard2.1">
       </group>
     </dependencies>
   </metadata>
