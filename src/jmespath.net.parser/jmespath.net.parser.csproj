@@ -13,7 +13,7 @@
     <PackageId>JmesPath.Net.Parser</PackageId>
     <PackageTags>jmespath;json</PackageTags>
     <PackageProjectUrl>https://github.com/jdevillard/JmesPath.Net</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/jdevillard/JmesPath.Net/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
