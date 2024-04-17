@@ -4,6 +4,7 @@
     <TargetFrameworks>netstandard2.1;netstandard1.3;net45</TargetFrameworks>
     <AssemblyOriginatorKeyFile>../jmespath.net.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>True</SignAssembly>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
   </PropertyGroup>
 
 </Project>
