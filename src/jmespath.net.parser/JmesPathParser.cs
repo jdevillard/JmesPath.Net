@@ -197,6 +197,12 @@ namespace DevLab.JmesPath
         void AddMultiSelectHashExpression() => generator_.AddMultiSelectHashExpression();
         void PopMultiSelectHash() => generator_.PopMultiSelectHash();
 
+		void AddCompactHashExpression(Token token)
+		{
+			generator_.OnIdentifier((string)token.Value);
+			generator_.AddMultiSelectHashExpression();
+		}
+
         #endregion
 
         #region multi_select_list
