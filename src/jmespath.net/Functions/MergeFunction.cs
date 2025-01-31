@@ -18,11 +18,15 @@ namespace DevLab.JmesPath.Functions
         public override JToken Execute(params JmesPathFunctionArgument[] args)
         {
             var result = new JObject();
+            var jsonMergeSettings = new JsonMergeSettings
+            {
+                MergeNullValueHandling = MergeNullValueHandling.Merge
+            };
 
             foreach (var argument in args)
             {
                 var token = (JObject)argument.Token;
-                result.Merge(token);
+                result.Merge(token, jsonMergeSettings);
             }
 
             return result;
